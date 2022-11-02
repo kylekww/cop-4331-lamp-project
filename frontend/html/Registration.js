@@ -2,7 +2,7 @@ import React from 'react';
 import '../css/Login.css';
 
 function Registration() {
-    const Registration = async event => {
+    const doRegistration = async event => {
         const username = document.getElementById("loginName").value;
         const password = document.getElementById("loginPassword").value;
         const firstName = document.getElementById("firstName").value;
@@ -57,6 +57,7 @@ function Registration() {
                             1 Lower Case Character <br />
                         </span>
                         <p id="noerror">Error: Username already taken!</p>
+                        <button type="button" class="button" onClick={doRegistration}>Create Account</button>
                         <button type="button" id="registerButton">Create Account</button>
                         <p>Already have an account? <a href="/">Login!</a></p>
                     </div>
