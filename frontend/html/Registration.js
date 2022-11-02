@@ -18,6 +18,10 @@ function Registration() {
             body: JSON.stringify({
                 username,
                 password,
+                firstName,
+                lastName,
+                phoneNumber,
+                email,
             }),
         }).then((b) => b.json());
 
@@ -36,13 +40,15 @@ function Registration() {
 
             <body>
                 <div class="container">
-                    <h1>Signup</h1>
+                    <h1>Logo</h1>
                     <div class="squarebg">
                         <h1>Signup</h1>
                         <input type="text" id="firstName" placeholder="First Name" required />
                         <input type="text" id="lastName" placeholder="Last Name" required />
-                        <input type="text" id="registerName" placeholder="Username" required />
-                        <input type="password" id="registerPassword" placeholder="Password" required />
+                        <input type="text" id="email" placeholder="UCF Knights Email" required />
+                        <input type="text" id="phoneNumber" placeholder="Phone Number" required />
+                        <input type="text" id="loginName" placeholder="Username" required />
+                        <input type="password" id="loginPassword" placeholder="Password" required />
                         <span class="passwordRequirements">
                             Requirements: <br />
                             8 Characters <br />
@@ -51,12 +57,8 @@ function Registration() {
                             1 Lower Case Character <br />
                         </span>
                         <p id="noerror">Error: Username already taken!</p>
-                        <div class="buttons">
-                            <button type="button" id="registerButton">
-                                Create Account
-                            </button>
-                            <p>Already have an account? <a href="/">Login!</a></p>
-                        </div>
+                        <button type="button" id="registerButton">Create Account</button>
+                        <p>Already have an account? <a href="/">Login!</a></p>
                     </div>
                 </div>
             </body>
