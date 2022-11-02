@@ -3,8 +3,8 @@ import '../css/Registration.css';
 
 function Registration() {
     const doRegistration = async event => {
-        const username = document.getElementById("loginName").value;
-        const password = document.getElementById("loginPassword").value;
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
         const name = document.getElementById("name").value;
         /*const lastName = document.getElementById("lastName").value;
         const phoneNumber = document.getElementById("phoneNumber").value;
