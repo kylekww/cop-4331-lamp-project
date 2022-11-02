@@ -14,10 +14,12 @@ app.use(expressSession({
     cookie: {
         secure: IS_PRODUCTION, 
         maxAGE: 1000*60*60*24, //1 day 
-
     },
 }));
 
 app.use('/api/v1/auth',authRoutes);
 
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
 module.exports = app; 
