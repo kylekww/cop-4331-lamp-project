@@ -5,10 +5,10 @@ function Registration() {
     const doRegistration = async event => {
         const username = document.getElementById("loginName").value;
         const password = document.getElementById("loginPassword").value;
-        const firstName = document.getElementById("firstName").value;
-        const lastName = document.getElementById("lastName").value;
+        const name = document.getElementById("name").value;
+        /*const lastName = document.getElementById("lastName").value;
         const phoneNumber = document.getElementById("phoneNumber").value;
-        const email = document.getElementById("email").value;
+        const email = document.getElementById("email").value;*/
 
         const data = await fetch("/api/v1/auth/Registration", {
             method: "POST",
@@ -18,10 +18,10 @@ function Registration() {
             body: JSON.stringify({
                 username,
                 password,
-                firstName,
-                lastName,
+                name,
+                /*lastName,
                 phoneNumber,
-                email,
+                email,*/
             }),
         }).then((b) => b.json());
 
