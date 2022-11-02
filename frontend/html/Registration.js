@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/Login.css';
+import '../css/Registration.css';
 
 function Registration() {
     const doRegistration = async event => {
