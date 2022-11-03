@@ -29,7 +29,8 @@
             }),
         }).then((b) => b.json());
         
-        if(data.result){
+        // This is a bootleg solution. "Might" need attention.
+        if(data.message.localeCompare("you are successfully logged in.") == 0){
             alert("Successul Login");
         }
         else{
