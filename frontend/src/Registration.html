@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
+    <link href="css/Login.css" rel="stylesheet" />
+</head>
+  <body>
+
+    <div id="mydiv"></div>
+
+    <script type="text/babel">
+      function Hello() {
+        const doLogin = async event => 
+    {
+       
+    };
+        return (
+            <div class ="container">
+                    <h1>Logo goes here</h1>
+                    <div class = "squarebg">
+                        <h1>Signup</h1>
+                        <input type="text" id="firstName" placeholder="First Name" required />
+                        <input type="text" id="lastName" placeholder="Last Name" required />
+                        <input type="text" id="email" placeholder="UCF Knights Email" required />
+                        <input type="text" id="phoneNumber" placeholder="Phone Number" required />
+                        <input type="text" id="loginName" placeholder="Username" required />
+                        <input type="password" id="loginPassword" placeholder="Password" required />
+                        <span class="passwordRequirements">
+                            Requirements: <br />
+                            8 Characters <br />
+                            1 Number <br />
+                            1 Upper Case Character <br />
+                            1 Lower Case Character <br />
+                        </span>
+                        <p id="noerror">Error: Username already taken!</p>
+                        <button type = "button" class = "button" onClick = {doLogin}>Login</button>
+                        <p>Already have an account? <a href="/">Login!</a></p>
+                    </div>   
+                </div>  
+        );
+      }
+
+      ReactDOM.render(<Hello />, document.getElementById('mydiv'))
+    </script>
+
+  </body>
+</html>
