@@ -27,15 +27,27 @@
                 username,
                 password,
             }),
-        }).then((b) => b.json());
+        })
+        .then(res => {
+          if(res.status == 404) alert("Invalid username");
+          else if(res.status == 401) alert("Invalid password");
+          else {
+            window.location.href = './html/LandingPage.js';
+            alert("Login was successful");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
         
-        // This is a bootleg solution. "Might" need attention.
+        /* This is a bootleg solution. Ignore for now
         if(data.message.localeCompare("you are successfully logged in.") == 0){
             alert("Successul Login");
         }
         else{
             alert("failed");
         }
+        */
     };
         return (
                 <div class ="container">
