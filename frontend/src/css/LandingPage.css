@@ -1,0 +1,428 @@
+/* I will remove the commends, this just helps categorize each html */
+
+.App {
+    text-align: center;
+  }
+  
+  .App-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  
+  .App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  
+/* ----- */
+
+.ConfessionBox {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 1000px;
+  height: 200px;
+  left: 175px;
+  top: 50px;
+
+  background: #FFFFFF;
+  border: 3px solid #BABABA;
+  border-radius: 15px;
+  font-family: 'Roboto';
+}
+
+.ConfessionBox .DivideLine {
+  position: absolute;
+  width: 180px;
+  height: 0px;
+  left: 925px;
+  top: 560px;
+
+  border: 3px solid #BABABA;
+  transform: rotate(90deg);
+}
+
+.ConfessionBox .Menu {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  left: 950px;
+  top: 75px;
+}
+
+.ConfessionBox .Comments {
+  position: absolute;
+  width: 60px;
+  height: 50px;
+  left: 950px;
+  top: 425px;
+  
+  background: url('..\\icons\\TextBox.png');
+}
+
+.ConfessionBox .TotalComments {
+  position: absolute;
+  width: 26px;
+  height: 35px;
+  left: 1011px;
+  top: 450px;
+  
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 35px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  
+  color: rgba(70, 24, 203, 0.921875);
+}
+
+.ConfessionBox .Upvote {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 1px;
+  height: 0px;
+  left: 1125px;
+  top: 100px;
+  
+  border: 10px solid #BABABA;
+  transform: rotate(-90deg);
+}
+
+.ConfessionBox .Downvote {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 1px;
+  height: 0px;
+  left: 1125px;
+  top: 200px;
+  
+  border: 10px solid #BABABA;
+  transform: rotate(90deg);
+}
+
+.ConfessionBox .TotalVotes {
+  position: absolute;
+  width: 18px;
+  height: 35px;
+  left: 1117px;
+  top: 132px;
+  
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 35px;
+  display: flex;
+  align-items: center;
+  
+  color: rgba(70, 24, 203, 0.921875);
+}
+
+/* ----- */
+
+.LandingPageHeader {
+  box-sizing: border-box;
+
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 90%;
+  height: 10%;
+  left: 5%;
+  top: 10%;
+
+  background: linear-gradient(180deg, #80C7EF 0%, #5A23CE 99.97%, rgba(90, 170, 216, 0.0701908) 99.98%, rgba(70, 24, 203, 0.921875) 100%);
+  mix-blend-mode: normal;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+}
+
+.LandingPageHeader .Text {
+  position: flex;
+  
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 4vmin;
+  line-height: 150%;
+  
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  
+  color: #FFFFFF;
+  
+  mix-blend-mode: normal;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.LandingPageHeader .Subtext {
+  position: flex;
+  
+  font-weight: 600;
+  font-size: 2.5vmin;
+  line-height: 100%;
+}
+
+/* ----- */
+
+.NewConfessionButton {
+  box-sizing: border-box;
+
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  width: 8vmin;
+  height: 8vmin;
+  right: 10vmin;
+  bottom: 10vmin;
+  z-index: 0;
+
+  background: linear-gradient(180deg, #80C7EF 0%, #5A23CE 99.97%, rgba(90, 170, 216, 0.0701908) 99.98%, rgba(70, 24, 203, 0.921875) 100%);
+  background-size: auto 200%;
+  background-position: 0 100%;
+  transition: background-position 0.5s;
+  border: 0.5vmin solid rgba(70, 24, 203, 0.921875);
+  border-radius: 100%;
+
+  transition: all 0.35s;
+}
+
+.NewConfessionButton:hover {
+  background-position: 0.0;
+  border: #80C7EF;
+}
+
+.NewConfessionButton .Text {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 8vmin;
+  line-height: 150%;
+  color: white;
+
+  mix-blend-mode: normal;
+}
+
+.NewConfessionButton .Text:hover {
+  animation-name: rotate-by-90;
+  animation-duration: 1000ms;
+  animation-timing-function: ease-out 100ms;
+}
+
+.NewConfessionButton:active {
+  transition: 0s;
+  transform: translateY(1vmin);
+}
+
+@keyframes rotate-by-90 {
+  from {
+      transform:rotate(0deg);
+  }
+  to {
+      transform:rotate(90deg);
+  }
+}
+
+/* ----- */
+
+.PageTip {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
+
+  width: 40%;
+  left: 30%;
+  top: 20%;
+}
+
+.PageTip .Text {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 2.5vmin;
+  line-height: 5vmin;
+  display: flex;
+  text-align: center;
+  
+  color: #BABABA;   
+}
+
+.PageTip .Line {
+  width: 40vmin;
+  height: 0px;
+  display: flex;
+
+  border: 2px solid #BABABA;
+}
+
+/* ----- */
+
+.Tools {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 100%;
+  height: 10%;
+  left: 0%;
+  top: 0%;
+
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.Tools .NewConfessionsTool {
+  width: 8vmin;
+  height: 5vmin;
+  position: absolute;
+  left: 45%;
+  top: 25%;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 25%;
+
+  background: linear-gradient(180deg, #80C7EF 0%, rgba(70, 24, 203, 0.921875) 100%);
+  border: 3px solid #5A23CE;
+  color: white;
+}
+
+.NewConfessionsTool .Text {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 3vmin;
+  line-height: 4vmin;
+}
+
+.NewConfessionsTool:hover {
+  transition: 0.2s;
+  border: 4px solid #5A23CE;
+  text-decoration: underline;
+}
+
+.Tools .HotConfessionsTool {
+  width: 8vmin;
+  height: 5vmin;
+  position: absolute;
+  left: 55%;
+  top: 25%;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 25%;
+
+  background: white;
+  border: 3px solid #DE621C;
+  color: #DE621C;
+}
+
+.HotConfessionsTool .Text {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 3vmin;
+  line-height: 4vmin;
+}
+
+.HotConfessionsTool:hover {
+  transition: 0.2s;
+  background: 
+      linear-gradient(white, white) padding-box,
+      linear-gradient(180deg, #DE621C 0%, rgba(227, 19, 19, 0.921875) 100%) border-box;
+  border-radius: 25%;
+  border: 3px solid transparent;
+}
+
+.HotConfessionsTool .Text:hover {
+  color: rgba(227, 19, 19, 0.921875);
+  text-decoration: underline;
+}
+
+.Tools .SettingsTool {
+  width: 8vmin;
+  height: 5vmin;
+  position: absolute;
+  left: 5%;
+  top: 25%;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 25%;
+
+  background: transparent;
+  border: 3px solid #BABABA;
+}
+
+.Tools .SettingsTool:hover {
+  transition: 0.2s;
+  background: 
+      linear-gradient(white, white) padding-box,
+      linear-gradient(180deg, #BABABA 0%, #80C7EF 50%) border-box;
+  border-radius: 25%;
+  border: 3px solid transparent;
+}
+
+.Tools .NewConfessionsTool:active {
+  transition: 0s;
+  transform: translateY(1vmin);
+}
+
+.Tools .HotConfessionsTool:active {
+  transition: 0s;
+  transform: translateY(1vmin);
+}
+
+.Tools .SettingsTool:active {
+  transition: 0s;
+  transform: translateY(1vmin);
+}
