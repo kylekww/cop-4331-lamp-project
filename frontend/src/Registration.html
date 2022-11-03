@@ -8,6 +8,25 @@
     <link href="css/Login.css" rel="stylesheet" />
 </head>
     <body>
-        <h1>test</h1>
+        <div id="mydiv"></div>
+        <script type="text/babel">
+            function Hello(){
+                return (
+                <div class ="container">
+                    <h1>Logo goes here</h1>
+                    <div class = "squarebg">
+                        <h1>Make your Confessions...</h1>
+                        <input type = "text" id = "loginName" placeholder='Username' required />
+                        <input type = "password" id = "loginPassword" placeholder='Password' required />
+                        <button type = "button" class = "button" onClick = {doLogin}>Login</button>
+                        <p id = "noerror"></p>
+                        <p>Don't have an account? <a href = "Registration.html">Signup!</a></p>
+                    </div>   
+                </div>
+        );
+            }
+            ReactDOM.render(<Hello />, document.getElementById('mydiv'))
+        </script>
+        
     </body>
 </html>
