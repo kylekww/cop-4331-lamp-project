@@ -12,8 +12,8 @@ const sendEmail = nodemailer.createTransport
     service: "outlook",
     // host: "localhost:3000" /*"hushucf.herokuapp.com"*/,
     auth: {
-        user: "jankbox96@outlook.com",
-        pass: "++lower_truck_938++"
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
 });
 
@@ -94,7 +94,7 @@ exports.login = async (req,res)=>{
     if(user.verified === false){
         return res.status(403).json({message: "verify your email address to login"})
     }
-
+    
     req.session.userId = user.id; 
 
     res.json({message: "you are successfully logged in."});
