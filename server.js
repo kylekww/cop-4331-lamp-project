@@ -15,8 +15,6 @@ const {
     DATABASE_CONNECTION_STRING: DATABASE_CONNECTION_STRINGS,
 } = require("./configs");
 
-
-
 mongoose.connect(DATABASE_CONNECTION_STRINGS).then(()=>{
     console.log('database connected')
 
