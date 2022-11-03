@@ -26,7 +26,16 @@
                 password,
                 name
             }),
-        }).then((b) => b.json());
+        }).then(res => {
+          if(res.status !== 201) alert("Invalid registration");
+          else {
+            window.location.href = 'index.html';
+            alert("Registration was successful");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
         
         // This is a bootleg solution. "Might" need attention.
         console.log(data);
