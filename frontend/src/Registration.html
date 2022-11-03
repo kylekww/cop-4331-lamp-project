@@ -29,10 +29,9 @@
                 email
             }),
         }).then(res => {
-            console.log("Data: " + data);
           if(res.status !== 201) alert("Invalid registration");
           else {
-            alert("Registration was successful.\nData: " + data);
+            alert("Registration was successful.");
             window.location.href = 'index.html';
           }
         })
