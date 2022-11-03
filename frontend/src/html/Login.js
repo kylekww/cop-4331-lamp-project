@@ -16,7 +16,7 @@ function Login() {
 
         try {
             const response = await fetch('/api/v1/auth/login',
-                { method: 'POST', body: js, headers: { 'Content-Type': 'application/json' } });
+                { method: 'POST', mode: 'cors', body: js, headers: { 'Content-Type': 'application/json' } });
 
             var res = JSON.parse(await response.text());
 
