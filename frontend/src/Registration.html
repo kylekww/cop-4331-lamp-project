@@ -11,17 +11,34 @@
         <div id="mydiv"></div>
         <script type="text/babel">
             function Hello(){
+                const doRegistration = async event => 
+    {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const name = document.getElementById("name").value
+        const data = await fetch("/api/v1/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username,
+                password,
+                name
+            }),
+        }).then((b) => b.json());
+        
+        // This is a bootleg solution. "Might" need attention.
+        console.log(data);
+    };
                 return (
                     <div class ="container">
                     <h1>Logo goes here</h1>
                     <div class = "squarebg">
                         <h1>Signup</h1>
-                        <input type="text" id="firstName" placeholder="First Name" required />
-                        <input type="text" id="lastName" placeholder="Last Name" required />
-                        <input type="text" id="email" placeholder="UCF Knights Email" required />
-                        <input type="text" id="phoneNumber" placeholder="Phone Number" required />
-                        <input type="text" id="loginName" placeholder="Username" required />
-                        <input type="password" id="loginPassword" placeholder="Password" required />
+                        <input type="text" id="name" placeholder="First Name" required />
+                        <input type="text" id="username" placeholder="Username" required />
+                        <input type="password" id="password" placeholder="Password" required />
                         <span class="passwordRequirements">
                             Requirements: <br />
                             8 Characters <br />
@@ -30,7 +47,7 @@
                             1 Lower Case Character <br />
                         </span>
                         <p id="noerror">Error: Username already taken!</p>
-                        <button type = "button" class = "button">Create Account</button>
+                        <button type = "button" class = "button" onClick = {doRegistration}>Create Account</button>
                         <p>Already have an account? <a href="/">Login!</a></p>
                     </div>   
                 </div>  
