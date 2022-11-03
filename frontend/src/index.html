@@ -18,7 +18,7 @@
         const username = document.getElementById("loginName").value;
         const password = document.getElementById("loginPassword").value;
 
-        const data = await fetch("/api/v1/auth/login.js", {
+        const data = await fetch("/api/v1/auth/login", {
             method: "POST",
             header: {
                 "content-type": "application/json",
