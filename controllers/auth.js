@@ -10,10 +10,10 @@ const crypto = require('crypto');
 const sendEmail = nodemailer.createTransport
 ({
     service: "outlook",
-    // host: "localhost:3000" /*"hushucf.herokuapp.com"*/,
+    // host: "hushucf.herokuapp.com" // uncomment for use on heroku,
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: "jankbox96@outlook.com",
+        pass: "++lower_truck_938++"
     }
 });
 
