@@ -1,4 +1,3 @@
-const path = require('path');
 const express = require("express");
 const expressSession = require("express-session");
 
@@ -15,22 +14,22 @@ app.use(expressSession({
     cookie: {
         secure: IS_PRODUCTION, 
         maxAGE: 1000*60*60*24, //1 day 
-
     },
 }));
 
 app.use('/api/v1/auth',authRoutes);
 app.use(express.static("frontend/src"));
 app.get("/", (req,res) =>{
-    res.sendFile(path.join(__dirname, 'frontend', 'src', 'index.html'));
+    res.sendFile(path.join(__dirname, 'frontend', 'src', 'App.js'));
 });
+
 /*app.get('/', (req, res) => {
     if(IS_PRODUCTION){
         app.use(express.static('frontend/build'));
         app.get('*', (req, res) => {
-            res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
-            
+            res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
         });
     }
 })*/
+
 module.exports = app; 
