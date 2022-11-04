@@ -2,24 +2,25 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema(
     {
+        userID: { type: String },
         dateCreated: { type: Date },
         email:{
             type: String,
             unique: true,
-           // required: true
+           required: true
         },
         username: {
             type: String, 
-          //  required: true,
+            required: true,
             unique: true,
         },
         password: {
             type: String, 
-          //  required: true
+            required: true
         },
         name : {
             type: String,
-           // required: true,
+            required: true,
         },
         emailVerifyToken: {
             type: String
@@ -29,15 +30,10 @@ const schema = new mongoose.Schema(
             defaultValue: false
         },
         moderator: {
-            type: Boolean,
-            defaultValue: false
+            type: Boolean, 
+            required:false,
+            default: false
         },
-        // confessions: [
-        //     {
-        //         type: mongoose.Schema.Types.ObjectId,
-        //         ref: "confession"
-        //     }
-        // ]
     },
     { timestamps: true }
 );
