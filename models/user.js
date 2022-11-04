@@ -28,7 +28,12 @@ const schema = new mongoose.Schema(
         verified: {
             type: Boolean,
             defaultValue: false
-        }
+        },
+        moderator: {
+            type: Boolean, 
+            required:false,
+            default: false
+        },
     },
     { timestamps: true }
 );
