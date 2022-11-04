@@ -9,11 +9,25 @@ const crypto = require('crypto');
 
 const sendEmail = nodemailer.createTransport
 ({
+    //name: "hushucf.herokuapp.com",
     service: "outlook",
-    // host: "localhost:3000" /*"hushucf.herokuapp.com"*/,
+    host: "smtp-mail.outlook.com", 
+    secureConnection: false, 
+    port: 587, 
+    tls: {
+       ciphers:'SSLv3'
+    },
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: "jankbox96@outlook.com",
+        pass: "++lower_truck_938++"
+    }
+});
+
+sendEmail.verify(function (error, success) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Server is ready to take our messages");
     }
 });
 
