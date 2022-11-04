@@ -6,7 +6,7 @@ const {addConfession, deleteConfession, searchConfessions, changeVote, informati
 router.post("/addConfession", addConfession);
 router.post("/:id/deleteConfession", deleteConfession);
 // router.post("/searchConfessions", searchConfessions);
-//router.put("/:id/changeVote", changeVote);
+router.put("/:id/changeVote", changeVote);
 router.get("/:id/information", information);
 
 module.exports = router;

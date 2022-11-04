@@ -69,22 +69,73 @@ exports.searchConfession = async (req, res) => {
 }
 
 exports.changeVote = async (req, res) => {
-    // if userinteacted === -1 and we are changing to upvote
-    // if we find the user's id in the downvote list we take
-    // upvotelist++, downvoteList--
-    // if userinteracted === 1 and we are changing to downvote
-    // upvotelist--, downvotelist++
-    // if we are trying to re-upvote or re-downvote simply do not add
-    // so if userinteacred === 1 and we are trying to upvote
-    // ignore and same for if userinteracted === -1 and we are trying to downvote
     confession = await Confession.findById(req.params.id);
 
+    if(confession.deleted === 1 || confession.deleted === -1)
+        return res.status(404).json({message: "post not found"});
+
+    voterID = req.body.userID;
     // we want to upvote
     if(req.body.vote === 1){
+        if(confession.downvoteList.includes(voterID)){
+            confession.downvoteList.pull(voterID);
+            confession.upvoteList.push(voterID);
+            confession.update({
+                userID: voterID, "userInteracted.userID": voterID}, 
+                {$set: {"userInteracted.interaction": 1}
+            });
+            await confession.save();
+
+            return res.status(201).json({message: "vote changed from downvote to upvote"});
+        }
+        else if(confession.upvoteList.includes(voterID)){
+            confession.upvoteList.pull(voterID);
+            confession.update({
+                userID: voterID, "userInteracted.userID": voterID}, 
+                {$set: {"userInteracted.interaction": 0}
+            });
+            await confession.save();
+
+            return res.status(201).json({message: "vote changed from upvote to none"});
+        }
+        else{
+            confession.upvoteList.push(voterID);
+            confession.userInteracted.push({userID: voterID, "interaction": 1});
+            await confession.save();
+
+            return res.status(201).json({message: "vote added as upvote"});
+        }
     }
+    else if(req.body.vote === -1){
+        if(confession.upvoteList.includes(voterID)){
+            confession.upvoteList.pull(voterID);
+            confession.downvoteList.push(voterID);
+            confession.update({
+                userID: voterID, "userInteracted.userID": voterID}, 
+                {$set: {"userInteracted.interaction": -1}
+            });
+            await confession.save();
 
-    
+            return res.status(201).json({message: "vote changed from upvote to downvote"});
+        }
+        else if(confession.downvoteList.includes(voterID)){
+            confession.downvoteList.pull(voterID);
+            confession.update({
+                userID: voterID, "userInteracted.userID": voterID}, 
+                {$set: {"userInteracted.interaction": 0}
+            });
+            await confession.save();
 
+            return res.status(201).json({message: "vote changed from downvote to none"});
+        }
+        else{
+            confession.downvoteList.push(voterID);
+            confession.userInteracted.push({userID: voterID, "interaction": 1});
+            await confession.save();
+
+            return res.status(201).json({message: "vote added as downvote"});
+        }
+    }
 }
 
 exports.information = async (req, res) => {
