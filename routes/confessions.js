@@ -7,6 +7,6 @@ router.post("/addConfession", addConfession);
 router.post("/:id/deleteConfession", deleteConfession);
 // router.post("/searchConfessions", searchConfessions);
 router.put("/:id/changeVote", changeVote);
-router.get("/:id/information", information);
+router.get("/information", information);
 
 module.exports = router;

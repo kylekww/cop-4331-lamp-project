@@ -41,29 +41,18 @@ exports.searchConfession = async (req, res) => {
     let searchResults = await Confession.find({deleted: {$eq: 0}}, {$all: req.body}).limit(resultsPerPage);
     
     // if(confessionsarr is empty)
-    // res.status(404).json({message: "No results found"});
+    // res.json({message: "No results found"});
 
-    // can sort by date (newest, oldest) or by most popular (highes netvotes)
+    // can sort by date (newest, oldest) or by most popular (highest netvotes)
 
     let searchedConfessions = new Array();
 
-    // Check all confessions which have not been marked as deleted (figure out lazy load)
-    /* for(int i = 0; i < confessionsarr.length; i++){
-            if(Confession.findOne({downVoteList: userID}) != null)
-             confession.userInteracted = -1;
-            else if(Confession.findOne({upVoteList: userID}) != null)
-                confessionarr[i].userInteracted = 1; 
-            else
-                confessionsarr[i].userInteracted = 0;  
-        
-            confessionsarr[i].netVotes = (confessionsarr[i].upvoteList.length - confessionsarr[i].downvoteList.length);
-            searchedConfessions.push(confessionsarr[i]); // or however we add an object to an array
-        }
-    */
+    // Check all confessions which have not been marked as deleted (figure out lazy load) (.limit???)
     
     res.status(201).json({searchResults}, {message: "results found"});
 }
 
+// TODO: fix bug where a user can be added to the userInteracted array multiple times
 exports.changeVote = async (req, res) => {
     confession = await Confession.findById(req.params.id);
 
@@ -160,6 +149,7 @@ exports.changeVote = async (req, res) => {
 
 exports.information = async (req, res) => {
     // returns all of the information about the confession. 
-    return res.status(201).json({confession: req.confession.toObject()});
+    confession = await Confession.findById(req.body.id);
+    return res.json({confession: confession.toObject()});
 }
 
