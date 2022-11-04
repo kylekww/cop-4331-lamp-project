@@ -83,7 +83,7 @@
   left: 950px;
   top: 425px;
   
-  background: url('..\\icons\\TextBox.png');
+  /* background: url('..\\icons\\TextBox.png'); */
 }
 
 .ConfessionBox .TotalComments {

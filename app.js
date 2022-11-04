@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require("express");
 const expressSession = require("express-session");
 
@@ -18,9 +19,10 @@ app.use(expressSession({
 }));
 
 app.use('/api/v1/auth',authRoutes);
-app.use(express.static("frontend/src"));
-app.get("/", (req,res) =>{
-    res.sendFile(path.join(__dirname, 'frontend', 'src', 'App.js'));
+app.use(express.static("frontend/build"));
+app.use(express.static("public"));
+app.get("*", (req,res) =>{
+    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
 });
 
 /*app.get('/', (req, res) => {
