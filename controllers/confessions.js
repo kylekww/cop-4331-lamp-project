@@ -20,11 +20,7 @@ exports.addConfession = async (req, res) => {
 
 exports.deleteConfession = async (req, res) => {
     confession = await Confession.findById(req.params.id);
-    // if we don't want the id in the url: Confession.findById(req.body.confessionID); (change route to be rid of id as well)
-
-    // Get the id of the user who requested the delete
-    // If user.moderator === true, confession.deleted = -1
-    // else if user.moderator === false, confession.deleted = 1
+    // Confession.findById(req.body.confessionID); if we want the confessionID in the body of the request instead (change route to remove /:id)
 
     user = await User.findById(req.body.userId);
     if(user.moderator){
@@ -86,7 +82,11 @@ exports.changeVote = async (req, res) => {
             });
             await confession.save();
 
-            return res.status(201).json({message: "vote changed from downvote to upvote"});
+            return res.status(201).json({
+                message: "vote changed from downvote to upvote",
+                "upvoteList": confession.upvoteList,
+                "downvoteList": confession.downvoteList
+            });
         }
         else if(confession.upvoteList.includes(voterID)){
             confession.upvoteList.pull(voterID);
@@ -96,17 +96,25 @@ exports.changeVote = async (req, res) => {
             });
             await confession.save();
 
-            return res.status(201).json({message: "vote changed from upvote to none"});
+            return res.status(201).json({
+                message: "vote changed from upvote to none",
+                "upvoteList": confession.upvoteList,
+                "downvoteList": confession.downvoteList
+            });
         }
         else{
             confession.upvoteList.push(voterID);
             confession.userInteracted.push({userID: voterID, "interaction": 1});
             await confession.save();
 
-            return res.status(201).json({message: "vote added as upvote"});
+            return res.status(201).json({
+                message: "vote added as upvote",
+                "upvoteList": confession.upvoteList,
+                "downvoteList": confession.downvoteList
+            });
         }
     }
-    else if(req.body.vote === -1){
+    else if(req.body.vote === -1){ // we want to downvote post
         if(confession.upvoteList.includes(voterID)){
             confession.upvoteList.pull(voterID);
             confession.downvoteList.push(voterID);
@@ -116,7 +124,11 @@ exports.changeVote = async (req, res) => {
             });
             await confession.save();
 
-            return res.status(201).json({message: "vote changed from upvote to downvote"});
+            return res.status(201).json({
+                message: "vote changed from upvote to downvote",
+                "upvoteList": confession.upvoteList,
+                "downvoteList": confession.downvoteList
+            });
         }
         else if(confession.downvoteList.includes(voterID)){
             confession.downvoteList.pull(voterID);
@@ -126,14 +138,22 @@ exports.changeVote = async (req, res) => {
             });
             await confession.save();
 
-            return res.status(201).json({message: "vote changed from downvote to none"});
+            return res.status(201).json({
+                message: "vote changed from downvote to none",
+                "upvoteList": confession.upvoteList,
+                "downvoteList": confession.downvoteList
+            });
         }
         else{
             confession.downvoteList.push(voterID);
             confession.userInteracted.push({userID: voterID, "interaction": 1});
             await confession.save();
 
-            return res.status(201).json({message: "vote added as downvote"});
+            return res.status(201).json({
+                message: "vote added as downvote",
+                "upvoteList": confession.upvoteList,
+                "downvoteList": confession.downvoteList
+            });
         }
     }
 }
