@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema(
     {
-        userID: { type: String },
         dateCreated: { type: Date },
         email:{
             type: String,
@@ -28,7 +27,17 @@ const schema = new mongoose.Schema(
         verified: {
             type: Boolean,
             defaultValue: false
-        }
+        },
+        moderator: {
+            type: Boolean,
+            defaultValue: false
+        },
+        // confessions: [
+        //     {
+        //         type: mongoose.Schema.Types.ObjectId,
+        //         ref: "confession"
+        //     }
+        // ]
     },
     { timestamps: true }
 );
