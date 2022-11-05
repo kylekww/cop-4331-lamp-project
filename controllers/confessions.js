@@ -2,14 +2,16 @@ const Confession = require('../models/confession');
 const User = require('../models/user');
 const _ = require('lodash');
 const addConfessionValidator = require('../validators/addConfession');
+const { findOne, findById } = require('../models/user');
 
 exports.addConfession = async (req, res) => {
     const validationResult = addConfessionValidator(req.body);
+    ID = await User.findById(req.session.userId)
     if(validationResult !== true){
         return res.status(400).json({message: validationResult});
     }
 
-    const confession = await Confession.create({...req.body, deleted: 0});
+    const confession = await Confession.create({...req.body, userID: ID, deleted: 0});
 
     return res.status(201)
     .json({
@@ -22,7 +24,7 @@ exports.deleteConfession = async (req, res) => {
     confession = await Confession.findById(req.params.id);
     // Confession.findById(req.body.confessionID); if we want the confessionID in the body of the request instead (change route to remove /:id)
 
-    user = await User.findById(req.body.userId);
+    user = await User.findById(req.session.userId);
     if(user.moderator){
         confession.deleted = -1;
         return res.status(201).json({message: "This post was deleted by a moderator"});

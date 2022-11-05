@@ -4,7 +4,7 @@ const v = new Validator();
 
 const schema = {
     confession: {type: "string", min: 1, max: 420},
-    userID: {type: "string"},
+    
     $$strict: true,
 };
 

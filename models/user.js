@@ -7,7 +7,7 @@ const schema = new mongoose.Schema(
         email:{
             type: String,
             unique: true,
-           required: true
+            required: true
         },
         username: {
             type: String, 
@@ -27,7 +27,7 @@ const schema = new mongoose.Schema(
         },
         verified: {
             type: Boolean,
-            defaultValue: false
+            default: false
         },
         moderator: {
             type: Boolean, 
