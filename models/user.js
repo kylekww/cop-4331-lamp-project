@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema(
     {
-        userID: { type: String },
-        dateCreated: { type: Date },
         email:{
             type: String,
             unique: true,
