@@ -4,9 +4,11 @@ const _ = require('lodash');
 const addConfessionValidator = require('../validators/addConfession');
 const { findOne, findById } = require('../models/user');
 
+
+//add confession
 exports.addConfession = async (req, res) => {
     const validationResult = addConfessionValidator(req.body);
-    ID = await User.findById(req.session.userId)
+    let ID = await User.findById(req.session.userId)
     if(validationResult !== true){
         return res.status(400).json({message: validationResult});
     }
@@ -20,6 +22,7 @@ exports.addConfession = async (req, res) => {
     });
 }
 
+// delete confession 
 exports.deleteConfession = async (req, res) => {
     confession = await Confession.findById(req.params.id);
     // Confession.findById(req.body.confessionID); if we want the confessionID in the body of the request instead (change route to remove /:id)
@@ -35,25 +38,38 @@ exports.deleteConfession = async (req, res) => {
     }
 }
 
+//search confession
 exports.searchConfession = async (req, res) => {
     // Input: usrID and search criteria
+    let ID = await User.findById(req.session.userId)
     // (confessionsarr[] = Confession.findAll({deleted: {$eq 0}}, {$all: req.body})) // query likely wrong
     // Output: array of confessions objects matching search criteria
     let resultsPerPage = 15;
-    let searchResults = await Confession.find({deleted: {$eq: 0}}, {$all: req.body}).limit(resultsPerPage);
+    let searchVar = req.body.searchVal;
+    //if searchVar==1, sort by most recent 
+    if(searchVar==1){
+        searchResults = await Confession.find(
+            {
+                "userID": ID
+            }).
+            limit(resultsPerPage).sort({timestamps: -1});
+    }
+
+    //if searchVar==2, sort by most popular
+    if(searchVar==2){
+        searchResults = await Confession.find(
+            {
+                "userID": ID
+            }).
+            limit(resultsPerPage).sort({timestamps: -1,netVotes:1});
+    }
+
     
-    // if(confessionsarr is empty)
-    // res.json({message: "No results found"});
-
-    // can sort by date (newest, oldest) or by most popular (highest netvotes)
-
-    let searchedConfessions = new Array();
-
-    // Check all confessions which have not been marked as deleted (figure out lazy load) (.limit???)
     
-    res.status(201).json({searchResults}, {message: "results found"});
+    res.status(201).json(searchResults);
 }
 
+//change vote
 // TODO: fix bug where a user can be added to the userInteracted array multiple times
 exports.changeVote = async (req, res) => {
     confession = await Confession.findById(req.params.id);
@@ -149,6 +165,7 @@ exports.changeVote = async (req, res) => {
     }
 }
 
+//confession information
 exports.information = async (req, res) => {
     // returns all of the information about the confession. 
     confession = await Confession.findById(req.body.id);

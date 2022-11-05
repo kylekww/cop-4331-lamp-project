@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const {addConfession, deleteConfession, searchConfessions, changeVote, information} = require("../controllers/confessions");
+const {addConfession, deleteConfession, searchConfession, changeVote, information} = require("../controllers/confessions");
 
 router.post("/addConfession", addConfession);
-router.post("/:id/deleteConfession", deleteConfession);
-// router.post("/searchConfessions", searchConfessions);
+router.post("/deleteConfession", deleteConfession);
+router.get("/searchConfession", searchConfession);
 router.put("/:id/changeVote", changeVote);
 router.get("/information", information);
 
