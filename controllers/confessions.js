@@ -14,6 +14,7 @@ exports.addConfession = async (req, res) => {
         return res.status(400).json({message: validationResult});
     }
     const voteObj = new Votes();
+    voteObj.save();
     const confession = await Confession.create({...req.body, userID: ID, votes: voteObj});
 
     return res.status(201)
