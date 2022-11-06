@@ -5,10 +5,12 @@ const schema = new mongoose.Schema(
         upvoteList: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "user",
+            default: []
         }],
         downvoteList:[{
             type: mongoose.Schema.Types.ObjectId,
             ref: "user",
+            default: []
         }],
         netVotes:{
             type: Number,
