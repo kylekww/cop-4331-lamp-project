@@ -22,7 +22,7 @@ const schema = new mongoose.Schema(
                 ref: "comment"
             }
         ],
-        votes: {
+        voteID: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "votes",
         }
