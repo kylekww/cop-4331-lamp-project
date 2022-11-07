@@ -11,12 +11,12 @@ const sendEmail = nodemailer.createTransport
 ({
     //name: "hushucf.herokuapp.com",
     service: "outlook",
-    host: "smtp-mail.outlook.com", 
     secureConnection: false, 
     port: 587, 
     tls: {
        ciphers:'SSLv3'
     },
+    host: "stmp-mail.outlook.com",
     auth: {
         user: "jankbox96@outlook.com",
         pass: "++lower_truck_938++"
@@ -31,12 +31,12 @@ sendEmail.verify(function (error, success) {
     }
 });
 
+
 exports.register = async(req,res)=>{
     const validationResult = registerValidator(req.body);
     if(validationResult !== true){
         return res.status(400).json({message: validationResult});
     }
-
     const hashedPassword = await bcrpyt.hash(req.body.password, 12);
     const user = await User.create({...req.body,password: hashedPassword})
     req.session.userId = user.id;
@@ -54,7 +54,7 @@ exports.register = async(req,res)=>{
             text: 
                 `
                 To register for hush UCF, please follow the link to verify your account.
-                http://${req.headers.host}/api/v1/auth/emailVerify/token=${user.emailVerifyToken}        
+                http://${req.headers.host}/api/v1/auth/emailVerify/${user.emailVerifyToken}        
                 `
         }, 
             function(error, info)
@@ -68,13 +68,15 @@ exports.register = async(req,res)=>{
 
     return res.status(201)
     .json({
-        message: "you are registered successfully. Please continue to your email to verify your account.", 
+        message: "you are registered successfully", 
         user: _.omit(user.toObject(), dbSecretFields),
     });
 };
 
 exports.emailVerify = async (req,res) => {
-    const user = await User.findOne({emailVerifyToken: req.query.token});
+    console.log(req.params.token);
+    const user = await User.findOne({emailVerifyToken: req.params.token});
+    console.log(user.toObject());
 
     if(!user){
         return res.status(502).json({message: "verification could not be completed"});
@@ -108,7 +110,7 @@ exports.login = async (req,res)=>{
     if(user.verified === false){
         return res.status(403).json({message: "verify your email address to login"})
     }
-    
+
     req.session.userId = user.id; 
 
     res.json({message: "you are successfully logged in."});

@@ -2,12 +2,10 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema(
     {
-        userID: { type: String },
-        dateCreated: { type: Date },
         email:{
             type: String,
             unique: true,
-           required: true
+            required: true
         },
         username: {
             type: String, 
@@ -27,7 +25,7 @@ const schema = new mongoose.Schema(
         },
         verified: {
             type: Boolean,
-            defaultValue: false
+            default: false
         },
         moderator: {
             type: Boolean, 
