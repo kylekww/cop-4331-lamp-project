@@ -7,9 +7,6 @@ const schema = new mongoose.Schema(
             required: true,
             maxLength: 420
         },
-        commentIDDateTime: {
-            type: Date,
-        },
         upvoteList: {
             type: Array
         },
@@ -18,7 +15,7 @@ const schema = new mongoose.Schema(
         },
         deleted: {
             type: Number,
-            required: true
+            defaultValue: 0
         },
         confessionID: {
             type: mongoose.Schema.Types.ObjectId,
@@ -27,8 +24,14 @@ const schema = new mongoose.Schema(
         userID: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "user"
+        },
+        voteID: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "votes",
         }
-    }
+    },
+    { timestamps: true },
+    { minimize: false }
 )
 const model = mongoose.model('comment',schema);
 
