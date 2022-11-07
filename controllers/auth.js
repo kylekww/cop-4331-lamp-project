@@ -11,6 +11,11 @@ const sendEmail = nodemailer.createTransport
 ({
     //name: "hushucf.herokuapp.com",
     service: "outlook",
+    secureConnection: false, 
+    port: 587, 
+    tls: {
+       ciphers:'SSLv3'
+    },
     host: "stmp-mail.outlook.com",
     //port: 587,
     auth: {
