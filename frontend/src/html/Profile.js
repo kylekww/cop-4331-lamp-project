@@ -11,10 +11,13 @@ function Profile() {
             headers: {
                 "Content-Type": "application/json",
             },
+            body: JSON.stringify({
+                
+            }),
         })
         .then(res => {
-          
-          
+          document.getElementById("profile").innerHTML = res;
+          console.log("hello");
         })
         .catch(err => {
           console.log(err);
@@ -43,7 +46,7 @@ function Profile() {
             <h1>Logo goes here</h1>
             <div class = "squarebg">
                 <h1>Profile View</h1>
-                
+                <span id = "profile"></span>
                  <button type = "button" class = "logout" onClick = {logOut}>Logout</button>
                     
                     
