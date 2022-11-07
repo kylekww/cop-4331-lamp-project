@@ -54,7 +54,7 @@ exports.register = async(req,res)=>{
             text: 
                 `
                 To register for hush UCF, please follow the link to verify your account.
-                http://${req.headers.host}/api/v1/auth/emailVerify/token=${user.emailVerifyToken}        
+                http://${req.headers.host}/api/v1/auth/emailVerify/${user.emailVerifyToken}        
                 `
         }, 
             function(error, info)
@@ -74,7 +74,9 @@ exports.register = async(req,res)=>{
 };
 
 exports.emailVerify = async (req,res) => {
-    const user = await User.findOne({emailVerifyToken: req.query.token});
+    console.log(req.params.token);
+    const user = await User.findOne({emailVerifyToken: req.params.token});
+    console.log(user.toObject());
 
     if(!user){
         return res.status(502).json({message: "verification could not be completed"});
