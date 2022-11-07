@@ -24,4 +24,10 @@ app.use('/api/v1/auth',authRoutes);
 app.use('/api/v1/confessions', confessionRoutes);
 app.use('/api/v1/comments', commentRoutes);
 
+app.use(express.static("frontend/build"));
+app.use(express.static("public"));
+app.get("*", (req,res) =>{
+    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+});
+
 module.exports = app; 
