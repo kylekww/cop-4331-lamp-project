@@ -3,6 +3,8 @@ const express = require("express");
 const expressSession = require("express-session");
 
 const authRoutes = require('./routes/auth');
+const confessionRoutes = require('./routes/confessions');
+const commentRoutes = require('./routes/comments');
 const {SESSION_SECRET, IS_PRODUCTION} = require('./configs');
 const app = express();
 
@@ -19,19 +21,13 @@ app.use(expressSession({
 }));
 
 app.use('/api/v1/auth',authRoutes);
+app.use('/api/v1/confessions', confessionRoutes);
+app.use('/api/v1/comments', commentRoutes);
+
 app.use(express.static("frontend/build"));
 app.use(express.static("public"));
 app.get("*", (req,res) =>{
     res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
 });
-
-/*app.get('/', (req, res) => {
-    if(IS_PRODUCTION){
-        app.use(express.static('frontend/build'));
-        app.get('*', (req, res) => {
-            res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-        });
-    }
-})*/
 
 module.exports = app; 

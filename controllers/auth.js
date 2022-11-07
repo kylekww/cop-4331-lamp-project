@@ -9,25 +9,13 @@ const crypto = require('crypto');
 
 const sendEmail = nodemailer.createTransport
 ({
-    //name: "hushucf.herokuapp.com",
+    name: "hushucf.herokuapp.com",
     service: "outlook",
-    host: "smtp-mail.outlook.com", 
-    secureConnection: false, 
-    port: 587, 
-    tls: {
-       ciphers:'SSLv3'
-    },
+    host: "hushucf.herokuapp.com", // uncomment for use on heroku,
+    //port: 587,
     auth: {
         user: "jankbox96@outlook.com",
         pass: "++lower_truck_938++"
-    }
-});
-
-sendEmail.verify(function (error, success) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Server is ready to take our messages");
     }
 });
 
@@ -36,7 +24,6 @@ exports.register = async(req,res)=>{
     if(validationResult !== true){
         return res.status(400).json({message: validationResult});
     }
-
     const hashedPassword = await bcrpyt.hash(req.body.password, 12);
     const user = await User.create({...req.body,password: hashedPassword})
     req.session.userId = user.id;
@@ -68,7 +55,7 @@ exports.register = async(req,res)=>{
 
     return res.status(201)
     .json({
-        message: "you are registered successfully. Please continue to your email to verify your account.", 
+        message: "you are registered successfully", 
         user: _.omit(user.toObject(), dbSecretFields),
     });
 };
@@ -108,7 +95,7 @@ exports.login = async (req,res)=>{
     if(user.verified === false){
         return res.status(403).json({message: "verify your email address to login"})
     }
-    
+
     req.session.userId = user.id; 
 
     res.json({message: "you are successfully logged in."});
