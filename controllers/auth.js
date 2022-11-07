@@ -9,9 +9,9 @@ const crypto = require('crypto');
 
 const sendEmail = nodemailer.createTransport
 ({
-    name: "hushucf.herokuapp.com",
+    //name: "hushucf.herokuapp.com",
     service: "outlook",
-    host: "hushucf.herokuapp.com", // uncomment for use on heroku,
+    host: "stmp-mail.outlook.com",
     //port: 587,
     auth: {
         user: "jankbox96@outlook.com",
