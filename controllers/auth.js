@@ -17,12 +17,20 @@ const sendEmail = nodemailer.createTransport
        ciphers:'SSLv3'
     },
     host: "stmp-mail.outlook.com",
-    //port: 587,
     auth: {
         user: "jankbox96@outlook.com",
         pass: "++lower_truck_938++"
     }
 });
+
+sendEmail.verify(function (error, success) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Server is ready to take our messages");
+    }
+});
+
 
 exports.register = async(req,res)=>{
     const validationResult = registerValidator(req.body);
