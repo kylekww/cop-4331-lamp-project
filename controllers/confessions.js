@@ -4,6 +4,7 @@ const User = require('../models/user');
 const _ = require('lodash');
 const addConfessionValidator = require('../validators/addConfession');
 const { findOne, findById } = require('../models/user');
+const mongoose = require('mongoose');
 
 
 //add confession
@@ -48,27 +49,51 @@ exports.searchConfession = async (req, res) => {
     let searchVar = req.body.searchVal;
     //if searchVar==1, sort by most recent 
     if(searchVar==1){
-        searchResults = await Confession.find(
-            {
-                "userID": ID
-            }).
-            limit(resultsPerPage).sort({timestamps: -1});
+        var searchResults = await Confession.find(
+            {}).
+            limit(resultsPerPage).sort({timestamps: -1}).lean();
     }
+
     //if searchVar==2, sort by most popular
     if(searchVar==2){
-        searchResults = await Confession.find(
-            {
-                "userID": ID
-            }).
-            limit(resultsPerPage).sort({timestamps: -1,netVotes:1});
+        var searchResults = await Confession.find(
+            {}).
+            limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
     }
+
+    for(var i = 0; i < searchResults.length; i++){
+        searchResults[i]["userInteracted"] = 0;
+    }
+
+    for (var i = 0; i < searchResults.length; i++) {
+        let votes = await Votes.findById({_id: searchResults[i].voteID});
+        //check if user has downvoted
+        for(var j = 0; j < votes.downvoteList.length; j++){
+            if(votes.downvoteList[j]==req.session.userId){
+                searchResults[i].userInteracted = -1;
+                
+            }
+        }
+        //check if user has upvoted
+        for(var j = 0; j < votes.upvoteList.length; j++){
+            console.log(req.session.userId);
+            if(votes.upvoteList[j]==req.session.userId){
+                searchResults[i].userInteracted = 1;
+                
+            }
+        }
+
+    }
+    
     res.status(201).json(searchResults);
 }
 
 //change vote
 exports.changeVote = async (req, res) => {
     let confession = await Confession.findById(req.body.id);
-    let votes = await Votes.findById({_id: confession.voteID})
+    console.log(confession.voteID);
+    let votes = await Votes.findById({_id: confession.voteID});
+    
 
 
     if(confession.deleted === 1 || confession.deleted === -1){
