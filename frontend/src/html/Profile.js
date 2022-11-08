@@ -40,7 +40,7 @@ function Profile() {
         });
     };
         console.log("beginning");
-        const data = viewProfile();
+        const data = viewProfile;
         const user = {
             username: data.username,
             name: data.name

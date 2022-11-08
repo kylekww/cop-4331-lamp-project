@@ -22,7 +22,6 @@ function Login() {
           else if(res.status == 401) alert("Invalid password");
           else {
             window.location.href = '/landing';
-            alert("Login was successful");
           }
         })
         .catch(err => {
