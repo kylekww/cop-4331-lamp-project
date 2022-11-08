@@ -41,17 +41,21 @@ function Profile() {
           console.log(err);
         });
     };
-        
+    const returnLanding = async event => {
+        window.location.href = '/landing';
+    }    
         return (
         
             <div class ="container">
                 <h1>Logo goes here</h1>
                 <div class = "squarebg">
                     <h1>Profile View</h1>
-                    <p id = "profile">The profile: {user.name}
-                    </p>    
+                    <p id = "profile">Name: {user.name}</p>
+                    <p id = "profile">Username: {user.username}</p>
+                    <div id="buttons">
+                        <button type = "button" class = "return" onClick= {returnLanding}>Return</button>    
                         <button type = "button" class = "logout" onClick = {logOut}>Logout</button>
-                        
+                        </div>    
                         
         
                     
