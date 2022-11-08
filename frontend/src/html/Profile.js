@@ -15,9 +15,7 @@ function Profile() {
         })
         .then(res => {
           res.json().then((data) => {
-            console.log(data);
-            console.log(data.user.name);
-            console.log(data.user.username);
+            console.log("its here");
             
           }) 
         })
@@ -41,8 +39,6 @@ function Profile() {
           console.log(err);
         });
     };
-    render()
-    {
         const data = viewProfile();
         console.log(data);
         const user = {
@@ -66,7 +62,7 @@ function Profile() {
                 </div>   
             </div>
         );
-    }
+
     
 }
 
