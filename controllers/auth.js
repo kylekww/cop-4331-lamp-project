@@ -45,6 +45,8 @@ exports.register = async(req,res)=>{
     if(!user.verified)
     {
         user.emailVerifyToken = crypto.randomBytes(64).toString("hex");
+        user.save()
+        console.log(user.emailVerifyToken);
 
         sendEmail.sendMail
         ({
