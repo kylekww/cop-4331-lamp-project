@@ -44,8 +44,8 @@ function Profile() {
         console.log("beginning");
         console.log(viewProfile);
         const user = {
-            username: data.username,
-            name: data.name
+            username: viewProfile.username,
+            name: viewProfile.name
         }
         console.log(user);
         console.log("end");
