@@ -13,7 +13,7 @@ function Profile() {
         })
         .then(res => {
           console.log("profile");
-          console.log(res.ok);
+          console.log(res);
         })
         .catch(err => {
           console.log(err);
