@@ -1,5 +1,6 @@
 import { ListItemSecondaryAction } from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import { render } from 'react-dom';
 import '../css/Profile.css';
 
 function Profile() {
@@ -40,24 +41,33 @@ function Profile() {
           console.log(err);
         });
     };
-    
-    return (
+    render()
+    {
+        const data = viewProfile();
+        console.log(data);
+        const user = {
+            username: data.username,
+            name: data.name
+        }
+
+        return (
         
-        <div class ="container">
-            <h1>Logo goes here</h1>
-            <div class = "squarebg">
-                <h1>Profile View</h1>
-                <p id = "profile">The profile:
-                {viewProfile()}
-                </p>    
-                    <button type = "button" class = "logout" onClick = {logOut}>Logout</button>
+            <div class ="container">
+                <h1>Logo goes here</h1>
+                <div class = "squarebg">
+                    <h1>Profile View</h1>
+                    <p id = "profile">The profile:
+                    </p>    
+                        <button type = "button" class = "logout" onClick = {logOut}>Logout</button>
+                        
+                        
+        
                     
-                    
+                </div>   
+            </div>
+        );
+    }
     
-                
-            </div>   
-        </div>
-    );
 }
 
 export default Profile;
