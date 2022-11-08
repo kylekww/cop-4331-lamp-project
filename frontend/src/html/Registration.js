@@ -23,7 +23,7 @@ function Registration() {
           if(res.status !== 201) alert("Invalid registration");
           else {
             alert("Registration was successful.");
-            window.location.href = 'index.html';
+            window.location.href = '/';
           }
         })
         .catch(err => {

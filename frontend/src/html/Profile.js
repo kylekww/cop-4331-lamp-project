@@ -1,5 +1,5 @@
 import { ListItemSecondaryAction } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, setState } from 'react';
 import '../css/Profile.css';
 
 function Profile() {
@@ -7,19 +7,18 @@ function Profile() {
     const viewProfile = async event => 
     {
         const data = await fetch("/api/v1/auth/profile", {
-            method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
         })
         .then(res => {
           console.log("profile");
-          console.log(res);
+          console.log(res.ok);
         })
         .catch(err => {
           console.log(err);
         });
-       
+       //this.setState
     };
     
     const logOut = async event => 
