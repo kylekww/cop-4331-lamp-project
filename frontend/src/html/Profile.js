@@ -7,6 +7,7 @@ function Profile() {
     const viewProfile = async event => 
     {
         const data = await fetch("/api/v1/auth/profile", {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
