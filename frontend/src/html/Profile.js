@@ -39,8 +39,10 @@ function Profile() {
           console.log(err);
         });
     };
+
+    
         console.log("beginning");
-        const data = viewProfile;
+        console.log(viewProfile);
         const user = {
             username: data.username,
             name: data.name
