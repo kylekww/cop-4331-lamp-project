@@ -1,5 +1,5 @@
 import '../../css/LandingPage.css';
-import MenuIcon from '@mui/icons-material/Menu';
+import ProfileButton from './ProfileButton';
 
 /* Needs to be added:
     - Prevention of pressing "New" when on New page
@@ -14,9 +14,7 @@ function Tools() {
   return (
     <div class="Tools">
       <div>
-        <button class="SettingsTool" onClick={clickOptionsButton}>
-            <MenuIcon sx={{ color: "#BABABA", "&:hover":{ color: "#80C7EF"}, fontSize: "5vmin"}}></MenuIcon>
-        </button>
+        <ProfileButton/>
       </div>
       <div>
         <button class="NewConfessionsTool" onClick={clickNewButton}>
@@ -34,18 +32,6 @@ function Tools() {
       </div>
     </div>
   );
-}
-
-async function clickOptionsButton() {
-  const response = await fetch('url', {
-    mode: 'no-cors',
-    method: 'POST', 
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({})
-  });
-  return {text:"Click Options"}
 }
 
 async function clickNewButton() {
