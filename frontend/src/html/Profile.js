@@ -3,7 +3,10 @@ import React, { useState, setState } from 'react';
 import '../css/Profile.css';
 
 function Profile() {
-    
+    const user = {
+        username: "",
+        name: ""
+    }
     const viewProfile = async event => 
     {
         const data = await fetch("/api/v1/auth/profile", {
@@ -18,7 +21,8 @@ function Profile() {
             console.log(data);
             console.log(data.user.name);
             console.log(data.user.username);
-
+            user.name = data.user.name;
+            user.username = data.user.username;
           }) 
         })
         .catch(err => {
@@ -48,8 +52,15 @@ function Profile() {
             <h1>Logo goes here</h1>
             <div class = "squarebg">
                 <h1>Profile View</h1>
-                <p id = "profile"></p>
-                    <button type = "button" class = "logout" onClick = {viewProfile}>viewProfile</button>
+                <p id = "profile"></p>{
+                    user.map((item) => (
+                        <ol key = { item.user } >
+                        User_Name: { item.username }, 
+                        Full_Name: { item.name }
+                        </ol>   
+                    ))
+                }
+                    
                     <button type = "button" class = "logout" onClick = {logOut}>Logout</button>
                     
                     
