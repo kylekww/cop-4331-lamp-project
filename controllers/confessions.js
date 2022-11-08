@@ -3,8 +3,7 @@ const Votes = require('../models/votes');
 const User = require('../models/user');
 const _ = require('lodash');
 const addConfessionValidator = require('../validators/addConfession');
-const { findOne, findById } = require('../models/user');
-const mongoose = require('mongoose');
+
 
 
 //add confession
@@ -89,117 +88,6 @@ exports.searchConfession = async (req, res) => {
     res.status(201).json(searchResults);
 }
 
-//change vote
-exports.changeVote = async (req, res) => {
-    let confession = await Confession.findById(req.body.id);
-    console.log(confession.voteID);
-    let votes = await Votes.findById({_id: confession.voteID});
-    
-
-
-    if(confession.deleted === 1 || confession.deleted === -1){
-
-        return res.status(404).json({message: "post not found"});
-    }
-
-    let voterID = await User.findById(req.session.userId);
-    //inList=0 if user is not in ny list
-    //inList=1 if user has upvoted
-    //inList=-1 if user has downvoted
-    let inList = 0;
-    for (var i = 0; i < votes.downvoteList.length; i++) {
-        if(votes.downvoteList[i]._id==req.session.userId){
-            inList=-1;
-            break;
-        }
-    }
-    for (var i = 0; i < votes.upvoteList.length; i++) {
-        if(votes.upvoteList[i]._id==req.session.userId){
-            inList=1;
-            break;
-        }
-    }
-
-    // we want to upvote
-    if(req.body.vote === 1){
-        //Votes.find({ downvoteList: voterID });
-        if(inList==-1){
-            votes.downvoteList.pull(voterID);
-            votes.upvoteList.push(voterID);
-            votes.netVotes=votes.netVotes+2;
-            await votes.save();
-            return res.status(201).json({
-                message: "vote changed from downvote to upvote",
-                "upvoteList": votes.upvoteList,
-                "downvoteList": votes.downvoteList,
-                "netVotes": votes.netVotes
-            });
-        }
-        ////Votes.find({ upvoteList: voterID });
-        else if(inList==1){
-            votes.upvoteList.pull(voterID);
-            votes.netVotes--;
-            await votes.save();
-
-            return res.status(201).json({
-                message: "vote changed from upvote to none",
-                "upvoteList": votes.upvoteList,
-                "downvoteList": votes.downvoteList,
-                "netVotes": votes.netVotes
-            });
-        }
-        else{
-            votes.upvoteList.push(voterID);
-            votes.netVotes++;
-            await votes.save();
-            return res.status(201).json({
-                message: "vote added as upvote",
-                "upvoteList": votes.upvoteList,
-                "downvoteList": votes.downvoteList,
-                "netVotes": votes.netVotes
-            });
-        }
-    }
-    else if(req.body.vote === -1){ // we want to downvote post
-        if(inList==1){
-            votes.upvoteList.pull(voterID);
-            votes.downvoteList.push(voterID);
-            votes.netVotes = votes.netVotes - 2; 
-            await votes.save();
-
-            return res.status(201).json({
-                message: "vote changed from upvote to downvote",
-                "upvoteList": votes.upvoteList,
-                "downvoteList": votes.downvoteList,
-                "netVotes": votes.netVotes
-            });
-        }
-        else if(inList==-1){
-            votes.downvoteList.pull(voterID);
-            votes.netVotes++;
-            await votes.save();
-
-            return res.status(201).json({
-                message: "vote changed from downvote to none",
-                "upvoteList": votes.upvoteList,
-                "downvoteList": votes.downvoteList,
-                "netVotes": votes.netVotes
-            });
-        }
-        else{
-            votes.downvoteList.push(voterID);
-            votes.netVotes--;
-            await votes.save();
-
-            return res.status(201).json({
-                message: "vote added as downvote",
-                "upvoteList": votes.upvoteList,
-                "downvoteList": votes.downvoteList,
-                "netVotes": votes.netVotes
-            });
-        }
-    }
-}
 
 //confession information
 exports.information = async (req, res) => {
