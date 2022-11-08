@@ -39,13 +39,14 @@ function Profile() {
           console.log(err);
         });
     };
+        console.log("beginning");
         const data = viewProfile();
-        console.log(data);
         const user = {
             username: data.username,
             name: data.name
         }
-
+        console.log(user);
+        console.log("end");
         return (
         
             <div class ="container">
