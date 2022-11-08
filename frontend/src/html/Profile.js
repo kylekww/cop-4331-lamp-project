@@ -22,7 +22,6 @@ function Profile() {
         .catch(err => {
           console.log(err);
         });
-       //this.setState
     };
     const logOut = async event => 
     {
@@ -39,23 +38,14 @@ function Profile() {
           console.log(err);
         });
     };
-
-    
-        console.log("beginning");
-        console.log(viewProfile);
-        const user = {
-            username: viewProfile.username,
-            name: viewProfile.name
-        }
-        console.log(user);
-        console.log("end");
+        
         return (
         
             <div class ="container">
                 <h1>Logo goes here</h1>
                 <div class = "squarebg">
                     <h1>Profile View</h1>
-                    <p id = "profile">The profile:
+                    <p id = "profile">The profile: {viewProfile}
                     </p>    
                         <button type = "button" class = "logout" onClick = {logOut}>Logout</button>
                         
