@@ -7,12 +7,6 @@ const schema = new mongoose.Schema(
             required: true,
             maxLength: 420
         },
-        upvoteList: {
-            type: Array
-        },
-        downvoteList:{
-            type: Array
-        },
         deleted: {
             type: Number,
             defaultValue: 0
