@@ -13,8 +13,10 @@ function Profile() {
             },
         })
         .then(res => {
-          console.log("profile");
           console.log(res);
+          res.json().then((data) => {
+            console.log(data);
+          }) 
         })
         .catch(err => {
           console.log(err);
