@@ -4,7 +4,10 @@ import { render } from 'react-dom';
 import '../css/Profile.css';
 
 function Profile() {
-    
+    const[user, setUser] = useState([]);
+    useEffect(() => {
+        viewProfile()
+    }, [])
     const viewProfile = async event => 
     {
         const data = await fetch("/api/v1/auth/profile", {
@@ -15,8 +18,8 @@ function Profile() {
         })
         .then(res => {
           res.json().then((data) => {
-            console.log("its here");
-            
+            console.log(data);
+            setUser(data);
           }) 
         })
         .catch(err => {
@@ -45,7 +48,14 @@ function Profile() {
                 <h1>Logo goes here</h1>
                 <div class = "squarebg">
                     <h1>Profile View</h1>
-                    <p id = "profile">The profile: {viewProfile}
+                    <p id = "profile">The profile: {user.map((data) => {
+                        return(
+                           <p>
+                            Username: {data.username}
+                            Name: {data.name}
+                           </p>
+                        )
+                    })}
                     </p>    
                         <button type = "button" class = "logout" onClick = {logOut}>Logout</button>
                         
