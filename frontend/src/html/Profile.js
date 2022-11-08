@@ -19,7 +19,7 @@ function Profile() {
         .then(res => {
           res.json().then((data) => {
             console.log(data);
-            setUser(data);
+            setUser(Array.from(data));
           }) 
         })
         .catch(err => {
