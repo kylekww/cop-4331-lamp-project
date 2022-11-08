@@ -17,7 +17,7 @@ function Profile() {
             console.log(data);
             console.log(data.user.name);
             console.log(data.user.username);
-            
+            setUsers(data);
           }) 
         })
         .catch(err => {
@@ -49,14 +49,14 @@ function Profile() {
             <h1>Logo goes here</h1>
             <div class = "squarebg">
                 <h1>Profile View</h1>
-
+                <p id = "profile">The profile:
                 {users && users.map((user) => {
-                    <p id = "profile">
+                    <p>
                         Username: {user.username}
                         Full Name:{user.name}
                     </p>
                 })}
-                    
+                </p>    
                     <button type = "button" class = "logout" onClick = {logOut}>Logout</button>
                     
                     
