@@ -16,6 +16,9 @@ function Profile() {
           console.log(res);
           res.json().then((data) => {
             console.log(data);
+            console.log(data.name);
+            console.log(data.username);
+            
           }) 
         })
         .catch(err => {
