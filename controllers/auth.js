@@ -55,7 +55,7 @@ exports.register = async(req,res)=>{
             text: 
                 `
                 To register for hush UCF, please follow the link to verify your account.
-                http://${req.headers.host}/verify/${user.emailVerifyToken}        
+                https://${req.headers.host}/verify/${user.emailVerifyToken}        
                 `
         }, 
             function(error, info)
