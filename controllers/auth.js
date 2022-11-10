@@ -77,7 +77,7 @@ exports.register = async(req,res)=>{
 exports.emailVerify = async (req,res, next) => {
     console.log(req.params.token);
     const user = await User.findOne({emailVerifyToken: req.params.token});
-    console.log(user.toObject());
+    console.log(user?.toObject());
 
     if(!user){
         return res.status(502).json({message: "verification could not be completed"});
