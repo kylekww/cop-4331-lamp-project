@@ -7,6 +7,8 @@ import Login from './html/Login';
 import Registration from './html/Registration';
 import LandingPage from './html/LandingPage';
 import Profile from './html/Profile';
+import EmailVerify from './html/EmailVerify';
+
 function App() {
   return (
     <html>
@@ -16,6 +18,7 @@ function App() {
           <Route path="/register" index element={<Registration />} />
           <Route path="/landing" index element={<LandingPage />} />
           <Route path="/profile" index element={<Profile />} />
+          <Route path="/verify/:token" index element={<EmailVerify />} />
         </Routes>
       </BrowserRouter>
     </html>
