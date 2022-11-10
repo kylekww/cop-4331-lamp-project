@@ -31,7 +31,6 @@ sendEmail.verify(function (error, success) {
     }
 });
 
-
 exports.register = async(req,res)=>{
     const validationResult = registerValidator(req.body);
     if(validationResult !== true){
@@ -56,7 +55,7 @@ exports.register = async(req,res)=>{
             text: 
                 `
                 To register for hush UCF, please follow the link to verify your account.
-                http://${req.headers.host}/api/v1/auth/emailVerify/${user.emailVerifyToken}        
+                http://${req.headers.host}/verify/${user.emailVerifyToken}        
                 `
         }, 
             function(error, info)
@@ -75,7 +74,7 @@ exports.register = async(req,res)=>{
     });
 };
 
-exports.emailVerify = async (req,res) => {
+exports.emailVerify = async (req,res, next) => {
     console.log(req.params.token);
     const user = await User.findOne({emailVerifyToken: req.params.token});
     console.log(user.toObject());
@@ -87,9 +86,9 @@ exports.emailVerify = async (req,res) => {
     user.emailVerifyToken = null; //So it is unusable more than once
     user.verified = true;
     await user.save();
+    
     //console.log(user.verified); //just to test that the value is changed in the db
     return res.status(201).json({message: "verification successful"});
-
 }
 
 exports.login = async (req,res)=>{
