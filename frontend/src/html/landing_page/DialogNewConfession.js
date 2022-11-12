@@ -16,7 +16,7 @@ function DialogNewConfession({open, handleClose}) {
 };
   const postConfession = async event => {
     const confession = textInput;
-    const data = await fetch("/api/v1/auth/addConfession", {
+    const data = await fetch("/api/v1/confessions/addConfession", {
       method: "POST",
       headers: {
           "Content-Type": "application/json",
@@ -24,17 +24,16 @@ function DialogNewConfession({open, handleClose}) {
       body: JSON.stringify({
         confession
     }),
+      
   })
   .then(res => {
     res.json().then((data) => {
       console.log(data);
-      
     }) 
   })
   .catch(err => {
     console.log(err);
-  }); 
-  alert(confession);
+  });
   handleClose();
   }
   return (
