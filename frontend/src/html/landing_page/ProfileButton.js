@@ -21,7 +21,7 @@ function ProfileButton() {
     .catch(err => {
       console.log(err);
     });
-  });
+  }, []);
 
   return (
     <div class="ProfileContainer">
