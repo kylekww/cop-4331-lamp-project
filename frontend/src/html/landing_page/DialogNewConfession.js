@@ -7,6 +7,26 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 function DialogNewConfession({open, handleClose}) {
+  const postConfession = async event => {
+    const data = await fetch("/api/v1/auth/addConfession", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+     
+  })
+  .then(res => {
+    res.json().then((data) => {
+      console.log(data);
+      
+    }) 
+  })
+  .catch(err => {
+    console.log(err);
+  }); 
+  alert("we are here");
+  handleClose();
+  }
   return (
     <Dialog open={open}>
         <DialogTitle>New Confession</DialogTitle>
@@ -26,7 +46,7 @@ function DialogNewConfession({open, handleClose}) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Post</Button>
+          <Button onClick={postConfession}>Post</Button>
         </DialogActions>
       </Dialog>
   );
