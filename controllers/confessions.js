@@ -53,17 +53,19 @@ exports.searchConfession = async (req, res) => {
         oid = temp._id.toString();
     }
     if(searchVar==1){
-        var searchResults = await Confession.find(
-            {_id : {$lt: oid}
-            })
+        var searchResults = await Confession.find({
+            _id : {$lt: oid}
+            }, 
+            {userID:0})
         .limit(resultsPerPage).sort({_id: -1}).lean();
     }
 
     //if searchVar==2, sort by most popular
     if(searchVar==2){
-        var searchResults = await Confession.find(
-            {_id : {$lt: oid}
-            })
+        var searchResults = await Confession.find({
+            _id : {$lt: oid}
+            }, 
+            {userID:0})
         .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
     }
 
@@ -90,7 +92,7 @@ exports.searchConfession = async (req, res) => {
         }
 
     }
-    
+    //res.json({user: _.omit(req.user.toObject(),dbSecretFields)});
     res.status(201).json(searchResults);
 }
 
