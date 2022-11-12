@@ -5,15 +5,25 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import React, {useState} from 'react';
 
 function DialogNewConfession({open, handleClose}) {
+
+  const [textInput, setTextInput] = useState('');
+
+  const handleTextInputChange = event => {
+    setTextInput(event.target.value);
+};
   const postConfession = async event => {
+    const confession = textInput;
     const data = await fetch("/api/v1/auth/addConfession", {
       method: "POST",
       headers: {
           "Content-Type": "application/json",
       },
-     
+      body: {
+        confession
+      }
   })
   .then(res => {
     res.json().then((data) => {
@@ -24,7 +34,7 @@ function DialogNewConfession({open, handleClose}) {
   .catch(err => {
     console.log(err);
   }); 
-  alert("we are here");
+  alert(confession);
   handleClose();
   }
   return (
@@ -42,6 +52,7 @@ function DialogNewConfession({open, handleClose}) {
             type="confession"
             fullWidth
             variant="standard"
+            onChange= {handleTextInputChange}
           />
         </DialogContent>
         <DialogActions>
