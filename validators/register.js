@@ -7,6 +7,7 @@ const schema = {
     password : {type : "string"},
     name: {type: "string", min: 3, max: 60},
     email: {type: "string"},
+    color: {type: "string"},
     $$strict: true,
 };
 

@@ -36,6 +36,11 @@ const schema = new mongoose.Schema(
             type: Boolean, 
             defualt: false
         },
+        color: {
+            type: String,
+            required: true,
+            default: "#ff0000"
+        }
     },
     { timestamps: true }
 );
