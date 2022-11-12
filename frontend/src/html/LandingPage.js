@@ -10,11 +10,11 @@ import Confession from './landing_page/Confession';
 function LandingPage() {
   return (
     <html>
-    <Tools></Tools>
-    <Header></Header>
-    <PageTip></PageTip>
-    <Confession></Confession>
-    <NewConfessionButton></NewConfessionButton>
+      <Tools></Tools>
+      <Header></Header>
+      <PageTip></PageTip>
+      <Confession></Confession>
+      <NewConfessionButton></NewConfessionButton>
     </html>
   );
 }

@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/Registration.css';
 
 function Registration() {
+    /* Leaving this here for now
+    const[color, setColor] = useState("#ffffff");
+    const randomizedColor = () => {
+        const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+
+        setColor(randomColor);
+    };*/
+    
     const doRegistration = async event => 
     {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
         const name = document.getElementById("name").value
         const email = document.getElementById("email").value;
+        const color = "#" + Math.floor(Math.random() * 16777215).toString(16);  // This needs to be added to each user on registration
         const data = await fetch("/api/v1/auth/register", {
             method: "POST",
             headers: {
@@ -18,6 +27,7 @@ function Registration() {
                 password,
                 name,
                 email
+                //color
             }),
         }).then(res => {
           if(res.status !== 201) alert("Invalid registration");
