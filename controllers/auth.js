@@ -141,7 +141,7 @@ exports.loginRequired = async (req,res,next ) => {
         return res.status(403).json({message: "You must login to access this"});
     }
     req.user = await User.findById(req.session.userId);
-    if(!req.user || req.user.deleted){
+    if(!req.user){
         return res.status(403).json({message: "this user id does not exist"});
     }
     next();
@@ -153,6 +153,7 @@ exports.deleteAccount = async (req, res) => {
         return res.status(403).json({message: "this account does not exist"});
     }
     user.deleted = 1;
+    delete req.session.userId;
     await user.save();
     return res.status(200).json({message: "account deleted successfully"});
 }
