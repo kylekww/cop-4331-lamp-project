@@ -43,22 +43,28 @@ exports.deleteConfession = async (req, res) => {
 //search confession
 exports.searchConfession = async (req, res) => {
     // Input: usrID and search criteria
-    let ID = await User.findById(req.session.userId);
+    
     let resultsPerPage = 15;
     let searchVar = req.body.searchVal;
-    let query = req.body.query;
     //if searchVar==1, sort by most recent 
+    let oid = req.body.oid;
+    if(oid == ""){
+        let temp = await Confession.findOne({},{},{sort: {_id: -1}});
+        oid = temp._id.toString();
+    }
     if(searchVar==1){
         var searchResults = await Confession.find(
-            {"confession": {$regex: '.*' + query + '.*'}}).
-            limit(resultsPerPage).sort({timestamps: -1}).lean();
+            {_id : {$lt: oid}
+            })
+        .limit(resultsPerPage).sort({_id: -1}).lean();
     }
 
     //if searchVar==2, sort by most popular
     if(searchVar==2){
         var searchResults = await Confession.find(
-            {"confession": {$regex: '.*' + query + '.*'}}).
-            limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
+            {_id : {$lt: oid}
+            })
+        .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
     }
 
     for(var i = 0; i < searchResults.length; i++){
