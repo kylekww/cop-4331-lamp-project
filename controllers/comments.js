@@ -46,16 +46,24 @@ exports.searchComments = async (req, res) => {
     let searchVar = req.body.searchVal;
     let query = req.body.query;
     //if searchVar==1, sort by most recent 
-    if(searchVar==1){
-        searchResults = await Comment.find(
-            {"comment": {$regex: '.*' + query + '.*', $options: 'i'}}).
-            limit(resultsPerPage).sort({timestamps: -1}).lean();
+    let oid = req.body.oid;
+    if(oid == ""){
+        let temp = await Comment.findOne({},{},{sort: {_id: -1}});
+        oid = temp._id.toString();
     }
+    if(searchVar==1){
+        var searchResults = await Comment.find(
+            {_id : {$lt: oid}
+            })
+        .limit(resultsPerPage).sort({_id: -1}).lean();
+    }
+
     //if searchVar==2, sort by most popular
     if(searchVar==2){
-        searchResults = await Comment.find(
-            {"comment": {$regex: '.*' + query + '.*', $options: 'i'}}).
-            limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
+        var searchResults = await Comment.find(
+            {_id : {$lt: oid}
+            })
+        .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
     }
    
     for(var i = 0; i < searchResults.length; i++){
