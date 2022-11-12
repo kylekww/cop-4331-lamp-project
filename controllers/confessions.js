@@ -50,14 +50,14 @@ exports.searchConfession = async (req, res) => {
     //if searchVar==1, sort by most recent 
     if(searchVar==1){
         var searchResults = await Confession.find(
-            {"confession": {$regex: '.*' + query + '.*'}}).
+            {"confession": {$regex: '.*' + query + '.*', $options: 'i'}}).
             limit(resultsPerPage).sort({timestamps: -1}).lean();
     }
 
     //if searchVar==2, sort by most popular
     if(searchVar==2){
         var searchResults = await Confession.find(
-            {"confession": {$regex: '.*' + query + '.*'}}).
+            {"confession": {$regex: '.*' + query + '.*', $options: 'i'}}).
             limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
     }
 
