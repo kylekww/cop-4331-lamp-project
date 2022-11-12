@@ -5,27 +5,30 @@ import '../css/Profile.css';
 
 function Profile() {
     const[user, setUser] = useState([]);
+
+    
     useEffect(() => {
+        const viewProfile = async event => 
+        {
+            const data = await fetch("/api/v1/auth/profile", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            .then(res => {
+              res.json().then((data) => {
+                console.log(data);
+                setUser(data.user);
+              }) 
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        };
         viewProfile()
-    })
-    const viewProfile = async event => 
-    {
-        const data = await fetch("/api/v1/auth/profile", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-        .then(res => {
-          res.json().then((data) => {
-            console.log(data);
-            setUser(data.user);
-          }) 
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    };
+    }, [])
+   
     const logOut = async event => 
     {
         const data = await fetch("/api/v1/auth/logout", {
