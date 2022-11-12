@@ -21,9 +21,9 @@ function DialogNewConfession({open, handleClose}) {
       headers: {
           "Content-Type": "application/json",
       },
-      body: {
+      body: JSON.stringify({
         confession
-      }
+    }),
   })
   .then(res => {
     res.json().then((data) => {
