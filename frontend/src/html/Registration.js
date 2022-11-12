@@ -26,7 +26,8 @@ function Registration() {
                 username,
                 password,
                 name,
-                email
+                email,
+                color
                 //color
             }),
         }).then(res => {

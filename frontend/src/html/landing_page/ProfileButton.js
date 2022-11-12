@@ -4,7 +4,7 @@ import { Avatar } from '@mui/material';
 
 function ProfileButton() {
   const[user, setUser] = useState([]);
-  const color = "#158888"; // This will be replaced with user.color
+  const color = user.color; // This will be replaced with user.color
 
   useEffect(() => {
     const data = fetch("/api/v1/auth/profile", {
