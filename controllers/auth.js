@@ -32,7 +32,16 @@ sendEmail.verify(function (error, success) {
 });
 
 exports.register = async(req,res)=>{
-    const validationResult = registerValidator(req.body);
+    username = req.body.username;
+    lowerCaseUsername = username.toLowerCase();
+      
+    usernameTaken = await User.findOne({'username': username}).collation({ 'locale' : 'en_US' , 'strength': 2});
+
+    if(usernameTaken){
+        return res.status(409).json({message: "Username has been taken"});
+    }
+    
+    const validationResult = registerValidator({...req.body, username: lowerCaseUsername});
     if(validationResult !== true){
         return res.status(400).json({message: validationResult});
     }
@@ -92,14 +101,19 @@ exports.emailVerify = async (req,res, next) => {
 }
 
 exports.login = async (req,res)=>{
+    // add case-insensitivity and ignore deleted users
     const validationResult = loginValidator(req.body);
     if(validationResult !== true){
         return res.status(400).json({message: validationResult});
     }
 
-    const user = await User.findOne({username: req.body.username});
+    const user = await User.findOne({'username': req.body.username}).collation({ 'locale' : 'en_US' , 'strength': 2});
     if(!user){
         return res.status(404).json({message: "username does not exist."});
+    }
+
+    if(user.deleted == true){
+        return res.status(404).json({message: "this account does not exist"});
     }
 
     const isPasswordCorrect = await bcrpyt.compare(req.body.password, user.password);

@@ -32,9 +32,17 @@ const schema = new mongoose.Schema(
             required:false,
             default: false
         },
+        deleted: {
+            type: Boolean, 
+            defualt: false
+        },
     },
     { timestamps: true }
 );
+
+schema.index( { 'username' : 1 },
+    { 'collation' : { 'locale' : 'en_US' , 'strength': 2} });
+
 const model = mongoose.model('user',schema);
 
 module.exports = model;
