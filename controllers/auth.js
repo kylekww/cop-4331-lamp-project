@@ -147,6 +147,17 @@ exports.loginRequired = async (req,res,next ) => {
     next();
 };
 
+exports.deleteAccount = async (req, res) => {
+    user = await User.findById(req.session.userId);
+    if(!user){
+        return res.status(403).json({message: "this account does not exist"});
+    }
+    user.deleted = 1;
+    delete req.session.userId;
+    await user.save();
+    return res.status(200).json({message: "account deleted successfully"});
+}
+
 exports.profile = (req,res)=> {
     res.json({user: _.omit(req.user.toObject(),dbSecretFields)});
 };
