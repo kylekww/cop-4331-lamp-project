@@ -33,12 +33,18 @@ sendEmail.verify(function (error, success) {
 
 exports.register = async(req,res)=>{
     username = req.body.username;
+    email = req.body.email;
     lowerCaseUsername = username.toLowerCase();
+    lowerCaseEmail = email.toLowerCase();
       
     usernameTaken = await User.findOne({'username': username}).collation({ 'locale' : 'en_US' , 'strength': 2});
+    emailTaken = await User.findOne({'email': email}).collation({ 'locale' : 'en_US' , 'strength': 2});
 
     if(usernameTaken){
         return res.status(409).json({message: "Username has been taken"});
+    }
+    if(emailTaken){
+        return res.status(409).json({message: "Email address has already been used"});
     }
     
     const validationResult = registerValidator({...req.body, username: lowerCaseUsername});
