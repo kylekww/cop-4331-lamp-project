@@ -6,7 +6,7 @@ const {loginRequired} = require("../controllers/auth");
 
 router.post("/addConfession", loginRequired,addConfession);
 router.post("/deleteConfession", loginRequired, deleteConfession);
-router.get("/searchConfession", loginRequired, searchConfession);
+router.post("/searchConfession", loginRequired, searchConfession);
 router.get("/information", information);
 
 module.exports = router;

@@ -7,6 +7,6 @@ const {changeVote} = require("../controllers/confessions");
 
 router.post("/addComment", loginRequired,addComment);
 router.post("/deleteComment", loginRequired, deleteComment);
-router.get("/searchComments", loginRequired, searchComments);
+router.post("/searchComments", loginRequired, searchComments);
 
 module.exports = router;
