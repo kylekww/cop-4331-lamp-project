@@ -105,7 +105,7 @@ export default class RealLogin extends Component {
                 }
                 else
                 {
-                    alert("idk what the fuck this means");
+                    alert("res error");
                 }
             })
             

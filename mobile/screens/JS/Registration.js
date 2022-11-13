@@ -83,21 +83,20 @@ export default class Registrationscreen extends Component {
     {
         try
         {
-            var obj = {login:global.userName.trim(),password:global.password.trim(),
-                name:global.firstName.trim(),email:global.email.trim()
-                //,color:("#" + Math.floor(Math.random() * 16777215)).trim()
+            var obj = {login:global.userName,password:global.password,
+                name:global.firstName,email:global.email
+                ,color:("#" + Math.floor(Math.random() * 16777215))
             };
             var js = JSON.stringify(obj);
 
             const response = await fetch('https://hushucf.herokuapp.com/api/v1/auth/register',
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}}
-                ).then(res => {
-                    if(res.status !== 201) alert("Invalid registration " + res.status);
-                    else {
-                      alert("Registration was successful.");
-                      this.props.navigation.navigate('Login');
-                    }
-                  });
+                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
+            .then(res => {
+                if(res.status !== 201) alert("Invalid registration " + res.status);
+                else {
+                    alert("Registration was successful.");
+                    this.props.navigation.navigate('RealLogin');
+                }});
         }
         catch(e)
         {
