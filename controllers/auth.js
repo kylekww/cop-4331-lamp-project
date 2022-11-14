@@ -164,6 +164,78 @@ exports.deleteAccount = async (req, res) => {
     return res.status(200).json({message: "account deleted successfully"});
 }
 
+exports.editProfile = async (req, res) => {
+    user = await User.findById(req.session.userId);
+
+    if(req.body.username){
+        usernameTaken = await User.findOne({'username': req.body.username}).collation({ 'locale' : 'en_US' , 'strength': 2});
+
+        if(usernameTaken){
+            return res.status(409).json({message: "Username has been taken"});
+        }
+    }
+
+    // if we are changing the email address
+    if(req.body.email){
+        if(req.body.password){
+            const hashedPassword = await bcrpyt.hash(req.body.password, 12);
+            user = await User.findByIdAndUpdate({_id: req.session.userId}, 
+            {...req.body, password: hashedPassword, verified: false}, {new: true});
+        }
+        else{
+            user = await User.findByIdAndUpdate({_id: req.session.userId}, 
+            {...req.body, verified: false}, {new: true});
+        }
+
+        user.emailVerifyToken = crypto.randomBytes(64).toString("hex");
+        await user.save();
+
+        sendEmail.sendMail
+        ({
+            from: "jankbox96@outlook.com",
+            to: user.email,
+            subject: "Hush UCF email verification",
+            text: 
+                `
+                We see that you've changed your email address.
+                To re-register for hush UCF, please follow the link to verify your account.
+                https://${req.headers.host}/verify/${user.emailVerifyToken}   
+                `
+        }, 
+            function(error, info)
+            {
+                if(error) throw Error(error);
+                console.log("Email sent successfully");
+                console.log(info);
+            }
+        );
+
+        await user.save();
+        delete req.session.userId;
+        return res.status(200).json({message: "account info updated successfully. Please check your email to reverify.",
+                                    user: _.omit(user.toObject(),dbSecretFields)});
+    }
+    else{
+        if(req.body.password){
+            const hashedPassword = await bcrpyt.hash(req.body.password, 12);
+            user = await User.findByIdAndUpdate({_id: req.session.userId}, 
+            {...req.body, password: hashedPassword, verified: true}, {new: true});
+        }
+        else{
+            user = await User.findByIdAndUpdate({_id: req.session.userId}, 
+            {...req.body, verified: true}, {new: true});
+        }
+        
+        await user.save();
+        return res.status(200).json({message: "account info updated successfully",
+                                    user: _.omit(user.toObject(),dbSecretFields)});
+    }
+}
+
+
+
+
+
 exports.profile = (req,res)=> {
     res.json({user: _.omit(req.user.toObject(),dbSecretFields)});
 };
