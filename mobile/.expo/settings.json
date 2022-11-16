@@ -1,3 +1,6 @@
 {
-  "urlRandomness": "rYQA_rE"
+  "urlRandomness": "rYQA_rE",
+  "dev": true,
+  "minify": false,
+  "https": false
 }

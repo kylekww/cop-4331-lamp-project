@@ -42,7 +42,7 @@ export default class RealLogin extends Component {
                             <TextInput 
                                 style={{fontSize: 16, color: '#5923ce'}} 
                                 placeholder='Password'
-                                secureTextEntry={true}
+                                secureTextEntry={false}
                                 onChangeText={(val) => {this.changePassword(val)}} 
                             />
                         </View>
@@ -105,7 +105,7 @@ export default class RealLogin extends Component {
                 }
                 else
                 {
-                    alert("res error");
+                    alert("yes");
                 }
             })
             

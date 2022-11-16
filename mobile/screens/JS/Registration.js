@@ -83,9 +83,9 @@ export default class Registrationscreen extends Component {
     {
         try
         {
-            var obj = {login:global.userName,password:global.password,
-                name:global.firstName,email:global.email
-                ,color:("#" + Math.floor(Math.random() * 16777215))
+            var obj = {username:global.userName,password:global.password,
+                name:global.firstName,email:global.email,
+                color:("#" + Math.floor(Math.random() * 16777215).toString(16))
             };
             var js = JSON.stringify(obj);
 
@@ -96,6 +96,7 @@ export default class Registrationscreen extends Component {
                 else {
                     alert("Registration was successful.");
                     this.props.navigation.navigate('RealLogin');
+                    console.log(res);
                 }});
         }
         catch(e)
