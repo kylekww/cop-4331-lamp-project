@@ -35,15 +35,27 @@ function Tools() {
 }
 
 async function clickNewButton() {
-  const response = await fetch('url', {
-    mode: 'no-cors',
-    method: 'POST', 
+  const searchVal = 1;
+  const oid = "";
+  const data = await fetch("/api/v1/confessions/searchConfession", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({})
-  });
-  return {text:"Click New"}
+    body: JSON.stringify({
+      searchVal,
+      oid,
+            }),
+        })
+        .then(res => {
+          res.json().then((data) => {
+            console.log(data);
+          }) 
+        })
+        .catch(err => {
+          console.log(err);
+        });
+        console.log("yeaa");
 }
 
 async function clickHotButton() {
