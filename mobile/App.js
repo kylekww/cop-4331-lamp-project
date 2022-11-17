@@ -6,6 +6,7 @@ import { createAppContainer } from "react-navigation";
 import Loginscreen from './screens/JS/Login';
 import RealLoginscreen from './screens/JS/RealLogin';
 import Registrationscreen from './screens/JS/Registration';
+import LandingPagescreen from './screens/JS/LandingPage';
 
 export default class App extends React.Component {
   render() {
@@ -31,9 +32,15 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       headerShown: false // Will hide header for HomePage
     }
+  },
+  LandingPage: {
+    screen: LandingPagescreen,
+    navigationOptions: {
+      headerShown: false // Will hide header for HomePage
+    }
   }
 },{
-  initialRouteName: "RealLogin"
+  initialRouteName: "LandingPage"
 });
 
 const AppContainer = createAppContainer(AppNavigator);
