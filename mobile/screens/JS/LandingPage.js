@@ -35,7 +35,13 @@ export default class LandingPage extends Component {
                     colors={['rgba(128,199,239,1)', 'rgba(89,35,206,1)']}
                     style={styles.background}
                     />
-                <View style={styles.header}> 
+                <View style={[styles.header,{shadowOffset: {
+            width: 0,
+            height: 5
+          },
+        shadowOpacity: 0.8,
+        shadowRadius: 3,
+        shadowColor: 'black',}]}> 
                     <TouchableHighlight style={[styles.profileButton,{backgroundColor: global.profileColor}]} onPress={this.handleProfile} underlayColor='rgb(60, 23, 141)'>
                         <Text style={styles.buttonText}>{global.nickname}</Text>
                     </TouchableHighlight>
@@ -108,13 +114,6 @@ styles = StyleSheet.create({
         borderRadius: 20,
         width: 80,
         height: 40,
-        shadowOffset: {
-            width: 100,
-            height: 100
-          },
-        shadowOpacity: 100,
-        shadowRadius: 100,
-        shadowColor: 'black',
     },
     hotButton: {
         margin: 15,
