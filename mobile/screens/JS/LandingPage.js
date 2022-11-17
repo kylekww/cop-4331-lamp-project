@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { TouchableHighlight, StyleSheet, TextInput, Button, View, 
     Text, Alert, RefreshControl, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+
+global.nickname = 'T';
+global.profileColor = 'rgba(89,35,206,1)';
 /*
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -33,10 +36,28 @@ export default class LandingPage extends Component {
                     style={styles.background}
                     />
                 <View style={styles.header}> 
-
+                    <TouchableHighlight style={[styles.profileButton,{backgroundColor: global.profileColor}]} onPress={this.handleProfile} underlayColor='rgb(60, 23, 141)'>
+                        <Text style={styles.buttonText}>{global.nickname}</Text>
+                    </TouchableHighlight>
+                    <LinearGradient
+                    // Background Linear Gradient
+                    colors={['rgba(90, 170, 216, 0.0701908)', 'rgba(70, 24, 203, 0.921875)']}
+                    style={styles.newButton}>
+                        <TouchableHighlight style={styles.specialButtonClickable} onPress={this.handleNewPage} underlayColor='rgb(60, 23, 141)'>
+                            <Text style={[styles.buttonText,{color: 'black'}]}>New</Text>
+                        </TouchableHighlight>
+                    </LinearGradient>
+                    <LinearGradient
+                    // Background Linear Gradient
+                    colors={['white', '#DE621C']}
+                    style={styles.hotButton}>
+                        <TouchableHighlight style={styles.specialButtonClickable} onPress={this.handleHotPage} underlayColor='rgb(60, 23, 141)'>
+                            <Text style={[styles.buttonText,{color: 'black'}]}>Hot</Text>
+                        </TouchableHighlight>
+                    </LinearGradient>
                 </View>
                 <ScrollView style={styles.scrollView}>
-                    
+
                 </ScrollView>
             </View>
         )
@@ -60,18 +81,54 @@ styles = StyleSheet.create({
         top: 0,
         height: '100%',
     },
-    button: {
-        padding: 15,
+    profileButton: {
+        padding: 10,
+        margin: 10,
+        alignItems: 'center',
+        textAlign: 'center',
+        alignSelf: 'left',
+        borderWidth: 1,
+        borderRadius: 60,
+        width: 60,
+        height: 60,
+    },
+    newButton: {
+        margin: 15,
         alignItems: 'center',
         alignSelf: 'center',
-        borderWidth: 1,
-        borderRadius: 5,
-        width: 250,
-        backgroundColor: 'rgba(89,35,206,1)',
+        borderColor: 'rgba(70, 24, 203, 0.921875)',
+        borderWidth: 2,
+        borderRadius: 20,
+        width: 80,
+        height: 40,
+    },
+    specialButtonClickable: {
+        alignItems: 'center',
+        alignSelf: 'center',
+        borderRadius: 20,
+        width: 80,
+        height: 40,
+        shadowOffset: {
+            width: 100,
+            height: 100
+          },
+        shadowOpacity: 100,
+        shadowRadius: 100,
+        shadowColor: 'black',
+    },
+    hotButton: {
+        margin: 15,
+        alignItems: 'center',
+        alignSelf: 'center',
+        borderColor: '#DE621C',
+        borderWidth: 2,
+        borderRadius: 20,
+        width: 80,
+        height: 40,
     },
     buttonText:{
         fontSize: 30,
-        color: 'rgba(128,199,239,1)',
+        color: 'white',
     },
     button2: {
         justifyContent: 'space-between',
@@ -88,14 +145,6 @@ styles = StyleSheet.create({
         color: 'rgba(89,35,206,1)',
         margin: 10,
     },
-    text2: {
-        backgroundColor: 'transparent',
-        alignSelf: 'center',
-        textAlign: 'center',
-        fontSize: 20,
-        color: 'black',
-        margin: 10,
-    },
     input: {
         padding: 10,
         borderWidth: 1,
@@ -109,20 +158,9 @@ styles = StyleSheet.create({
         textAlign: 'left',
         margin: 10,
     },
-    squarebg: {
-        padding: 5,
-        maxWidth: '90%',
-        width: 400,
-        height: 650,
-        backgroundColor: 'rgb(231, 232, 243)',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignSelf: 'center',
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: 'transparent',
-      },
     header: {
         flexDirection: 'row',
+        margin: 10,
+        justifyContent: 'space-between',
     }
 });
