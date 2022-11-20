@@ -46,12 +46,11 @@ function Registration() {
 
         for (let i = (emailArray.length - knightsEmailArray.length); i < emailArray.length; i++) {
             if (knightsEmailArray[j] == emailArray[i]) {
-                console.log("good on: " + emailArray[i]);
                 validation = true;
                 j++;
             } else {
                 validation = false;
-                console.log("bad on : " + emailArray[i]);
+                break;
             }
         }
         return validation;
