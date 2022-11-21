@@ -1,10 +1,78 @@
 import '../../css/styles.css';
-
+import React, { useState, useEffect } from 'react';
 function Confession() {
+
+  const[post, setPost] = useState([]);
+
+  useEffect(() => {
+    const displayPosts = async event =>
+    {
+      const searchVal = 1;
+      const oid = "";
+      const data = await fetch("/api/v1/confessions/searchConfession", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          searchVal,
+          oid,
+        }),
+      })
+      .then(res => {
+        res.json().then((data) => {
+          console.log(data);
+          setPost(data);
+        }) 
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    }
+    displayPosts();
+  }, [])
+  /*
+  {post.map(post => (
+      <div class = "ConfessionBox">
+        {post.confession}
+        <div class = "ConfessionBox">Hello</div>
+      <div class = "ConfessionBox">blah</div>
+      <div class = "ConfessionBox">Test</div>
+      <div class = "ConfessionBox">Test</div>
+      </div>
+    ))}
+  */
   return (
     <div>
-        Ill fix this later. 
+    {post.map(post => (
+<div className = "confession">
+        <div className = "confessionFeed">
+          <div className= "confessionFeedWrapper">
+            <div className = "confessionPost">
+              <div className = "confessionPostWrapper">
+                <div className = "confessionPostEdit">
+                  <div className = "confessionPostEditButton">
+                      This is where edit will go... if we decide to put one. An anon logo could look cool too.
+                  </div>
+                  <div className='confessionText'>
+                    {post.confession}
+                  </div>
+                  <div className= 'confessionVotesComments'>
+                    <div className = 'votes'>
+                      The votes go here
+                    </div>
+                    <div className='comments'>
+                      Click here for comments
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
     </div>
+    ))}
+   </div> 
   );
 }
 

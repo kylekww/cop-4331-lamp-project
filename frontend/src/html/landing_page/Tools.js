@@ -26,17 +26,14 @@ function Tools(Props) {
 
   return (
     <div class="Tools">
-      <div>
-        <ProfileButton/>
-      </div>
-      <div>
+      <ProfileButton/>
+      <div className='toolsCenter'>
         <button class={ isHot ? "NewConfessionsTool NewConfessionsTool-isHotState" : "NewConfessionsTool NewConfessionsTool-isNotHotState"} onClick={clickNewButton}>
           <div class="Text">
             New
           </div>
         </button>
-      </div>
-      <div>
+      
         <button class={ isHot ? "HotConfessionsTool HotConfessionsTool-isHotState" : "HotConfessionsTool HotConfessionsTool-isNotHotState"} onClick={clickHotButton}>
           <div class="Text">
             Hot

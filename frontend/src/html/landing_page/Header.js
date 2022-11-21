@@ -2,7 +2,7 @@ import '../../css/styles.css';
 
 function Header(Props) {
   return (
-    <body>
+    
       <div class="LandingPageHeader">
         <span class={ Props.isHot ? "LandingPageHeader-helper LandingPageHeader-NewColor" : "LandingPageHeader-helper LandingPageHeader-HotColor"}></span>
         <div>
@@ -16,7 +16,7 @@ function Header(Props) {
           </element>
         </div>
       </div>
-    </body>
+        
   );
 }
 
