@@ -44,10 +44,11 @@ function Confession() {
   */
   return (
     <div>
-    {post.map(post => (
+    
 <div className = "confession">
         <div className = "confessionFeed">
           <div className= "confessionFeedWrapper">
+          {post.map(post => ( 
             <div className = "confessionPost">
               <div className = "confessionPostWrapper">
                 <div className = "confessionPostEdit">
@@ -68,10 +69,11 @@ function Confession() {
                 </div>
               </div>
             </div>
+            ))}
           </div>
         </div> 
     </div>
-    ))}
+    
    </div> 
   );
 }

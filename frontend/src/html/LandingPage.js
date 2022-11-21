@@ -18,15 +18,17 @@ function LandingPage() {
     <div>
       <div class="transitioncolor" style={{
         opacity: isHot ? '0' : '1',
-        background: isHot ? 'transparent' : 'linear-gradient(180deg, rgba(238, 147, 114, 1) 0%, rgba(227, 19, 19, 0.921875) 100%)',
-        height: "100vmin",
-        width: "100%"
+        background: isHot ? 'transparent' : 'linear-gradient(180deg, rgba(238, 147, 114, 1) 0%, rgba(227, 19, 19, 0.921875) 100%) no-repeat fixed',
+        backgroundSize: '100% auto',
+        height: "100vh",
+        width: "100%",
+        margin: 0
       }}> 
       </div>
       <div class="transitioncolor" style={{
         opacity: isHot ? '0' : '1',
-        background: isHot ? 'linear-gradient(180deg, rgba(238, 147, 114, 1) 0%, rgba(227, 19, 19, 0.921875) 100%)' : 'transparent',
-        height: "100vmin",
+        background: isHot ? 'linear-gradient(180deg, rgba(238, 147, 114, 1) 0%, rgba(227, 19, 19, 0.921875) 100%) no-repeat fixed' : 'transparent',
+        height: "100vh",
         width: "100%"
       }}> 
       </div>
