@@ -11,7 +11,6 @@ import EmailVerify from './html/EmailVerify';
 
 function App() {
   return (
-    <html>
       <BrowserRouter>
         <Routes>
           <Route path="/" index element={<Login />} />
@@ -21,7 +20,6 @@ function App() {
           <Route path="/verify/:token" index element={<EmailVerify />} />
         </Routes>
       </BrowserRouter>
-    </html>
   );
 }
 

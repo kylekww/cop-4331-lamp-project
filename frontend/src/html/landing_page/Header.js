@@ -1,21 +1,22 @@
-import '../../css/LandingPage.css';
+import '../../css/styles.css';
 
-function Header() {
+function Header(Props) {
   return (
-    <html>
+    <body>
       <div class="LandingPageHeader">
+        <span class={ Props.isHot ? "LandingPageHeader-helper LandingPageHeader-NewColor" : "LandingPageHeader-helper LandingPageHeader-HotColor"}></span>
         <div>
           <element class="Text">
-            Recent Confessions
+            { Props.isHot ? "Recent Confessions" : "Popular Confessions" }
           </element>
           <element class="Text">
             <element class="Subtext">
-              See the latest gossip
+            { Props.isHot ? "See the latest gossip" : "Upvote the juicy stuff" }
             </element>
           </element>
         </div>
       </div>
-    </html>
+    </body>
   );
 }
 

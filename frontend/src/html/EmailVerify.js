@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../css/LandingPage.css';
+import '../css/styles.css';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useParams } from "react-router-dom";
 

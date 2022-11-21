@@ -1,5 +1,5 @@
 import * as React from 'react';
-import '../../css/LandingPage.css';
+import '../../css/styles.css';
 import DialogNewConfession from './DialogNewConfession';
 
 /* Need to be added:
@@ -7,7 +7,7 @@ import DialogNewConfession from './DialogNewConfession';
     - Character limit to dialog box.
 */
 
-function NewConfessionButton() {
+function NewConfessionButton(Props) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -19,17 +19,16 @@ function NewConfessionButton() {
   };
 
   return (
-    <html>
+    <div>
       <DialogNewConfession open={open} handleClose={handleClose}></DialogNewConfession>
-
-      <button class="NewConfessionButton" onClick={handleClickOpen}>
+      <div onClick={handleClickOpen} class={ Props.isHot ? "NewConfessionButton NewColor" : "NewConfessionButton HotColor"}>
         <div class="Text">
           <label class="unselectable">
             +
           </label>
         </div>
-      </button>
-    </html>
+      </div>
+    </div>
   );
 }
 

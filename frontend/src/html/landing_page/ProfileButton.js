@@ -1,4 +1,4 @@
-import '../../css/LandingPage.css';
+import '../../css/styles.css';
 import React, { useState, useEffect } from 'react';
 import { Avatar } from '@mui/material';
 

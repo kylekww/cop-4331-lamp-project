@@ -1,30 +1,43 @@
-import '../../css/LandingPage.css';
+import '../../css/styles.css';
 import ProfileButton from './ProfileButton';
+import { useState } from 'react';
 
-/* Needs to be added:
-    - Prevention of pressing "New" when on New page
-    - Prevention of pressing "Hot" when on Hot page
-    - Menu from the settings page
-    - "Knight" mode
-    - Redirect for edit profile
-    - If we're doing something with karma... not sure if we're actually doing that or not
-*/
+function Tools(Props) {
 
-function Tools() {
+  // Toggle hot/new page
+  const isHot = Props.isHot;
+  const toggleIsHot = Props.toggleIsHot;
+
+  // Click button logic
+  function clickNewButton() {
+    if(!isHot) {
+      toggleIsHot();
+      UseNewButton();
+      console.log("Showing New Confessions");
+    }
+  }
+  function clickHotButton() {
+    if(isHot) {
+      toggleIsHot();
+      UseHotButton();
+      console.log("Showing Hot Confessions");
+    } 
+  }
+
   return (
     <div class="Tools">
       <div>
         <ProfileButton/>
       </div>
       <div>
-        <button class="NewConfessionsTool" onClick={clickNewButton}>
+        <button class={ isHot ? "NewConfessionsTool NewConfessionsTool-isHotState" : "NewConfessionsTool NewConfessionsTool-isNotHotState"} onClick={clickNewButton}>
           <div class="Text">
             New
           </div>
         </button>
       </div>
       <div>
-        <button class="HotConfessionsTool" onClick={clickHotButton}>
+        <button class={ isHot ? "HotConfessionsTool HotConfessionsTool-isHotState" : "HotConfessionsTool HotConfessionsTool-isNotHotState"} onClick={clickHotButton}>
           <div class="Text">
             Hot
           </div>
@@ -34,7 +47,8 @@ function Tools() {
   );
 }
 
-async function clickNewButton() {
+// Page state change is triggered
+async function UseNewButton() {
   const searchVal = 1;
   const oid = "";
   const data = await fetch("/api/v1/confessions/searchConfession", {
@@ -55,10 +69,9 @@ async function clickNewButton() {
         .catch(err => {
           console.log(err);
         });
-        console.log("yeaa");
+        //console.log("yeaa");
 }
-
-async function clickHotButton() {
+async function UseHotButton() {
   const response = await fetch('url', {
     mode: 'no-cors',
     method: 'POST', 
