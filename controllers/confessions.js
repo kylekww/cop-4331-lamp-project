@@ -55,8 +55,7 @@ exports.searchConfession = async (req, res) => {
     if(searchVar==1){
         var searchResults = await Confession.find({
             _id : {$lt: oid}
-            }, 
-            {userID:0})
+            })
         .limit(resultsPerPage).sort({_id: -1}).lean();
     }
 
@@ -68,13 +67,20 @@ exports.searchConfession = async (req, res) => {
             {userID:0})
         .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
     }
-
+    //declare new temp unsaved fields 
     for(var i = 0; i < searchResults.length; i++){
         searchResults[i]["userInteracted"] = 0;
+        searchResults[i]["userCreated"] = 0;
     }
 
     for (var i = 0; i < searchResults.length; i++) {
         let votes = await Votes.findById({_id: searchResults[i].voteID});
+        //check if logged in user created post
+        console.log(typeof(req.session.userId));
+        if(searchResults[i].userID == req.session.userId){
+            searchResults[i].userCreated = 1; 
+        }
+
         //check if user has downvoted
         for(var j = 0; j < votes.downvoteList.length; j++){
             if(votes.downvoteList[j]==req.session.userId){
@@ -92,8 +98,10 @@ exports.searchConfession = async (req, res) => {
         }
 
     }
-    //res.json({user: _.omit(req.user.toObject(),dbSecretFields)});
-    res.status(201).json(searchResults);
+ 
+    const result = searchResults.map(({userID,...rest}) => ({...rest}));
+    
+    res.status(201).json(result);
 }
 
 
