@@ -590,6 +590,7 @@
   }
   
   .ProfileContainer .TextName {
+  /* Text is aligned horizontally by removing "flex: 5 1" from inspect element view */
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
