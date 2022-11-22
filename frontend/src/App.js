@@ -8,6 +8,7 @@ import Registration from './html/Registration';
 import LandingPage from './html/LandingPage';
 import Profile from './html/Profile';
 import EmailVerify from './html/EmailVerify';
+import Comments from './html/Comments';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/landing" index element={<LandingPage />} />
           <Route path="/profile" index element={<Profile />} />
           <Route path="/verify/:token" index element={<EmailVerify />} />
+          <Route path="/comments" index element={<Comments />} />
         </Routes>
       </BrowserRouter>
   );

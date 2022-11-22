@@ -1,6 +1,13 @@
 import '../../css/styles.css';
 import React, { useState, useEffect } from 'react';
-function Confession() {
+import Badge from '@mui/material/Badge';
+import CommentIcon from '@mui/icons-material/Comment';
+import IconButton from '@mui/material/IconButton';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import EditIcon from '@mui/icons-material/Edit';
+
+function Confession(Props) {
 
   const[post, setPost] = useState([]);
 
@@ -53,18 +60,51 @@ function Confession() {
               <div className = "confessionPostWrapper">
                 <div className = "confessionPostEdit">
                   <div className = "confessionPostEditButton">
-                      This is where edit will go... if we decide to put one. An anon logo could look cool too.
+                    <IconButton disabled style={{
+                          color: "#BABABA",
+                    }}>
+                      <EditIcon sx={{ fontSize: 30 }}/>
+                    </IconButton>
                   </div>
                 </div>
                 <div className='confessionText'>
                     {post.confession}
                   </div>
                   <div className= 'confessionVotesComments'>
+                  
                     <div className = 'votes'>
-                      The votes go here
+                      <IconButton onclick={ upvoteConfession } style={{
+                          color: "#BABABA",
+                        }}>
+                          <KeyboardArrowUpIcon sx={{ fontSize: 50 }}/>
+                      </IconButton>
+                      <Badge badgeContent={1000} max={999} sx={{
+                        "& .MuiBadge-badge": {
+                          backgroundColor: Props.isHot ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
+                          color: "white",
+                          fontSize: 20,
+                          height: 30
+                      }}}>
+                      </Badge>
+                      <IconButton onclick={ downvoteConfession } style={{
+                          color: "#BABABA"
+                        }}>
+                          <KeyboardArrowDownIcon sx={{ fontSize: 50 }}/>
+                      </IconButton>
                     </div>
+
                     <div className='comments'>
-                      Click here for comments
+                      <Badge badgeContent={100} max={99} sx={{
+                        "& .MuiBadge-badge": {
+                          backgroundColor: Props.isHot ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
+                          color: "white"
+                      }}}>
+                        <IconButton onClick={ clickCommentButton } style={{
+                          color: "#BABABA"
+                        }}>
+                          <CommentIcon sx={{ fontSize: 30 }}/>
+                        </IconButton>
+                      </Badge>
                     </div>
                   </div>
               </div>
@@ -108,7 +148,7 @@ async function clickCommentButton() {
     },
     body: JSON.stringify({})
   });
-  return {text:"This will redirect you lol."}
+  window.location.href = '/comments';
 }
 
 /* Both upvote and downvote need to interact with the total vote tally */

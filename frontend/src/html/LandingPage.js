@@ -36,7 +36,7 @@ function LandingPage() {
       <Tools isHot={isHot} toggleIsHot={toggleIsHot}></Tools>
       <Header isHot={isHot}></Header>
       <PageTip></PageTip>
-      <Confession></Confession>
+      <Confession isHot={isHot}></Confession>
       <NewConfessionButton isHot={isHot}></NewConfessionButton>
     </>
   );
