@@ -55,7 +55,8 @@ function Confession() {
                   <div className = "confessionPostEditButton">
                       This is where edit will go... if we decide to put one. An anon logo could look cool too.
                   </div>
-                  <div className='confessionText'>
+                </div>
+                <div className='confessionText'>
                     {post.confession}
                   </div>
                   <div className= 'confessionVotesComments'>
@@ -66,7 +67,6 @@ function Confession() {
                       Click here for comments
                     </div>
                   </div>
-                </div>
               </div>
             </div>
             ))}

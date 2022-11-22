@@ -284,11 +284,16 @@
   .confessionVotesComments{
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
 
   .comments{
     margin: 0;
     font-family: 'Roboto', sans-serif;
+  }
+  .votes{
+    display: flex;
+    align-items: center;
   }
   /* ----- */
   
