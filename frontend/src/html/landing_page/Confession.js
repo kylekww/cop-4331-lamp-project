@@ -43,9 +43,9 @@ function Confession() {
     ))}
   */
   return (
-    <div>
     
-<div className = "confession">
+    
+    <div className = "confession">
         <div className = "confessionFeed">
           <div className= "confessionFeedWrapper">
           {post.map(post => ( 
@@ -72,9 +72,7 @@ function Confession() {
             ))}
           </div>
         </div> 
-    </div>
-    
-   </div> 
+    </div> 
   );
 }
 

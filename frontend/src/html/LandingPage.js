@@ -15,7 +15,7 @@ function LandingPage() {
   }
 
   return (
-    <div>
+    <>
       <div class="transitioncolor" style={{
         opacity: isHot ? '0' : '1',
         background: isHot ? 'transparent' : 'linear-gradient(180deg, rgba(238, 147, 114, 1) 0%, rgba(227, 19, 19, 0.921875) 100%) no-repeat fixed',
@@ -38,7 +38,7 @@ function LandingPage() {
       <PageTip></PageTip>
       <Confession></Confession>
       <NewConfessionButton isHot={isHot}></NewConfessionButton>
-    </div>
+    </>
   );
 }
 
