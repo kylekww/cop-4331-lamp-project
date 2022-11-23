@@ -5,6 +5,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 global.nickname = 'T';
 global.profileColor = 'rgba(89,35,206,1)';
+global.viewMode = 1;
+global.newButtonColor = ['rgba(128,199,239,0.5)','white'];
+global.hotButtonColor = ['white','rgba(222,98,28,0.5)'];
+
 /*
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -34,33 +38,22 @@ export default class LandingPage extends Component {
                     // Background Linear Gradient
                     colors={['rgba(128,199,239,1)', 'rgba(89,35,206,1)']}
                     style={styles.background}
-                    />
-                <View style={[styles.header,{shadowOffset: {
-            width: 0,
-            height: 5
-          },
-        shadowOpacity: 0.8,
-        shadowRadius: 3,
-        shadowColor: 'black',}]}> 
+                />
+                
+                <View style={[styles.header,{alignSelf: 'left'}]}> 
                     <TouchableHighlight style={[styles.profileButton,{backgroundColor: global.profileColor}]} onPress={this.handleProfile} underlayColor='rgb(60, 23, 141)'>
                         <Text style={styles.buttonText}>{global.nickname}</Text>
                     </TouchableHighlight>
-                    <LinearGradient
-                    // Background Linear Gradient
-                    colors={['rgba(90, 170, 216, 0.0701908)', 'rgba(70, 24, 203, 0.921875)']}
-                    style={styles.newButton}>
-                        <TouchableHighlight style={styles.specialButtonClickable} onPress={this.handleNewPage} underlayColor='rgb(60, 23, 141)'>
+                    <View style={[styles.header,{alignSelf: 'center'}]}> 
+                        <TouchableHighlight style={[styles.specialButtonClickable,{backgroundColor:newButtonColor[viewMode]}]} 
+                            onPress={this.handleNewPage} underlayColor='rgb(128,199,239,0.75)'>
                             <Text style={[styles.buttonText,{color: 'black'}]}>New</Text>
                         </TouchableHighlight>
-                    </LinearGradient>
-                    <LinearGradient
-                    // Background Linear Gradient
-                    colors={['white', '#DE621C']}
-                    style={styles.hotButton}>
-                        <TouchableHighlight style={styles.specialButtonClickable} onPress={this.handleHotPage} underlayColor='rgb(60, 23, 141)'>
+                        <TouchableHighlight style={[styles.specialButtonClickable,{backgroundColor:hotButtonColor[viewMode]}]} 
+                            onPress={this.handleHotPage} underlayColor='rgb(222,98,28,0.5)'>
                             <Text style={[styles.buttonText,{color: 'black'}]}>Hot</Text>
                         </TouchableHighlight>
-                    </LinearGradient>
+                    </View>
                 </View>
                 <ScrollView style={styles.scrollView}>
 
@@ -73,11 +66,12 @@ export default class LandingPage extends Component {
 styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
+        position: 'relative',
         justifyContent: 'center',
     },
     scrollView: {
-        centerContent:true,
+        centerContent: true,
+        alignSelf: 'center',
         indicatorStyle: 'white',
     },
     background: {
@@ -92,7 +86,6 @@ styles = StyleSheet.create({
         margin: 10,
         alignItems: 'center',
         textAlign: 'center',
-        alignSelf: 'left',
         borderWidth: 1,
         borderRadius: 60,
         width: 60,
@@ -102,8 +95,8 @@ styles = StyleSheet.create({
         margin: 15,
         alignItems: 'center',
         alignSelf: 'center',
-        borderColor: 'rgba(70, 24, 203, 0.921875)',
-        borderWidth: 2,
+        borderColor: 'rgba(70, 24, 203, 0.9)',
+        borderWidth: 10,
         borderRadius: 20,
         width: 80,
         height: 40,
@@ -119,8 +112,8 @@ styles = StyleSheet.create({
         margin: 15,
         alignItems: 'center',
         alignSelf: 'center',
-        borderColor: '#DE621C',
-        borderWidth: 2,
+        borderColor: 'rgba(167, 15, 15, 0.9)',
+        borderWidth: 10,
         borderRadius: 20,
         width: 80,
         height: 40,
@@ -160,6 +153,18 @@ styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         margin: 10,
-        justifyContent: 'space-between',
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
     }
+    /*,
+    shadow: {
+        shadowOffset: {
+            width: 0,
+            height: 5
+        },
+        shadowOpacity: 0.8,
+        shadowRadius: 3,
+        shadowColor: 'black',
+    }*/
 });
