@@ -16,9 +16,10 @@ exports.addComment = async (req, res) =>{
     const initVotes = new Votes();
     initVotes.save();
     const comment = await Comment.create({...req.body, userID: user, 
-            confessionID: confession, voteID: initVotes});
+            confessionID: confession._id, voteID: initVotes});
     // add comment to confessions
-    confession.comments.push(comment.id);
+    confession.comments.push(comment);
+    confession.save();
 
     return res.status(200).json({message: "comment added successfully", comment: comment.toObject()});
 }
@@ -42,52 +43,62 @@ exports.deleteComment = async (req, res) => {
 }
 
 exports.searchComments = async (req, res) => {
-    let resultsPerPage = 15;
+    let resultsPerPage = 1;
     let searchVar = req.body.searchVal;
-    let query = req.body.query;
-    //if searchVar==1, sort by most recent 
+    let confessionID = req.body.confessionID;
     let oid = req.body.oid;
-    if(oid == ""){
-        let temp = await Comment.findOne({},{},{sort: {_id: -1}});
-        oid = temp._id.toString();
+    //if searchVar==1, sort by most recent 
+    
+    if(searchVar == 1 && oid == ""){
+        console.log('test');
+        var confession = await Confession.findById(confessionID)
+            .populate({
+                path : "comments",
+                options : {
+                    sort: {_id : -1},
+                    limit: resultsPerPage
+                }
+            });
     }
-    if(searchVar==1){
-        var searchResults = await Comment.find(
-            {_id : {$lt: oid}
-            })
-        .limit(resultsPerPage).sort({_id: -1}).lean();
+    else if(searchVar == 2 && oid == ""){
+        var confession = await Confession.findById(confessionID)
+            .populate({
+                path : "comments",
+                options : {
+                    sort: {_id : -1,netVotes:1},
+                    limit: resultsPerPage
+                }
+            });
     }
 
-    //if searchVar==2, sort by most popular
-    if(searchVar==2){
-        var searchResults = await Comment.find(
-            {_id : {$lt: oid}
-            })
-        .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
+    else if(searchVar == 1){
+        console.log("test");
+        var confession = await Confession.findById(confessionID)
+            .populate({
+                path : "comments",
+                perDocumentLimit: 2,
+                match : {_id : {$lt : oid}}
+            });
     }
-   
-    for(var i = 0; i < searchResults.length; i++){
-        searchResults[i]["userInteracted"] = 0;
+    else if(searchVar == 2){
+        var confession = await Confession.findById(confessionID)
+            .populate({
+                path : "comments",
+                options : {
+                    sort: {_id : -1,netVotes:1},
+                    limit: resultsPerPage
+                }
+            });
     }
 
-    for (var i = 0; i < searchResults.length; i++) {
-        let votes = await Votes.findById({_id: searchResults[i].voteID});
-        //check if user has downvoted
-        for(var j = 0; j < votes.downvoteList.length; j++){
-            if(votes.downvoteList[j]==req.session.userId){
-                searchResults[i].userInteracted = -1;
-                
-            }
-        }
-        //check if user has upvoted
-        for(var j = 0; j < votes.upvoteList.length; j++){
-            console.log(req.session.userId);
-            if(votes.upvoteList[j]==req.session.userId){
-                searchResults[i].userInteracted = 1;
-                
-            }
-        }
 
-    }
-    res.status(201).json(searchResults);
+
+    returnVal = confession.comments;
+    //returnVal.sort({_id:-1})
+    //.populate({path: 'Members', options: { sort: { 'created_at': -1 } } })
+
+    /*let searchResults = confession.comments;*/
+
+    console.log(returnVal)
+    res.status(201).json(returnVal);
 }

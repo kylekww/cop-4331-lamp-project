@@ -43,7 +43,7 @@ exports.deleteConfession = async (req, res) => {
 //search confession
 exports.searchConfession = async (req, res) => {
 
-    let resultsPerPage = 15;
+    let resultsPerPage = 3;
     let searchVar = req.body.searchVal;
     let oid = req.body.oid;
     
@@ -57,7 +57,7 @@ exports.searchConfession = async (req, res) => {
         var searchResults = await Confession.find({
             _id : {$lt: oid}
             })
-        .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
+        .limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
     }
     else if(searchVar==1){
         var searchResults = await Confession.find({
@@ -70,7 +70,7 @@ exports.searchConfession = async (req, res) => {
         var searchResults = await Confession.find({
             _id : {$lt: oid}
             })
-        .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
+        .limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
     }
     else {
         res.status(400).json({message : "Not a valid search type"});
@@ -99,13 +99,11 @@ exports.searchConfession = async (req, res) => {
         }
         //check if user has upvoted
         for(var j = 0; j < votes.upvoteList.length; j++){
-            console.log(req.session.userId);
             if(votes.upvoteList[j]==req.session.userId){
                 searchResults[i].userInteracted = 1;
                 
             }
         }
-
     }
  
     const result = searchResults.map(({userID,...rest}) => ({...rest}));
