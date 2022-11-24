@@ -1,5 +1,5 @@
 import '../../css/styles.css';
-import React, { useState, useEffect, MouseEvent } from 'react';
+import React, { useState, useEffect, MouseEvent, useRef, useCallback } from 'react';
 import { MenuItem, Menu, ListItemIcon, ListItemText, Badge, Tooltip, IconButton } from '@mui/material';
 import CommentIcon from '@mui/icons-material/Comment';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -7,11 +7,20 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteIcon from '@mui/icons-material/Delete';
+import searchConfessions from './searchConfessions';
 
 function Confession(Props) {
   // Post info
-  const[post, setPost] = useState([]);
-  
+  const[searchVal, setSearch] = useState(1);
+  const[oid, setOid] = useState('');
+  const{
+    post,
+    length
+  } = searchConfessions(searchVal, oid);
+  const observer = useRef();
+  //const[post, setPost] = useState([]);
+  //const[length, setLength] = useState(15);
+
   // Edit menu logic
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -29,54 +38,39 @@ function Confession(Props) {
     setAnchorEl(null);
     console.log("Delete post");
   };
-
+  const handleScroll = (e) => {
+    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if(bottom){
+      //console.log(oid);
+      //console.log(length);
+      //console.log(post[length - 1]._id);
+      setOid(post[length - 1]._id);
+      console.log('this is bottom');
+      //console.log(oid);
+    } 
+     
+    /*if(bottom && length > 0 ){
+      setOid(post[length - 1]._id);
+      //console.log(oid);
+      //console.log(searchVal);
+      //setOid(post[length - 1]._id);
+      
+    }
+    else if(length <= 0){
+      console.log(`we reached the end`);
+    } */ 
+  }
 
   // React hook for confessions
-  useEffect(() => {
-    const displayPosts = async event =>
-    {
-      const searchVal = 1;
-      const oid = "";
-      const data = await fetch("/api/v1/confessions/searchConfession", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          searchVal,
-          oid,
-        }),
-      })
-      .then(res => {
-        res.json().then((data) => {
-          console.log(data);
-          setPost(data);
-        }) 
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    }
-    displayPosts();
-  }, [])
-  /*
-  {post.map(post => (
-      <div class = "ConfessionBox">
-        {post.confession}
-        <div class = "ConfessionBox">Hello</div>
-      <div class = "ConfessionBox">blah</div>
-      <div class = "ConfessionBox">Test</div>
-      <div class = "ConfessionBox">Test</div>
-      </div>
-    ))}
-  */
+  
+  
   return (
-    
     
     <div className = "confession">
         <div className = "confessionFeed">
-          <div className= "confessionFeedWrapper">
-          {post.map(post => ( 
+
+          <div className= "confessionFeedWrapper" onScroll={handleScroll} ref = {observer}>
+          {post.map(posts => ( 
             <div className = "confessionPost">
               <div className = "confessionPostWrapper">
 
@@ -118,9 +112,9 @@ function Confession(Props) {
                     </MenuItem>
                   </Menu>
                 </div>
-
+                
                 <div className='confessionText'>
-                    {post.confession}
+                    {posts.confession}
                 </div>
 
                 <div className= 'confessionVotesComments'>
