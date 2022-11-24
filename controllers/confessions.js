@@ -42,29 +42,38 @@ exports.deleteConfession = async (req, res) => {
 
 //search confession
 exports.searchConfession = async (req, res) => {
-    // Input: usrID and search criteria
-    
+
     let resultsPerPage = 15;
     let searchVar = req.body.searchVal;
-    //if searchVar==1, sort by most recent 
     let oid = req.body.oid;
-    if(oid == ""){
-        let temp = await Confession.findOne({},{},{sort: {_id: -1}});
-        oid = temp._id.toString();
+    
+    // Input: cookie, confession._id "oid" and search criteria
+    //if searchVar==1, sort by most recent 
+    if (oid == "" && searchVar==1){
+        var searchResults = await Confession.find({})
+        .limit(resultsPerPage).sort({_id: -1}).lean();
     }
-    if(searchVar==1){
+    else if(oid == "" && searchVar==2){
+        var searchResults = await Confession.find({
+            _id : {$lt: oid}
+            })
+        .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
+    }
+    else if(searchVar==1){
         var searchResults = await Confession.find({
             _id : {$lt: oid}
             })
         .limit(resultsPerPage).sort({_id: -1}).lean();
     }
-
     //if searchVar==2, sort by most popular
-    if(searchVar==2){
+    else if(searchVar==2){
         var searchResults = await Confession.find({
             _id : {$lt: oid}
             })
         .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
+    }
+    else {
+        res.status(400).json({message : "Not a valid search type"});
     }
     //declare new temp unsaved fields 
     for(var i = 0; i < searchResults.length; i++){
