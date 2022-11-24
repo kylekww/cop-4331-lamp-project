@@ -2,12 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
+import { enableFreeze } from "react-native-screens";
 
 import Loginscreen from './screens/JS/Login';
 import RealLoginscreen from './screens/JS/RealLogin';
 import Registrationscreen from './screens/JS/Registration';
 import LandingPagescreen from './screens/JS/LandingPage';
 
+enableFreeze(true);
 export default class App extends React.Component {
   render() {
     return <AppContainer />;

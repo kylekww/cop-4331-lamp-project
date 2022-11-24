@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableHighlight, StyleSheet, TextInput, Button, View, 
-    Text, Alert, RefreshControl, ScrollView } from 'react-native';
+    Text, Alert, RefreshControl, ScrollView, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 global.nickname = 'T';
