@@ -63,8 +63,7 @@ exports.searchConfession = async (req, res) => {
     if(searchVar==2){
         var searchResults = await Confession.find({
             _id : {$lt: oid}
-            }, 
-            {userID:0})
+            })
         .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
     }
     //declare new temp unsaved fields 
