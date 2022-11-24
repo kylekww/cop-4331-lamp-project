@@ -74,6 +74,7 @@ exports.searchConfession = async (req, res) => {
     }
     else {
         res.status(400).json({message : "Not a valid search type"});
+        return;
     }
     //declare new temp unsaved fields 
     for(var i = 0; i < searchResults.length; i++){
