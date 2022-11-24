@@ -5,9 +5,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 global.nickname = 'T';
 global.profileColor = 'rgba(89,35,206,1)';
-global.viewMode = 1;
-global.newButtonColor = ['rgba(128,199,239,0.5)','white'];
-global.hotButtonColor = ['white','rgba(222,98,28,0.5)'];
+global.viewMode = 0;
+const newButtonColor = ['rgba(128,199,239,1)','white'];
+const hotButtonColor = ['white','rgba(222,98,28,1)'];
 
 /*
 const wait = (timeout) => {
@@ -39,27 +39,35 @@ export default class LandingPage extends Component {
                     colors={['rgba(128,199,239,1)', 'rgba(89,35,206,1)']}
                     style={styles.background}
                 />
-                
-                <View style={[styles.header,{alignSelf: 'left'}]}> 
-                    <TouchableHighlight style={[styles.profileButton,{backgroundColor: global.profileColor}]} onPress={this.handleProfile} underlayColor='rgb(60, 23, 141)'>
-                        <Text style={styles.buttonText}>{global.nickname}</Text>
-                    </TouchableHighlight>
-                    <View style={[styles.header,{alignSelf: 'center'}]}> 
-                        <TouchableHighlight style={[styles.specialButtonClickable,{backgroundColor:newButtonColor[viewMode]}]} 
-                            onPress={this.handleNewPage} underlayColor='rgb(128,199,239,0.75)'>
-                            <Text style={[styles.buttonText,{color: 'black'}]}>New</Text>
+                <View style = {styles.workspace}>
+                    <View style={[styles.header,{alignSelf: 'left'}]}> 
+                        <TouchableHighlight style={[styles.profileButton,{backgroundColor: global.profileColor}]} onPress={this.handleProfile} underlayColor='rgb(60, 23, 141)'>
+                            <Text style={styles.buttonText}>{global.nickname}</Text>
                         </TouchableHighlight>
-                        <TouchableHighlight style={[styles.specialButtonClickable,{backgroundColor:hotButtonColor[viewMode]}]} 
-                            onPress={this.handleHotPage} underlayColor='rgb(222,98,28,0.5)'>
-                            <Text style={[styles.buttonText,{color: 'black'}]}>Hot</Text>
-                        </TouchableHighlight>
+                        <View style={[styles.header,{alignSelf: 'center'}]}> 
+                            <TouchableHighlight style={[styles.newButton,{backgroundColor:newButtonColor[global.viewMode]}]} 
+                                onPress={this.handleNewPageClick} underlayColor='rgb(128,199,239,0.75)'>
+                                <Text style={[styles.buttonText,{color: newButtonColor[(!global.viewMode)?1:0]}]}>New</Text>
+                            </TouchableHighlight>
+                            <TouchableHighlight style={[styles.hotButton,{backgroundColor:hotButtonColor[global.viewMode]}]} 
+                                onPress={this.handleHotPageClick} underlayColor='rgb(222,98,28,0.5)'>
+                                <Text style={[styles.buttonText,{color: hotButtonColor[(!global.viewMode)?1:0]}]}>Hot</Text>
+                            </TouchableHighlight>
+                        </View>
                     </View>
-                </View>
-                <ScrollView style={styles.scrollView}>
+                    <ScrollView style={styles.scrollView}>
 
-                </ScrollView>
+                    </ScrollView>
+                </View>
             </View>
         )
+    }
+
+    handleNewPageClick = async () => {
+        global.viewMode = 0;
+    }
+    handleHotPageClick = async () => {
+        global.viewMode = 1;
     }
 }
 
@@ -67,6 +75,13 @@ styles = StyleSheet.create({
     container: {
         flex: 1,
         position: 'relative',
+        justifyContent: 'center',
+    },
+    workspace: {
+        flex: 1,
+        flexDirection: 'column',
+        flexWrap: 'wrap',
+        padding: 10,
         justifyContent: 'center',
     },
     scrollView: {
@@ -95,16 +110,10 @@ styles = StyleSheet.create({
         margin: 15,
         alignItems: 'center',
         alignSelf: 'center',
+        textAlign: 'center',
         borderColor: 'rgba(70, 24, 203, 0.9)',
-        borderWidth: 10,
-        borderRadius: 20,
-        width: 80,
-        height: 40,
-    },
-    specialButtonClickable: {
-        alignItems: 'center',
-        alignSelf: 'center',
-        borderRadius: 20,
+        borderWidth: 6,
+        borderRadius: 12,
         width: 80,
         height: 40,
     },
@@ -112,15 +121,17 @@ styles = StyleSheet.create({
         margin: 15,
         alignItems: 'center',
         alignSelf: 'center',
+        textAlign: 'center',
         borderColor: 'rgba(167, 15, 15, 0.9)',
-        borderWidth: 10,
-        borderRadius: 20,
+        borderWidth: 6,
+        borderRadius: 12,
         width: 80,
         height: 40,
     },
     buttonText:{
         fontSize: 30,
         color: 'white',
+        alignSelf: 'center',
     },
     button2: {
         justifyContent: 'space-between',
@@ -152,7 +163,7 @@ styles = StyleSheet.create({
     },
     header: {
         flexDirection: 'row',
-        margin: 10,
+        flexWrap: 'wrap',
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
