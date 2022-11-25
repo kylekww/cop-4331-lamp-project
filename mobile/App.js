@@ -7,6 +7,7 @@ import Loginscreen from './screens/JS/Login';
 import RealLoginscreen from './screens/JS/RealLogin';
 import Registrationscreen from './screens/JS/Registration';
 import LandingPagescreen from './screens/JS/LandingPage';
+import ProfileScreen from './screens/JS/Profile';
 
 enableFreeze(true);
 export default class App extends React.Component {
@@ -36,6 +37,12 @@ const AppNavigator = createStackNavigator({
   },
   LandingPage: {
     screen: LandingPagescreen,
+    navigationOptions: {
+      headerShown: false // Will hide header for HomePage
+    }
+  },
+  Profile: {
+    screen: ProfileScreen,
     navigationOptions: {
       headerShown: false // Will hide header for HomePage
     }

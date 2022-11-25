@@ -2,10 +2,7 @@ import React, { Component, useState } from 'react';
 import { TouchableHighlight, StyleSheet, View, 
     Text, RefreshControl, ScrollView, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import ProfileButton from './LandingPage';
-
-const newButtonColor = ['rgba(128,199,239,1)','white'];
-const hotButtonColor = ['white','rgba(222,98,28,1)'];
+import ProfileButton from './LandingPage/Profile';
 
 /*
 const wait = (timeout) => {
@@ -21,6 +18,8 @@ const onRefresh = React.useCallback(() => {
 */
 export default function LandingPage() {
 
+    const newButtonColor = ['rgba(128,199,239,1)','white'];
+    const hotButtonColor = ['white','rgba(222,98,28,1)'];
     const [isHot, setIsHot] = useState([false]);
     const toggleIsHot = () => {
         setIsHot(current => !current);
@@ -49,7 +48,7 @@ export default function LandingPage() {
                     <View style={[styles.header,{alignSelf: 'center'}]}> 
                         <TouchableHighlight style={[styles.newButton,{backgroundColor:newButtonColor[(isHot)?1:0]}]} 
                             onPress={handleNewPageClick} underlayColor='rgb(128,199,239,0.75)'>
-                            <Text style={[styles.buttonText,{color: newButtonColor[(isHot)?1:0]}]}>New</Text>
+                            <Text style={[styles.buttonText,{color: newButtonColor[(!isHot)?1:0]}]}>New</Text>
                         </TouchableHighlight>
                         <TouchableHighlight style={[styles.hotButton,{backgroundColor:hotButtonColor[(isHot)?1:0]}]} 
                             onPress={handleHotPageClick} underlayColor='rgb(222,98,28,0.5)'>
