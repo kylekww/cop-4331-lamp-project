@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import { enableFreeze } from "react-native-screens";
@@ -17,14 +16,14 @@ export default class App extends React.Component {
 }
 
 const AppNavigator = createStackNavigator({
-  Registration: {
-    screen: Registrationscreen,
+  Login: {
+    screen: Loginscreen,
     navigationOptions: {
       headerShown: false // Will hide header for HomePage
     }
   },
-  Login: {
-    screen: Loginscreen,
+  Registration: {
+    screen: Registrationscreen,
     navigationOptions: {
       headerShown: false // Will hide header for HomePage
     }
@@ -46,12 +45,3 @@ const AppNavigator = createStackNavigator({
 });
 
 const AppContainer = createAppContainer(AppNavigator);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

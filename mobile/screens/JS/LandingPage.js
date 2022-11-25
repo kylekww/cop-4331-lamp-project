@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
-import { TouchableHighlight, StyleSheet, TextInput, Button, View, 
-    Text, Alert, RefreshControl, ScrollView, TouchableOpacity } from 'react-native';
+import React, { Component, useState } from 'react';
+import { TouchableHighlight, StyleSheet, View, 
+    Text, RefreshControl, ScrollView, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import ProfileButton from './LandingPage';
 
-global.nickname = 'T';
-global.profileColor = 'rgba(89,35,206,1)';
-global.viewMode = 0;
 const newButtonColor = ['rgba(128,199,239,1)','white'];
 const hotButtonColor = ['white','rgba(222,98,28,1)'];
 
@@ -21,57 +19,54 @@ const onRefresh = React.useCallback(() => {
     wait(2000).then(() => setRefreshing(false));
 }, []);
 */
-export default class LandingPage extends Component {
-    constructor()
-    {
-        super()
-        this.state = 
-        {
-            message: ''
+export default function LandingPage() {
+
+    const [isHot, setIsHot] = useState([false]);
+    const toggleIsHot = () => {
+        setIsHot(current => !current);
+    }
+    const handleNewPageClick = async () => {
+        if (isHot) {
+            toggleIsHot;
+        }
+    }
+    const handleHotPageClick = async () => {
+        if (!isHot) {
+            toggleIsHot;
         }
     }
 
-    render(){
-        return (
-            <View style={styles.container}>
-                <LinearGradient
-                    // Background Linear Gradient
-                    colors={['rgba(128,199,239,1)', 'rgba(89,35,206,1)']}
-                    style={styles.background}
-                />
-                <View style = {styles.workspace}>
-                    <View style={[styles.header,{alignSelf: 'left'}]}> 
-                        <TouchableHighlight style={[styles.profileButton,{backgroundColor: global.profileColor}]} onPress={this.handleProfile} underlayColor='rgb(60, 23, 141)'>
-                            <Text style={styles.buttonText}>{global.nickname}</Text>
+    return (
+        <View style={styles.container}>
+            <LinearGradient
+                // Background Linear Gradient
+                colors={['rgba(128,199,239,1)', 'rgba(89,35,206,1)']}
+                style={styles.background}
+            />
+            <View style = {styles.workspace}>
+                <View style={[styles.header,{alignSelf: 'left'}]}> 
+                    <ProfileButton />
+                    <View style={[styles.header,{alignSelf: 'center'}]}> 
+                        <TouchableHighlight style={[styles.newButton,{backgroundColor:newButtonColor[(isHot)?1:0]}]} 
+                            onPress={handleNewPageClick} underlayColor='rgb(128,199,239,0.75)'>
+                            <Text style={[styles.buttonText,{color: newButtonColor[(isHot)?1:0]}]}>New</Text>
                         </TouchableHighlight>
-                        <View style={[styles.header,{alignSelf: 'center'}]}> 
-                            <TouchableHighlight style={[styles.newButton,{backgroundColor:newButtonColor[global.viewMode]}]} 
-                                onPress={this.handleNewPageClick} underlayColor='rgb(128,199,239,0.75)'>
-                                <Text style={[styles.buttonText,{color: newButtonColor[(!global.viewMode)?1:0]}]}>New</Text>
-                            </TouchableHighlight>
-                            <TouchableHighlight style={[styles.hotButton,{backgroundColor:hotButtonColor[global.viewMode]}]} 
-                                onPress={this.handleHotPageClick} underlayColor='rgb(222,98,28,0.5)'>
-                                <Text style={[styles.buttonText,{color: hotButtonColor[(!global.viewMode)?1:0]}]}>Hot</Text>
-                            </TouchableHighlight>
-                        </View>
+                        <TouchableHighlight style={[styles.hotButton,{backgroundColor:hotButtonColor[(isHot)?1:0]}]} 
+                            onPress={handleHotPageClick} underlayColor='rgb(222,98,28,0.5)'>
+                            <Text style={[styles.buttonText,{color: hotButtonColor[(!isHot)?1:0]}]}>Hot</Text>
+                        </TouchableHighlight>
                     </View>
-                    <ScrollView style={styles.scrollView}>
-
-                    </ScrollView>
                 </View>
-            </View>
-        )
-    }
+                <ScrollView style={styles.scrollView}>
 
-    handleNewPageClick = async () => {
-        global.viewMode = 0;
-    }
-    handleHotPageClick = async () => {
-        global.viewMode = 1;
-    }
+                </ScrollView>
+            </View>
+        </View>
+    )
+
 }
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         position: 'relative',
@@ -95,16 +90,6 @@ styles = StyleSheet.create({
         right: 0,
         top: 0,
         height: '100%',
-    },
-    profileButton: {
-        padding: 10,
-        margin: 10,
-        alignItems: 'center',
-        textAlign: 'center',
-        borderWidth: 1,
-        borderRadius: 60,
-        width: 60,
-        height: 60,
     },
     newButton: {
         margin: 15,
@@ -163,7 +148,6 @@ styles = StyleSheet.create({
     },
     header: {
         flexDirection: 'row',
-        flexWrap: 'wrap',
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
