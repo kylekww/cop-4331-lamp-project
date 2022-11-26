@@ -4,6 +4,7 @@ const Votes = require('../models/votes');
 const User = require('../models/user');
 const _ = require('lodash');
 const addCommentValidator = require('../validators/addComment');
+const mongoose = require('mongoose')
 
 exports.addComment = async (req, res) =>{
     const validationResult = addCommentValidator(req.body);
@@ -46,7 +47,8 @@ exports.searchComments = async (req, res) => {
     let resultsPerPage = 1;
     let searchVar = req.body.searchVal;
     let confessionID = req.body.confessionID;
-    let oid = req.body.oid;
+    let oid = mongoose.Types.ObjectId(req.body.oid);
+
     //if searchVar==1, sort by most recent 
     
     if(searchVar == 1 && oid == ""){
@@ -72,12 +74,14 @@ exports.searchComments = async (req, res) => {
     }
 
     else if(searchVar == 1){
-        console.log("test");
+        console.log(oid);
         var confession = await Confession.findById(confessionID)
             .populate({
                 path : "comments",
-                perDocumentLimit: 2,
-                match : {_id : {$lt : oid}}
+                options: {
+                    match: {_id : {$lt : oid}},
+                    sort: {_id : -1}
+                }
             });
     }
     else if(searchVar == 2){
