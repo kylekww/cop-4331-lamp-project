@@ -1,4 +1,5 @@
 const Confession = require('../models/confession');
+const Comment = require('../models/comments')
 const Votes = require('../models/votes');
 const User = require('../models/user');
 const _ = require('lodash');
@@ -54,23 +55,21 @@ exports.searchConfession = async (req, res) => {
         .limit(resultsPerPage).sort({_id: -1}).lean();
     }
     else if(oid == "" && searchVar==2){
-        var searchResults = await Confession.find({
-            _id : {$lt: oid}
-            })
-        .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
+        var searchResults = await Confession.find({})
+        .limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
     }
     else if(searchVar==1){
         var searchResults = await Confession.find({
             _id : {$lt: oid}
             })
-        .limit(resultsPerPage).sort({_id: -1}).lean();
+            .limit(resultsPerPage).sort({_id: -1}).lean();
     }
     //if searchVar==2, sort by most popular
     else if(searchVar==2){
         var searchResults = await Confession.find({
             _id : {$lt: oid}
             })
-        .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
+            .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
     }
     else {
         res.status(400).json({message : "Not a valid search type"});
@@ -80,10 +79,12 @@ exports.searchConfession = async (req, res) => {
     for(var i = 0; i < searchResults.length; i++){
         searchResults[i]["userInteracted"] = 0;
         searchResults[i]["userCreated"] = 0;
+        searchResults[i]["netVotes"] = 0;
     }
 
     for (var i = 0; i < searchResults.length; i++) {
         let votes = await Votes.findById({_id: searchResults[i].voteID});
+        searchResults[i].netVotes = votes.netVotes;
         //check if logged in user created post
         console.log(typeof(req.session.userId));
         if(searchResults[i].userID == req.session.userId){
@@ -94,7 +95,6 @@ exports.searchConfession = async (req, res) => {
         for(var j = 0; j < votes.downvoteList.length; j++){
             if(votes.downvoteList[j]==req.session.userId){
                 searchResults[i].userInteracted = -1;
-                
             }
         }
         //check if user has upvoted
@@ -102,12 +102,14 @@ exports.searchConfession = async (req, res) => {
             console.log(req.session.userId);
             if(votes.upvoteList[j]==req.session.userId){
                 searchResults[i].userInteracted = 1;
-                
             }
         }
 
     }
- 
+    //doesn't work 
+    if(searchVar==2){
+    searchResults.sort((a, b) => parseFloat(b.netVotes) - parseFloat(a.netVotes));
+    }
     const result = searchResults.map(({userID,...rest}) => ({...rest}));
     
     res.status(201).json(result);
