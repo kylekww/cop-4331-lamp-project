@@ -46,37 +46,9 @@ function Tools(Props) {
 
 // Page state change is triggered
 async function UseNewButton() {
-  const searchVal = 1;
-  const oid = "";
-  const data = await fetch("/api/v1/confessions/searchConfession", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      searchVal,
-      oid,
-            }),
-        })
-        .then(res => {
-          res.json().then((data) => {
-            console.log(data);
-          }) 
-        })
-        .catch(err => {
-          console.log(err);
-        });
-        //console.log("yeaa");
+  return {text:"Click New"}
 }
 async function UseHotButton() {
-  const response = await fetch('url', {
-    mode: 'no-cors',
-    method: 'POST', 
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({})
-  });
   return {text:"Click Hot"}
 }
 

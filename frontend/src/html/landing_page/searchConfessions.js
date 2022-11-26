@@ -32,7 +32,6 @@ export default function SearchConfessions(searchVal, oid){
               }
               setPosts([...post, ...data]);
               setLength(data.length);
-              console.log(oid);
 
               //console.log(length);
             }) 

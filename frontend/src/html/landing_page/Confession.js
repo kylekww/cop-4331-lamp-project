@@ -11,6 +11,10 @@ import searchConfessions from './searchConfessions';
 function Confession(Props) {
   // Post info
   const[searchVal, setSearch] = useState(1);
+  /*useEffect(() => {
+    Props.isNew ? setSearch(1) : setSearch(2)
+    console.log(searchVal);
+  }, [Props.isNew])*/
   const[oid, setOid] = useState('');
   const{
     post,
@@ -42,12 +46,17 @@ function Confession(Props) {
     const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
     if(bottom){
       setOid(post[length - 1]._id);
-      console.log('this is bottom');
       
     }
     
   }
+  const upvoteHelper = (e) => {
+    upvoteConfession(e.currentTarget.value);
+  }
 
+  const downvoteHelper = (e) => {
+    downvoteConfession(e.currentTarget.value);
+  }
   // React hook for confessions
   
   
@@ -107,7 +116,7 @@ function Confession(Props) {
                 <div className= 'confessionVotesComments'>
                   <div className = 'votes'>
                     <Tooltip title="Upvote">
-                      <IconButton onclick={ upvoteConfession } style={{
+                      <IconButton value = {posts._id} onClick={ upvoteHelper } style={{
                           color: "#BABABA",
                         }}>
                           <KeyboardArrowUpIcon sx={{ fontSize: 50 }}/>
@@ -122,7 +131,7 @@ function Confession(Props) {
                     }}}>
                     </Badge>
                     <Tooltip title="Downvote">
-                      <IconButton onclick={ downvoteConfession } style={{
+                      <IconButton value = {posts._id} onClick={ downvoteHelper } style={{
                           color: "#BABABA"
                         }}>
                           <KeyboardArrowDownIcon sx={{ fontSize: 50 }}/>
@@ -192,28 +201,54 @@ async function clickCommentButton() {
 
 /* Both upvote and downvote need to interact with the total vote tally */
 
-async function upvoteConfession() {
-  const response = await fetch('url', {
-    mode: 'no-cors',
-    method: 'POST', 
+async function upvoteConfession(id) {
+  const vote = 1;
+  const type = 1;
+  const data = await fetch("/api/v1/votes/changeVote", {
+    method: "PUT",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({})
+    body: JSON.stringify({
+      vote,
+      type,
+      id
+    }),
+  })
+  .then(res => {  
+    res.json().then((data) => {       
+      console.log(data);
+    }) 
+  })
+  .catch(err => {
+    console.log(err);
   });
-  return {text:"This upvotes the confession"}
+  
 }
 
-async function downvoteConfession() {
-  const response = await fetch('url', {
-    mode: 'no-cors',
-    method: 'POST', 
+async function downvoteConfession(id) {
+  const vote = -1;
+  const type = 1;
+  const data = await fetch("/api/v1/votes/changeVote", {
+    method: "PUT",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({})
+    body: JSON.stringify({
+      vote,
+      type,
+      id
+    }),
+  })
+  .then(res => {
+
+    res.json().then((data) => {       
+      console.log(data);
+    }) 
+  })
+  .catch(err => {
+    console.log(err);
   });
-  return {text:"This downvotes the confession."}
 }
 
 export default Confession;

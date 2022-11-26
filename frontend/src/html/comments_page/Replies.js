@@ -60,7 +60,9 @@ function Replies(Props) {
       console.log(`we reached the end`);
     } */ 
   }
-
+  const clickCommentButton = (e) => {
+    console.log('i wanna push without errors so this is here')
+  }
   // React hook for confessions
   
   
