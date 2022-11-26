@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
-import { TouchableHighlight, StyleSheet, TextInput, Button, View, 
-    Text, Alert, RefreshControl, ScrollView } from 'react-native';
+import React, { Component, useState } from 'react';
+import { TouchableHighlight, StyleSheet, View, 
+    Text, RefreshControl, ScrollView, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import ProfileButton from './LandingPage';
 
-global.nickname = 'T';
-global.profileColor = 'rgba(89,35,206,1)';
-global.viewMode = 1;
-global.newButtonColor = ['rgba(128,199,239,0.5)','white'];
-global.hotButtonColor = ['white','rgba(222,98,28,0.5)'];
+const newButtonColor = ['rgba(128,199,239,1)','white'];
+const hotButtonColor = ['white','rgba(222,98,28,1)'];
 
 /*
 const wait = (timeout) => {
@@ -21,37 +19,41 @@ const onRefresh = React.useCallback(() => {
     wait(2000).then(() => setRefreshing(false));
 }, []);
 */
-export default class LandingPage extends Component {
-    constructor()
-    {
-        super()
-        this.state = 
-        {
-            message: ''
+export default function LandingPage() {
+
+    const [isHot, setIsHot] = useState([false]);
+    const toggleIsHot = () => {
+        setIsHot(current => !current);
+    }
+    const handleNewPageClick = async () => {
+        if (isHot) {
+            toggleIsHot;
+        }
+    }
+    const handleHotPageClick = async () => {
+        if (!isHot) {
+            toggleIsHot;
         }
     }
 
-    render(){
-        return (
-            <View style={styles.container}>
-                <LinearGradient
-                    // Background Linear Gradient
-                    colors={['rgba(128,199,239,1)', 'rgba(89,35,206,1)']}
-                    style={styles.background}
-                />
-                
+    return (
+        <View style={styles.container}>
+            <LinearGradient
+                // Background Linear Gradient
+                colors={['rgba(128,199,239,1)', 'rgba(89,35,206,1)']}
+                style={styles.background}
+            />
+            <View style = {styles.workspace}>
                 <View style={[styles.header,{alignSelf: 'left'}]}> 
-                    <TouchableHighlight style={[styles.profileButton,{backgroundColor: global.profileColor}]} onPress={this.handleProfile} underlayColor='rgb(60, 23, 141)'>
-                        <Text style={styles.buttonText}>{global.nickname}</Text>
-                    </TouchableHighlight>
+                    <ProfileButton />
                     <View style={[styles.header,{alignSelf: 'center'}]}> 
-                        <TouchableHighlight style={[styles.specialButtonClickable,{backgroundColor:newButtonColor[viewMode]}]} 
-                            onPress={this.handleNewPage} underlayColor='rgb(128,199,239,0.75)'>
-                            <Text style={[styles.buttonText,{color: 'black'}]}>New</Text>
+                        <TouchableHighlight style={[styles.newButton,{backgroundColor:newButtonColor[(isHot)?1:0]}]} 
+                            onPress={handleNewPageClick} underlayColor='rgb(128,199,239,0.75)'>
+                            <Text style={[styles.buttonText,{color: newButtonColor[(isHot)?1:0]}]}>New</Text>
                         </TouchableHighlight>
-                        <TouchableHighlight style={[styles.specialButtonClickable,{backgroundColor:hotButtonColor[viewMode]}]} 
-                            onPress={this.handleHotPage} underlayColor='rgb(222,98,28,0.5)'>
-                            <Text style={[styles.buttonText,{color: 'black'}]}>Hot</Text>
+                        <TouchableHighlight style={[styles.hotButton,{backgroundColor:hotButtonColor[(isHot)?1:0]}]} 
+                            onPress={handleHotPageClick} underlayColor='rgb(222,98,28,0.5)'>
+                            <Text style={[styles.buttonText,{color: hotButtonColor[(!isHot)?1:0]}]}>Hot</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
@@ -59,14 +61,22 @@ export default class LandingPage extends Component {
 
                 </ScrollView>
             </View>
-        )
-    }
+        </View>
+    )
+
 }
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         position: 'relative',
+        justifyContent: 'center',
+    },
+    workspace: {
+        flex: 1,
+        flexDirection: 'column',
+        flexWrap: 'wrap',
+        padding: 10,
         justifyContent: 'center',
     },
     scrollView: {
@@ -81,30 +91,14 @@ styles = StyleSheet.create({
         top: 0,
         height: '100%',
     },
-    profileButton: {
-        padding: 10,
-        margin: 10,
-        alignItems: 'center',
-        textAlign: 'center',
-        borderWidth: 1,
-        borderRadius: 60,
-        width: 60,
-        height: 60,
-    },
     newButton: {
         margin: 15,
         alignItems: 'center',
         alignSelf: 'center',
+        textAlign: 'center',
         borderColor: 'rgba(70, 24, 203, 0.9)',
-        borderWidth: 10,
-        borderRadius: 20,
-        width: 80,
-        height: 40,
-    },
-    specialButtonClickable: {
-        alignItems: 'center',
-        alignSelf: 'center',
-        borderRadius: 20,
+        borderWidth: 6,
+        borderRadius: 12,
         width: 80,
         height: 40,
     },
@@ -112,15 +106,17 @@ styles = StyleSheet.create({
         margin: 15,
         alignItems: 'center',
         alignSelf: 'center',
+        textAlign: 'center',
         borderColor: 'rgba(167, 15, 15, 0.9)',
-        borderWidth: 10,
-        borderRadius: 20,
+        borderWidth: 6,
+        borderRadius: 12,
         width: 80,
         height: 40,
     },
     buttonText:{
         fontSize: 30,
         color: 'white',
+        alignSelf: 'center',
     },
     button2: {
         justifyContent: 'space-between',
@@ -152,7 +148,6 @@ styles = StyleSheet.create({
     },
     header: {
         flexDirection: 'row',
-        margin: 10,
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
