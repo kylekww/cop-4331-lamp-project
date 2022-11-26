@@ -63,15 +63,17 @@ exports.searchComments = async (req, res) => {
         var searchResults = await Comment.find(
             {_id : {$lt: oid}
             })
-        .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
+        .limit(resultsPerPage).sort({timestamps: -1,netVotes: 1}).lean();
     }
    
     for(var i = 0; i < searchResults.length; i++){
         searchResults[i]["userInteracted"] = 0;
+        searchResults[i]["netVotes"] = 0;
     }
 
     for (var i = 0; i < searchResults.length; i++) {
         let votes = await Votes.findById({_id: searchResults[i].voteID});
+        searchResults[i].netVotes = votes.netVotes;
         //check if user has downvoted
         for(var j = 0; j < votes.downvoteList.length; j++){
             if(votes.downvoteList[j]==req.session.userId){
@@ -89,5 +91,10 @@ exports.searchComments = async (req, res) => {
         }
 
     }
+
+    if(searchVar==2){
+        searchResults.sort((a, b) => parseFloat(b.netVotes) - parseFloat(a.netVotes));
+        }
+
     res.status(201).json(searchResults);
 }
