@@ -5,20 +5,20 @@ import { useState } from 'react';
 function Tools(Props) {
 
   // Toggle hot/new page
-  const isHot = Props.isHot;
-  const toggleIsHot = Props.toggleIsHot;
+  const isNew = Props.isNew;
+  const toggleIsNew = Props.toggleIsNew;
 
   // Click button logic
   function clickNewButton() {
-    if(!isHot) {
-      toggleIsHot();
+    if(!isNew) {
+      toggleIsNew();
       UseNewButton();
       console.log("Showing New Confessions");
     }
   }
   function clickHotButton() {
-    if(isHot) {
-      toggleIsHot();
+    if(isNew) {
+      toggleIsNew();
       UseHotButton();
       console.log("Showing Hot Confessions");
     } 
@@ -28,13 +28,13 @@ function Tools(Props) {
     <div class="Tools">
       <ProfileButton/>
       <div className='toolsCenter'>
-        <button class={ isHot ? "NewConfessionsTool NewConfessionsTool-isHotState" : "NewConfessionsTool NewConfessionsTool-isNotHotState"} onClick={clickNewButton}>
+        <button class={ isNew ? "NewConfessionsTool NewConfessionsTool-isHotState" : "NewConfessionsTool NewConfessionsTool-isNotHotState"} onClick={clickNewButton}>
           <div class="Text">
             New
           </div>
         </button>
       
-        <button class={ isHot ? "HotConfessionsTool HotConfessionsTool-isHotState" : "HotConfessionsTool HotConfessionsTool-isNotHotState"} onClick={clickHotButton}>
+        <button class={ isNew ? "HotConfessionsTool HotConfessionsTool-isHotState" : "HotConfessionsTool HotConfessionsTool-isNotHotState"} onClick={clickHotButton}>
           <div class="Text">
             Hot
           </div>

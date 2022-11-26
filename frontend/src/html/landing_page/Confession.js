@@ -8,7 +8,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteIcon from '@mui/icons-material/Delete';
 import searchConfessions from './searchConfessions';
-
 function Confession(Props) {
   // Post info
   const[searchVal, setSearch] = useState(1);
@@ -39,26 +38,14 @@ function Confession(Props) {
     console.log("Delete post");
   };
   const handleScroll = (e) => {
+    
     const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
     if(bottom){
-      //console.log(oid);
-      //console.log(length);
-      //console.log(post[length - 1]._id);
       setOid(post[length - 1]._id);
       console.log('this is bottom');
-      //console.log(oid);
-    } 
-     
-    /*if(bottom && length > 0 ){
-      setOid(post[length - 1]._id);
-      //console.log(oid);
-      //console.log(searchVal);
-      //setOid(post[length - 1]._id);
       
     }
-    else if(length <= 0){
-      console.log(`we reached the end`);
-    } */ 
+    
   }
 
   // React hook for confessions
@@ -128,7 +115,7 @@ function Confession(Props) {
                     </Tooltip>
                     <Badge badgeContent={1000} max={999} sx={{
                       "& .MuiBadge-badge": {
-                        backgroundColor: Props.isHot ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
+                        backgroundColor: Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
                         color: "white",
                         fontSize: 20,
                         height: 30
@@ -146,7 +133,7 @@ function Confession(Props) {
                   <div className='comments'>
                     <Badge badgeContent={100} max={99} sx={{
                       "& .MuiBadge-badge": {
-                        backgroundColor: Props.isHot ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
+                        backgroundColor: Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
                         color: "white"
                     }}}>
                       <Tooltip title="Add Comment">
