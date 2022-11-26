@@ -21,7 +21,7 @@ function NewConfessionButton(Props) {
   return (
     <div>
       <DialogNewConfession open={open} handleClose={handleClose}></DialogNewConfession>
-      <div onClick={handleClickOpen} class={ Props.isHot ? "NewConfessionButton NewColor" : "NewConfessionButton HotColor"}>
+      <div onClick={handleClickOpen} class={ Props.isNew ? "NewConfessionButton NewColor" : "NewConfessionButton HotColor"}>
         <div class="Text">
           <label class="unselectable">
             +
