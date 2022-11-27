@@ -48,7 +48,7 @@ const AppNavigator = createStackNavigator({
     }
   }
 },{
-  initialRouteName: "LandingPage"
+  initialRouteName: "Profile"
 });
 
 const AppContainer = createAppContainer(AppNavigator);

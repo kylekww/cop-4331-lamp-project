@@ -49,8 +49,12 @@ export default function Profile() {
         navigation.navigate('LandingPage');
     }    
         return (
-        
             <View>
+                <LinearGradient
+                // Background Linear Gradient
+                colors={['rgba(128,199,239,1)', 'rgba(89,35,206,1)']}
+                style={styles.background}
+                />
                 <View style ={styles.container}>
                     <Text>Logo goes here</Text>
                     <View style = {styles.squarebg}>
@@ -87,8 +91,8 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderRadius: 60,
       borderColor: '#158888',
-      width: 60,
-      height: 60,
+      width: '80%',
+      height: '80%',
     },
     buttonText:{
         fontSize: 30,
@@ -105,9 +109,8 @@ const styles = StyleSheet.create({
     },
     squarebg: {
         padding: 5,
-        maxWidth: '90%',
-        width: 400,
-        height: 650,
+        width: '100%',
+        height: '100%',
         backgroundColor: 'rgb(231, 232, 243)',
         flexDirection: 'column',
         justifyContent: 'center',

@@ -2,40 +2,52 @@ import React, { Component, useState } from 'react';
 import { TouchableHighlight, StyleSheet, View, 
     Text, RefreshControl, ScrollView, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import ProfileButton from './LandingPage/Profile';
 
-/*
-const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  }
+import Tools from './LandingPage/Tools';
+import Header from './LandingPage/Header';
+import NewConfessionButton from './LandingPage/NewConfessionButton';
+import PageTip from './LandingPage/PageTip';
+import Confession from './LandingPage/Confession';
 
-const [refreshing, setRefreshing] = React.useState(false);
-
-const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-}, []);
-*/
 export default function LandingPage() {
 
     const newButtonColor = ['rgba(128,199,239,1)','white'];
     const hotButtonColor = ['white','rgba(222,98,28,1)'];
-    const [isHot, setIsHot] = useState([false]);
-    const toggleIsHot = () => {
-        setIsHot(current => !current);
+    const [isNew, setIsNew] = useState([true]);
+    const toggleIsNew = () => {
+        setIsNew(current => !current);
     }
     const handleNewPageClick = async () => {
-        if (isHot) {
-            toggleIsHot;
+        if (isNew) {
+            toggleIsNew;
         }
     }
     const handleHotPageClick = async () => {
-        if (!isHot) {
-            toggleIsHot;
+        if (!isNew) {
+            toggleIsNew;
         }
     }
 
     return (
+        /*
+        <View class="transitioncolor" style={{
+            opacity: isNew ? '0' : '1',
+            background: isNew ? 'transparent' : 'linear-gradient(180deg, rgba(238, 147, 114, 1) 0%, rgba(227, 19, 19, 0.921875) 100%) no-repeat fixed',
+            backgroundSize: '100% auto',
+            height: "100vh",
+            width: "100%",
+            margin: 0
+            }}> 
+        </View>
+            <View class="transitioncolor" style={{
+            opacity: isNew ? '0' : '1',
+            background: isNew ? 'linear-gradient(180deg, rgba(238, 147, 114, 1) 0%, rgba(227, 19, 19, 0.921875) 100%) no-repeat fixed' : 'transparent',
+            height: "100vh",
+            width: "100%"
+            }}> 
+        </View>
+        */
+        /*
         <View style={styles.container}>
             <LinearGradient
                 // Background Linear Gradient
@@ -61,6 +73,20 @@ export default function LandingPage() {
                 </ScrollView>
             </View>
         </View>
+        */
+        <View style={styles.container}>
+            <LinearGradient
+                // Background Linear Gradient
+                colors={isNew?['rgba(128,199,239,1)', 'rgba(89,35,206,1)']:['#DE621C', 'rgba(227, 19, 19, 0.921875)']}
+                style={styles.background}
+            />
+            
+            <Tools isNew={isNew} toggleIsNew={toggleIsNew}></Tools>
+            <Header isNew={isNew}></Header>
+            <PageTip></PageTip>
+            <Confession isNew={isNew}></Confession>
+            <NewConfessionButton isNew={isNew}></NewConfessionButton>
+      </View>   
     )
 
 }

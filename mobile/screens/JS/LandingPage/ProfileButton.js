@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableHighlight, StyleSheet, View, 
-  Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 export default function ProfileButton() {
     const[user, setUser] = useState([]);
@@ -32,10 +31,10 @@ export default function ProfileButton() {
   return (
     <View style = {styles.profileContainer}>
       <View style = {styles.profileTool}>
-        <TouchableHighlight style={[styles.profileButton,{backgroundColor: color}]} 
-            onPress={clickProfileButton} underlayColor='rgb(60, 23, 141)'>
+        <TouchableOpacity style={[styles.profileButton,{backgroundColor: color}]} 
+            onPress={clickProfileButton}>
             <Text style={styles.buttonText}>{user.username?.charAt(0).toUpperCase()}</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
       <Text style = {styles.textName}>Hello {user.name}!</Text>
     </View>
