@@ -36,7 +36,6 @@ export default function ProfileButton() {
             <Text style={styles.buttonText}>{user.username?.charAt(0).toUpperCase()}</Text>
         </TouchableOpacity>
       </View>
-      <Text style = {styles.textName}>Hello {user.name}!</Text>
     </View>
     /*
     <View class="ProfileContainer">
@@ -64,7 +63,6 @@ export default function ProfileButton() {
 
 const styles = StyleSheet.create({
     profileButton: {
-        marginTop: '10%',
         padding: 10,
         alignItems: 'center',
         textAlign: 'center',
@@ -80,7 +78,7 @@ const styles = StyleSheet.create({
       width: '25%',
     },
     profileTool: {
-      height: '50%',
+      height: '75%',
     },
     buttonText:{
         fontSize: 30,
@@ -89,11 +87,12 @@ const styles = StyleSheet.create({
     },
     textName: {
       fontSize: 16,
+      flexWrap: 'wrap',
       color: 'white',
       alignSelf: 'center',
       textAlign: 'center',
       maxWidth: 72,
-      marginTop: '10%',
+      marginTop: '40%',
       zIndex: 1,
     }
 });

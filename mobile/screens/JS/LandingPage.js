@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Tools from './LandingPage/Tools';
 import Header from './LandingPage/Header';
 //import NewConfessionButton from './LandingPage/NewConfessionButton';
-//import PageTip from './LandingPage/PageTip';
+import PageTip from './LandingPage/PageTip';
 //import Confession from './LandingPage/Confession';
 
 export default function LandingPage() {
@@ -78,9 +78,9 @@ export default function LandingPage() {
             />
             <Tools isNew={isNew} toggleIsNew={toggleIsNew}></Tools>           
             <Header isNew={isNew}></Header>
+            <PageTip></PageTip>
       </View>
         /*   
-            <PageTip></PageTip>
             <Confession isNew={isNew}></Confession>
             <NewConfessionButton isNew={isNew}></NewConfessionButton>
         */

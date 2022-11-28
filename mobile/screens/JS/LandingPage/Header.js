@@ -1,20 +1,21 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Header(Props) {
   return (
     
+    //<View styles = { [styles.helper, (Props.isNew ? styles.NewColor : styles.HotColor)]}>
       <View style ={styles.LandingPageHeader}>
-        <View styles = { [styles.helper, (Props.isNew ? styles.NewColor : styles.HotColor)]}>
-          <Text style = {styles.text}>
-            { Props.isNew ? "Recent Confessions" : "Popular Confessions" }
-          </Text>
-          <Text>
-            <Text style = {[styles.text,styles.subtext]}>
-            { Props.isNew ? "See the latest gossip" : "Upvote the juicy stuff" }
-            </Text>
-          </Text>
-        </View>
+        <LinearGradient
+            // Background Linear Gradient
+            colors={Props.isNew?['rgba(128,199,239,1)', 'rgba(89,35,206,1)']:['#DE621C', 'rgba(227, 19, 19, 0.921875)']}
+            style={styles.helper}
+        />
+        <Text style = {styles.text}>{ Props.isNew ? "Recent Confessions" : "Popular Confessions" }</Text>
+        <Text><Text style = {[styles.text,styles.subtext]}>
+        { Props.isNew ? "See the latest gossip" : "Upvote the juicy stuff" }
+        </Text></Text>
       </View>
         
   );
@@ -24,11 +25,10 @@ const styles = StyleSheet.create({
     LandingPageHeader: {
         position: 'relative',
         width: '90%',
-        height: '10%',
+        height: '8%',
         left: '5%',
-        top: '10%',
+        top: '2%',
         borderRadius: 15,
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         alignContent: 'center',
@@ -55,9 +55,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontStyle: 'normal',
-        fontSize: 36,
-        lineHeight: '150%',
-        display: 'flex',
+        fontSize: 24,
         justifyContent: 'center',
         textAlign: 'center',
         color: '#FFFFFF',
@@ -65,7 +63,6 @@ const styles = StyleSheet.create({
     },
     subtext: {
         position: 'flex',
-        fontSize: 24,
-        lineHeight: '100%',
+        fontSize: 16,
     },
 });

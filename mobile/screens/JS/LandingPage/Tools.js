@@ -8,8 +8,8 @@ export default function Tools(Props) {
   const isNew = Props.isNew;
   const toggleIsNew = Props.toggleIsNew;
   // Button colors
-  const newButtonColor = ['rgba(128,199,239,1)','white'];
-  const hotButtonColor = ['white','rgba(222,98,28,1)'];
+  const newButtonColor = ['white','rgba(89,35,206,.5)','rgba(89,35,206,1)'];
+  const hotButtonColor = ['white','rgba(167, 15, 15, 0.4)','rgba(167, 15, 15, 0.9)'];
 
   // Click button logic
   const clickNewButton = async () => {
@@ -33,11 +33,11 @@ export default function Tools(Props) {
       <View style ={styles.toolsCenter}>
         <TouchableOpacity style={[styles.newButton,{backgroundColor:newButtonColor[(isNew)?1:0]}]} 
             onPress={clickNewButton}>
-            <Text style={[styles.buttonText,{color: newButtonColor[(!isNew)?1:0]}]}>New</Text>
+            <Text style={[styles.buttonText,{color: newButtonColor[(isNew)?0:2]}]}>New</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.hotButton,{backgroundColor:hotButtonColor[(isNew)?1:0]}]} 
+        <TouchableOpacity style={[styles.hotButton,{backgroundColor:hotButtonColor[(isNew)?0:1]}]} 
             onPress={clickHotButton}>
-            <Text style={[styles.buttonText,{color: hotButtonColor[(!isNew)?1:0]}]}>Hot</Text>
+            <Text style={[styles.buttonText,{color: hotButtonColor[(isNew)?2:0]}]}>Hot</Text>
         </TouchableOpacity>
       </View>
       <View style={{width:'50%'}}>
@@ -60,8 +60,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    height: 100,
-    top: 0,
+    height: 80,
+    top: 10,
     zIndex: 999,
   },
   toolsCenter: {
@@ -71,25 +71,22 @@ const styles = StyleSheet.create({
   },
   newButton: {
     margin: 10,
-    alignItems: 'center',
     alignSelf: 'center',
-    textAlign: 'center',
     borderColor: 'rgba(70, 24, 203, 0.9)',
     borderWidth: 6,
     borderRadius: 12,
     width: 80,
-    height: 40,
+    height: 45,
   },
   hotButton: {
     margin: 10,
-    alignItems: 'center',
     alignSelf: 'center',
-    textAlign: 'center',
     borderColor: 'rgba(167, 15, 15, 0.9)',
     borderWidth: 6,
     borderRadius: 12,
     width: 80,
-    height: 40,
+    height: 45,
+
   },
   buttonText:{
     fontSize: 30,
