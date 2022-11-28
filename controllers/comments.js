@@ -44,65 +44,97 @@ exports.deleteComment = async (req, res) => {
 }
 
 exports.searchComments = async (req, res) => {
-    let resultsPerPage = 1;
-    let searchVar = req.body.searchVal;
-    let confessionID = req.body.confessionID;
-    let oid = mongoose.Types.ObjectId(req.body.oid);
-
-    //if searchVar==1, sort by most recent 
     
-    if(searchVar == 1 && oid == ""){
-        console.log('test');
-        var confession = await Confession.findById(confessionID)
-            .populate({
-                path : "comments",
-                options : {
-                    sort: {_id : -1},
-                    limit: resultsPerPage
-                }
-            });
+    let resultsPerPage = 3;
+    let searchVar = req.body.searchVal;
+    let oid = req.body.oid;
+    let confessionOID = mongoose.Types.ObjectId(req.body.confessionOID);
+    
+    // Input: cookie, Comment._id "oid" and search criteria
+    //if searchVar==1, sort by most recent 
+    if (oid == "" && searchVar==1){
+        var searchResults = await Comment.find({
+            confessionID : confessionOID
+        })
+        .populate({
+            path: "voteID",
+            options: {
+                sort : {netVotes : -1}
+            }
+        }).limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
     }
-    else if(searchVar == 2 && oid == ""){
-        var confession = await Confession.findById(confessionID)
-            .populate({
-                path : "comments",
-                options : {
-                    sort: {_id : -1,netVotes:1},
-                    limit: resultsPerPage
-                }
-            });
-    }
-
-    else if(searchVar == 1){
-        console.log(oid);
-        var confession = await Confession.findById(confessionID)
-            .populate({
-                path : "comments",
+    else if(oid == "" && searchVar==2){
+        var searchResults = await Comment.find({
+            confessionID : confessionOID,
+            }).populate({
+                path: "voteID",
                 options: {
-                    match: {_id : {$lt : oid}},
-                    sort: {_id : -1}
+                    sort : {netVotes : -1}
                 }
-            });
+            }).limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
     }
-    else if(searchVar == 2){
-        var confession = await Confession.findById(confessionID)
+    else if(searchVar==1){
+        var searchResults = await Comment.find({
+            confessionID : confessionOID,
+            _id : {$lt: oid}
+            })
             .populate({
-                path : "comments",
-                options : {
-                    sort: {_id : -1,netVotes:1},
-                    limit: resultsPerPage
+                path: "voteID",
+                options: {
+                    sort : {netVotes : -1}
                 }
-            });
+            }).limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
+    }
+    //if searchVar==2, sort by most popular
+    else if(searchVar==2){
+        var searchResults = await Comment.find({
+            confessionID : confessionOID,
+            _id : {$lt: oid}
+            })
+            .populate({
+                path: "voteID",
+                options: {
+                    sort : {netVotes : -1}
+                }
+            }).limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
+    }
+    else {
+        res.status(400).json({message : "Not a valid search type"});
+        return;
+    }
+    //declare new temp unsaved fields 
+    for(var i = 0; i < searchResults.length; i++){
+        searchResults[i]["userInteracted"] = 0;
+        searchResults[i]["userCreated"] = 0;
     }
 
+    for (var i = 0; i < searchResults.length; i++) {
+        let votes = searchResults[i].voteID;
+        //check if logged in user created post
+        console.log(typeof(req.session.userId));
+        if(searchResults[i].userID == req.session.userId){
+            searchResults[i].userCreated = 1; 
+        }
 
+        //check if user has downvoted
+        for(var j = 0; j < votes.downvoteList.length; j++){
+            if(votes.downvoteList[j]==req.session.userId){
+                searchResults[i].userInteracted = -1;
+                
+            }
+        }
+        //check if user has upvoted
+        for(var j = 0; j < votes.upvoteList.length; j++){
+            if(votes.upvoteList[j]==req.session.userId){
+                searchResults[i].userInteracted = 1;
+                
+            }
+        }
+        delete searchResults[i].voteID.upvoteList;
+        delete searchResults[i].voteID.downvoteList;
+    }
+ 
+    //const result = searchResults.map(({userID,...rest}) => ({...rest}));
 
-    returnVal = confession.comments;
-    //returnVal.sort({_id:-1})
-    //.populate({path: 'Members', options: { sort: { 'created_at': -1 } } })
-
-    /*let searchResults = confession.comments;*/
-
-    console.log(returnVal)
-    res.status(201).json(returnVal);
+    res.status(201).json(searchResults);
 }

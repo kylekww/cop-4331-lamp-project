@@ -43,7 +43,7 @@ exports.deleteConfession = async (req, res) => {
 //search confession
 exports.searchConfession = async (req, res) => {
 
-    let resultsPerPage = 3;
+    let resultsPerPage = 15;
     let searchVar = req.body.searchVal;
     let oid = req.body.oid;
     
@@ -55,9 +55,13 @@ exports.searchConfession = async (req, res) => {
     }
     else if(oid == "" && searchVar==2){
         var searchResults = await Confession.find({
-            _id : {$lt: oid}
             })
-        .limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
+            .populate({
+                path: "voteID",
+                options: {
+                    sort : {netVotes : -1}
+                }
+            }).limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
     }
     else if(searchVar==1){
         var searchResults = await Confession.find({
@@ -83,9 +87,9 @@ exports.searchConfession = async (req, res) => {
     }
 
     for (var i = 0; i < searchResults.length; i++) {
-        let votes = await Votes.findById({_id: searchResults[i].voteID});
+        let votes = searchResults[i].voteID;
         //check if logged in user created post
-        console.log(typeof(req.session.userId));
+        
         if(searchResults[i].userID == req.session.userId){
             searchResults[i].userCreated = 1; 
         }
@@ -104,9 +108,13 @@ exports.searchConfession = async (req, res) => {
                 
             }
         }
+        delete searchResults[i].voteID.upvoteList;
+        delete searchResults[i].voteID.downvoteList;
     }
  
-    const result = searchResults.map(({userID,...rest}) => ({...rest}));
+    const result = searchResults.map(({userID, ...rest}) => ({...rest}));
+    
+    
     
     res.status(201).json(result);
 }
