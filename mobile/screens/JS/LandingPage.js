@@ -6,7 +6,7 @@ import Tools from './LandingPage/Tools';
 import Header from './LandingPage/Header';
 //import NewConfessionButton from './LandingPage/NewConfessionButton';
 import PageTip from './LandingPage/PageTip';
-//import Confession from './LandingPage/Confession';
+import Confession from './LandingPage/Confession';
 
 export default function LandingPage() {
     const [isNew, setIsNew] = useState([true]);
@@ -79,9 +79,9 @@ export default function LandingPage() {
             <Tools isNew={isNew} toggleIsNew={toggleIsNew}></Tools>           
             <Header isNew={isNew}></Header>
             <PageTip></PageTip>
+            <Confession isNew={isNew}></Confession>
       </View>
         /*   
-            <Confession isNew={isNew}></Confession>
             <NewConfessionButton isNew={isNew}></NewConfessionButton>
         */
     )
