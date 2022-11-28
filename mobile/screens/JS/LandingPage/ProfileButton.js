@@ -64,10 +64,11 @@ export default function ProfileButton() {
 
 const styles = StyleSheet.create({
     profileButton: {
+        marginTop: '10%',
         padding: 10,
-        margin: 10,
         alignItems: 'center',
         textAlign: 'center',
+        alignSelf: 'center',
         borderWidth: 3,
         borderRadius: 60,
         borderColor: '#158888',
@@ -75,36 +76,24 @@ const styles = StyleSheet.create({
         height: 60,
     },
     profileContainer: {
-      display: 'flex',
       alignContent: 'center',
-      marginLeft: '5%',
+      width: '25%',
     },
     profileTool: {
-      width: 60,
-      height: 60,
-      flex: 5,
       height: '50%',
-      textAlign: 'center',
     },
     buttonText:{
         fontSize: 30,
         color: 'white',
         alignSelf: 'center',
     },
-    text: {
-        marginTop: 25,
-        backgroundColor: 'transparent',
-        alignSelf: 'center',
-        fontSize: 30,
-        color: 'rgba(89,35,206,1)',
-        margin: 10,
-    },
     textName: {
-      fontStyle: 'normal',
       fontSize: 16,
       color: 'white',
-      left: '10%',
-      top: '45%',
+      alignSelf: 'center',
+      textAlign: 'center',
+      maxWidth: 72,
+      marginTop: '10%',
       zIndex: 1,
     }
 });

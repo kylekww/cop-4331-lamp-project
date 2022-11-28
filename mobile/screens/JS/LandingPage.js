@@ -1,18 +1,14 @@
 import React, { Component, useState } from 'react';
-import { TouchableHighlight, StyleSheet, View, 
-    Text, RefreshControl, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import Tools from './LandingPage/Tools';
 import Header from './LandingPage/Header';
-import NewConfessionButton from './LandingPage/NewConfessionButton';
-import PageTip from './LandingPage/PageTip';
-import Confession from './LandingPage/Confession';
+//import NewConfessionButton from './LandingPage/NewConfessionButton';
+//import PageTip from './LandingPage/PageTip';
+//import Confession from './LandingPage/Confession';
 
 export default function LandingPage() {
-
-    const newButtonColor = ['rgba(128,199,239,1)','white'];
-    const hotButtonColor = ['white','rgba(222,98,28,1)'];
     const [isNew, setIsNew] = useState([true]);
     const toggleIsNew = () => {
         setIsNew(current => !current);
@@ -80,13 +76,14 @@ export default function LandingPage() {
                 colors={isNew?['rgba(128,199,239,1)', 'rgba(89,35,206,1)']:['#DE621C', 'rgba(227, 19, 19, 0.921875)']}
                 style={styles.background}
             />
-            
-            <Tools isNew={isNew} toggleIsNew={toggleIsNew}></Tools>
+            <Tools isNew={isNew} toggleIsNew={toggleIsNew}></Tools>           
             <Header isNew={isNew}></Header>
+      </View>
+        /*   
             <PageTip></PageTip>
             <Confession isNew={isNew}></Confession>
             <NewConfessionButton isNew={isNew}></NewConfessionButton>
-      </View>   
+        */
     )
 
 }
@@ -94,8 +91,6 @@ export default function LandingPage() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        position: 'relative',
-        justifyContent: 'center',
     },
     workspace: {
         flex: 1,
@@ -115,6 +110,7 @@ const styles = StyleSheet.create({
         right: 0,
         top: 0,
         height: '100%',
+        zIndex: 0,
     },
     newButton: {
         margin: 15,

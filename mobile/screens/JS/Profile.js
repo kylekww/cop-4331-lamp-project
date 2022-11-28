@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableHighlight, StyleSheet, TextInput, Button, View, Text, Alert } from 'react-native';
+import { StyleSheet, TextInput, Button, View, Text, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Profile() {
