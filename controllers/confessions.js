@@ -55,8 +55,14 @@ exports.searchConfession = async (req, res) => {
         .limit(resultsPerPage).sort({_id: -1}).lean();
     }
     else if(oid == "" && searchVar==2){
-        var searchResults = await Confession.find({})
-        .limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
+        var searchResults = await Confession.find({
+            })
+            .populate({
+                path: "voteID",
+                options: {
+                    sort : {netVotes : -1}
+                }
+            }).limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
     }
     else if(searchVar==1){
         var searchResults = await Confession.find({
@@ -69,7 +75,7 @@ exports.searchConfession = async (req, res) => {
         var searchResults = await Confession.find({
             _id : {$lt: oid}
             })
-            .limit(resultsPerPage).sort({timestamps: -1,netVotes:1}).lean();
+        .limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
     }
     else {
         res.status(400).json({message : "Not a valid search type"});
@@ -83,10 +89,9 @@ exports.searchConfession = async (req, res) => {
     }
 
     for (var i = 0; i < searchResults.length; i++) {
-        let votes = await Votes.findById({_id: searchResults[i].voteID});
-        searchResults[i].netVotes = votes.netVotes;
+        let votes = searchResults[i].voteID;
         //check if logged in user created post
-        console.log(typeof(req.session.userId));
+        
         if(searchResults[i].userID == req.session.userId){
             searchResults[i].userCreated = 1; 
         }
@@ -99,18 +104,17 @@ exports.searchConfession = async (req, res) => {
         }
         //check if user has upvoted
         for(var j = 0; j < votes.upvoteList.length; j++){
-            console.log(req.session.userId);
             if(votes.upvoteList[j]==req.session.userId){
                 searchResults[i].userInteracted = 1;
             }
         }
-
+        delete searchResults[i].voteID.upvoteList;
+        delete searchResults[i].voteID.downvoteList;
     }
-    //doesn't work 
-    if(searchVar==2){
-    searchResults.sort((a, b) => parseFloat(b.netVotes) - parseFloat(a.netVotes));
-    }
-    const result = searchResults.map(({userID,...rest}) => ({...rest}));
+ 
+    const result = searchResults.map(({userID, ...rest}) => ({...rest}));
+    
+    
     
     res.status(201).json(result);
 }

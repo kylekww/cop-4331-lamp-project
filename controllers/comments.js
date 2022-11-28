@@ -4,6 +4,7 @@ const Votes = require('../models/votes');
 const User = require('../models/user');
 const _ = require('lodash');
 const addCommentValidator = require('../validators/addComment');
+const mongoose = require('mongoose')
 
 exports.addComment = async (req, res) =>{
     const validationResult = addCommentValidator(req.body);
@@ -16,9 +17,10 @@ exports.addComment = async (req, res) =>{
     const initVotes = new Votes();
     initVotes.save();
     const comment = await Comment.create({...req.body, userID: user, 
-            confessionID: confession, voteID: initVotes});
+            confessionID: confession._id, voteID: initVotes});
     // add comment to confessions
-    confession.comments.push(comment.id);
+    confession.comments.push(comment);
+    confession.save();
 
     return res.status(200).json({message: "comment added successfully", comment: comment.toObject()});
 }
@@ -42,38 +44,72 @@ exports.deleteComment = async (req, res) => {
 }
 
 exports.searchComments = async (req, res) => {
-    let resultsPerPage = 15;
+    
+    let resultsPerPage = 3;
     let searchVar = req.body.searchVal;
-    let query = req.body.query;
-    //if searchVar==1, sort by most recent 
     let oid = req.body.oid;
-    if(oid == ""){
-        let temp = await Comment.findOne({},{},{sort: {_id: -1}});
-        oid = temp._id.toString();
+    let confessionOID = mongoose.Types.ObjectId(req.body.confessionOID);
+    
+    // Input: cookie, Comment._id "oid" and search criteria
+    //if searchVar==1, sort by most recent 
+    if (oid == "" && searchVar==1){
+        var searchResults = await Comment.find({
+            confessionID : confessionOID
+        })
+        .populate({
+            path: "voteID",
+            options: {
+                sort : {netVotes : -1}
+            }
+        }).limit(resultsPerPage).sort({_id: -1}).lean();
     }
-    if(searchVar==1){
-        var searchResults = await Comment.find(
-            {_id : {$lt: oid}
+    else if(oid == "" && searchVar==2){
+        var searchResults = await Comment.find({
+            confessionID : confessionOID,
+            }).populate({
+                path: "voteID",
+                options: {
+                    sort : {netVotes : -1}
+                }
+            }).limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
+    }
+    else if(searchVar==1){
+        var searchResults = await Comment.find({
+            confessionID : confessionOID,
+            _id : {$lt: oid}
             })
-        .limit(resultsPerPage).sort({_id: -1}).lean();
+            .populate({
+                path: "voteID",
+                options: {
+                    sort : {netVotes : -1}
+                }
+            }).limit(resultsPerPage).sort({_id: -1}).lean();
     }
-
     //if searchVar==2, sort by most popular
-    if(searchVar==2){
-        var searchResults = await Comment.find(
-            {_id : {$lt: oid}
+    else if(searchVar==2){
+        var searchResults = await Comment.find({
+            confessionID : confessionOID,
+            _id : {$lt: oid}
             })
-        .limit(resultsPerPage).sort({timestamps: -1,netVotes: 1}).lean();
+            .populate({
+                path: "voteID",
+                options: {
+                    sort : {netVotes : -1}
+                }
+            }).limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
     }
-   
+    else {
+        res.status(400).json({message : "Not a valid search type"});
+        return;
+    }
+    //declare new temp unsaved fields 
     for(var i = 0; i < searchResults.length; i++){
         searchResults[i]["userInteracted"] = 0;
-        searchResults[i]["netVotes"] = 0;
+        searchResults[i]["userCreated"] = 0;
     }
 
     for (var i = 0; i < searchResults.length; i++) {
-        let votes = await Votes.findById({_id: searchResults[i].voteID});
-        searchResults[i].netVotes = votes.netVotes;
+        let votes = searchResults[i].voteID;
         //check if user has downvoted
         for(var j = 0; j < votes.downvoteList.length; j++){
             if(votes.downvoteList[j]==req.session.userId){
@@ -83,18 +119,13 @@ exports.searchComments = async (req, res) => {
         }
         //check if user has upvoted
         for(var j = 0; j < votes.upvoteList.length; j++){
-            console.log(req.session.userId);
             if(votes.upvoteList[j]==req.session.userId){
                 searchResults[i].userInteracted = 1;
                 
             }
         }
-
+        delete searchResults[i].voteID.upvoteList;
+        delete searchResults[i].voteID.downvoteList;
     }
-
-    if(searchVar==2){
-        searchResults.sort((a, b) => parseFloat(b.netVotes) - parseFloat(a.netVotes));
-        }
-
     res.status(201).json(searchResults);
 }
