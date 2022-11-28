@@ -1,16 +1,14 @@
 import '../css/styles.css';
-import Replies from './comments_page/Replies';
 import Confession from './comments_page/Confession';
 import NewCommentButton from './comments_page/NewCommentButton'
 import { useState } from 'react';
+import { useParams } from "react-router-dom";
 
 /* Need to add logo to page */
 
 function Comments() {
-  const[isHot, setIsHot] = useState([false]);
-  const toggleIsHot = () => {
-    setIsHot(current => !current);
-  }
+  // Get the comment id
+  const oid = useParams().token;
 
   return (
     <>
@@ -19,8 +17,7 @@ function Comments() {
             justifyContent: "center",
             display: "flex"
         }}>
-            <Confession />
-            <Replies />
+            <Confession oid={oid}/>
         </div>
         <NewCommentButton />
     </>

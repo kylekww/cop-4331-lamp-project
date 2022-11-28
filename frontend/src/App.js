@@ -19,7 +19,7 @@ function App() {
           <Route path="/landing" index element={<LandingPage />} />
           <Route path="/profile" index element={<Profile />} />
           <Route path="/verify/:token" index element={<EmailVerify />} />
-          <Route path="/comments" index element={<Comments />} />
+          <Route path="/comments/:token" index element={<Comments />} />
         </Routes>
       </BrowserRouter>
   );

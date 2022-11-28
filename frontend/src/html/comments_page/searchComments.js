@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-export default function SearchConfessions(searchVal, oid){
+export default function SearchComments(searchVal, oid){
   const [post, setPosts] = useState([]);
   const[length, setLength] = useState(15);
   const[wasLastList, setWasLastList] = useState(false);
@@ -11,7 +11,7 @@ export default function SearchConfessions(searchVal, oid){
     useEffect(() => {
         const displayPosts = async event =>
         {
-          const data = await fetch("/api/v1/comments/searchConfession", {
+          const data = await fetch("/api/v1/comments/searchComments", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

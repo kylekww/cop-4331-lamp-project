@@ -20,6 +20,7 @@ function Confession(Props) {
     post,
     length
   } = searchConfessions(searchVal, oid);
+  
   const observer = useRef();
   //const[post, setPost] = useState([]);
   //const[length, setLength] = useState(15);
@@ -146,7 +147,7 @@ function Confession(Props) {
                         color: "white"
                     }}}>
                       <Tooltip title="Add Comment">
-                        <IconButton onClick={ clickCommentButton } style={{
+                        <IconButton onClick={ () => clickCommentButton(posts._id) } style={{
                           color: "#BABABA"
                         }}>
                           <CommentIcon sx={{ fontSize: 30 }}/>
@@ -187,16 +188,8 @@ async function deleteConfession() {
 }
 
 // This redirects the user to the comments page
-async function clickCommentButton() {
-  const response = await fetch('url', {
-    mode: 'no-cors',
-    method: 'POST', 
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({})
-  });
-  window.location.href = '/comments';
+async function clickCommentButton(value) {
+  window.location.href = '/comments/' + value;
 }
 
 /* Both upvote and downvote need to interact with the total vote tally */
