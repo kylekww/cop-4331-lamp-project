@@ -7,6 +7,7 @@ export default function SearchConfessions(searchVal, oid){
   useEffect(() => {
     setPosts([]);
     console.log('we are here');
+    oid = '';
   }, [searchVal]);
     useEffect(() => {
         const displayPosts = async event =>
@@ -44,5 +45,5 @@ export default function SearchConfessions(searchVal, oid){
             displayPosts();
         
     }, [searchVal, oid])
-    return {length, post};
+    return {length, post, wasLastList};
 }
