@@ -252,8 +252,8 @@ exports.resetLink = async (req, res) => {
             `
             ${user.username}, This email has been sent to you because you (or someone else) requested a password reset.
             If you did not request a reset, please ignore this email.  Otherwise, follow the link below.
-            http://${req.headers.host}/api/v1/auth/passwordReset/${user.passwordResetToken}`
-            // https://${req.headers.host}/reset-password/${user.passwordResetToken}    
+            https://${req.headers.host}/reset-password/${user.passwordResetToken}`
+            // http://${req.headers.host}/api/v1/auth/passwordReset/${user.passwordResetToken}    
             
     }, 
         function(error, info)
