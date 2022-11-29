@@ -1,11 +1,9 @@
 const Confession = require('../models/confession');
-const Comment = require('../models/comments')
 const Votes = require('../models/votes');
 const User = require('../models/user');
 const _ = require('lodash');
 const addConfessionValidator = require('../validators/addConfession');
-
-
+const mongoose = require('mongoose');
 
 //add confession
 exports.addConfession = async (req, res) => {
@@ -59,14 +57,16 @@ exports.searchConfession = async (req, res) => {
         }).limit(resultsPerPage).sort({_id: -1}).lean();
     }
     else if(oid == "" && searchVar==2){
-        var searchResults = await Confession.find({
-            })
-            .populate({
-                path: "voteID",
-                options: {
-                    sort : {netVotes : -1}
-                }
-            }).limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
+        var searchResults = await Confession.aggregate([
+            {$lookup:{
+                "from": "votes",
+                "localField": "voteID",
+                "foreignField": "_id",
+                "as": "voteID"
+            }},
+            {$unwind: "$voteID"},
+            {"$sort": {"voteID.netVotes": -1}}
+        ]).limit(resultsPerPage);
     }
     else if(searchVar==1){
         var searchResults = await Confession.find({
@@ -76,10 +76,17 @@ exports.searchConfession = async (req, res) => {
     }
     //if searchVar==2, sort by most popular
     else if(searchVar==2){
-        var searchResults = await Confession.find({
-            _id : {$lt: oid}
-            })
-        .limit(resultsPerPage).sort({_id: -1,netVotes:1}).lean();
+        var searchResults = await Confession.aggregate([
+            {$match: {_id: {$lt: mongoose.Types.ObjectId(oid)}}},
+            {$lookup:{
+                "from": "votes",
+                "localField": "voteID",
+                "foreignField": "_id",
+                "as": "voteID"
+            }},
+            {$unwind: "$voteID"},
+            {"$sort": {"voteID.netVotes": -1}}
+        ]).limit(resultsPerPage);
     }
     else {
         res.status(400).json({message : "Not a valid search type"});
@@ -89,12 +96,11 @@ exports.searchConfession = async (req, res) => {
     for(var i = 0; i < searchResults.length; i++){
         searchResults[i]["userInteracted"] = 0;
         searchResults[i]["userCreated"] = 0;
-        searchResults[i]["netVotes"] = 0;
     }
 
     for (var i = 0; i < searchResults.length; i++) {
         let votes = searchResults[i].voteID;
-        console.log(votes);
+        //console.log(votes);
         //check if logged in user created post
         
         if(searchResults[i].userID == req.session.userId){
@@ -115,13 +121,9 @@ exports.searchConfession = async (req, res) => {
         }
         delete searchResults[i].voteID.upvoteList;
         delete searchResults[i].voteID.downvoteList;
-    }
- 
-    const result = searchResults.map(({userID, ...rest}) => ({...rest}));
+    }    
     
-    
-    
-    res.status(201).json(result);
+    res.status(201).json(searchResults);
 }
 
 
