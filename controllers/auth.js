@@ -232,9 +232,58 @@ exports.editProfile = async (req, res) => {
     }
 }
 
+exports.resetLink = async (req, res) => {
+    const user = await User.findOne({email: req.body.email});
 
+    if(!user){
+        return res.status(500).json({message: "We could not find a user with this email address"});
+    }
 
+    user.passwordResetToken = crypto.randomBytes(64).toString("hex");
+    user.save()
+    console.log(user.passwordResetToken);
 
+    sendEmail.sendMail
+    ({
+        from: "jankbox96@outlook.com",
+        to: user.email,
+        subject: "Hush UCF password reset",
+        text: 
+            `
+            ${user.username}, This email has been sent to you because you (or someone else) requested a password reset.
+            If you did not request a reset, please ignore this email.  Otherwise, follow the link below.
+            https://${req.headers.host}/reset-password/${user.passwordResetToken}`
+            // http://${req.headers.host}/api/v1/auth/passwordReset/${user.passwordResetToken}    
+            
+    }, 
+        function(error, info)
+        {
+            if(error) throw Error(error);
+            console.log("Email sent successfully");
+            console.log(info);
+        }
+    );
+
+    return res.status(200).json({message: "Password reset link has been sent to your email"});
+}
+
+exports.passwordReset = async (req, res) => {
+    console.log(req.params.token);
+    const user = await User.findOne({passwordResetToken: req.params.token});
+
+    console.log(user?.toObject());
+
+    if(!user){
+        return res.status(502).json({message: "user doesn't exist"});
+    }    
+
+    user.passwordResetToken = null;
+    const hashedPassword = await bcrpyt.hash(req.body.password, 12)
+    user.password = hashedPassword;
+    await user.save();
+    
+    return res.status(201).json({message: "password reset successful"});
+}
 
 exports.profile = (req,res)=> {
     res.json({user: _.omit(req.user.toObject(),dbSecretFields)});
