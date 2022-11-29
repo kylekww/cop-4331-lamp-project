@@ -23,6 +23,9 @@ const schema = new mongoose.Schema(
         emailVerifyToken: {
             type: String
         },
+        passwordResetToken: {
+            type: String
+        },
         verified: {
             type: Boolean,
             default: false
