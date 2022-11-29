@@ -51,8 +51,12 @@ exports.searchConfession = async (req, res) => {
     // Input: cookie, confession._id "oid" and search criteria
     //if searchVar==1, sort by most recent 
     if (oid == "" && searchVar==1){
-        var searchResults = await Confession.find({})
-        .limit(resultsPerPage).sort({_id: -1}).lean();
+        var searchResults = await Confession.find({}).populate({
+            path: "voteID",
+            options: {
+                sort : {netVotes : -1}
+            }
+        }).limit(resultsPerPage).sort({_id: -1}).lean();
     }
     else if(oid == "" && searchVar==2){
         var searchResults = await Confession.find({
@@ -90,6 +94,7 @@ exports.searchConfession = async (req, res) => {
 
     for (var i = 0; i < searchResults.length; i++) {
         let votes = searchResults[i].voteID;
+        console.log(votes);
         //check if logged in user created post
         
         if(searchResults[i].userID == req.session.userId){
