@@ -9,14 +9,8 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 function ConfessionPost({post}, Props) {
-    const[vote, setVote] = useState(post.netVotes);
-    const[interacted, setInteracted] = useState(post.userInteracted);
-    const[upvoted, setUpvoted] = useState(interacted == 1 ? true : false)
-    const[downvoted, setDownvoted] = useState(interacted == -1 ? true : false)
-
-    //console.log(upvoted)
-    //console.log(downvoted)
-    //console.log(post.netVotes);
+    const[vote, setVote] = useState(post.voteID.netVotes);
+    const[interacted, setInteracted] = useState(post.userInteracted)
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     

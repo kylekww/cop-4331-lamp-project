@@ -2,14 +2,15 @@ import React, {useEffect, useState} from 'react';
 
 export default function SearchConfessions(searchVal, oid){
   const [post, setPosts] = useState([]);
-  const[length, setLength] = useState(15);
   const[wasLastList, setWasLastList] = useState(false);
   useEffect(() => {
     setPosts([]);
-    console.log('we are here');
     oid = '';
+    setWasLastList(false)
   }, [searchVal]);
     useEffect(() => {
+        console.log('oid: ' + oid)
+        console.log('searchVal: ' + searchVal)
         const displayPosts = async event =>
         {
           const data = await fetch("/api/v1/confessions/searchConfession", {
@@ -29,10 +30,10 @@ export default function SearchConfessions(searchVal, oid){
               if(data.length < 15){
                 setWasLastList(true);
                 setPosts([...post, ...data]);
+                console.log('this should be the last set')
                 return;
               }
               setPosts([...post, ...data]);
-              setLength(data.length);
 
               //console.log(length);
             }) 
@@ -45,5 +46,5 @@ export default function SearchConfessions(searchVal, oid){
             displayPosts();
         
     }, [searchVal, oid])
-    return {length, post, wasLastList};
+    return {post, wasLastList};
 }

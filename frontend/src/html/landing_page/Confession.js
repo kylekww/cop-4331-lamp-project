@@ -9,26 +9,19 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteIcon from '@mui/icons-material/Delete';
 import searchConfessions from './searchConfessions';
 import ConfessionPost from './ConfessionPost';
+import { compose } from '@mui/system';
 function Confession(Props) {
   // Post info
   const[searchVal, setSearch] = useState(1);
+  const[oid, setOid] = useState('');
+  const {post, wasLastList} = searchConfessions(searchVal, oid);
+
   
-  //if something breaks with lazy loading, try adding this in back
-  //const observer = useRef();
   //changes from hot/new vice versa
   useEffect(() => {
+    post.length = 0;
     Props.isNew ? setSearch(1) : setSearch(2)
-    console.log(searchVal);
-    
-    console.log(oid);
   }, [Props.isNew])
-  const[oid, setOid] = useState('');
-  const{
-    post,
-    length,
-    wasLastList
-  } = searchConfessions(searchVal, oid);
-  
   
   //const[post, setPost] = useState([]);
   //const[length, setLength] = useState(15);
@@ -38,20 +31,21 @@ function Confession(Props) {
   const open = Boolean(anchorEl);
   
   const handleScroll = (e) => {
-    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-
-    if(bottom)
-      setOid(post[length - 1]._id);
-
-    if(wasLastList && bottom)
-      console.log('this is the end of the list!');
+    const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
+    if(bottom && !wasLastList){
+      if(post.length - 1 < 0){
+        console.log('we must set oid to neutral')
+        setOid('');
+      }
+      console.log(post[post.length - 1]._id)
+      setOid(post[post.length - 1]._id);
+    }
   }
   
   return (
     
     <div className = "confession">
         <div className = "confessionFeed">
-
           <div className= "confessionFeedWrapper" onScroll={handleScroll}>
           {post.map((posts) => ( 
             <ConfessionPost post = {posts} />
