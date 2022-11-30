@@ -71,8 +71,12 @@ exports.searchConfession = async (req, res) => {
     else if(searchVar==1){
         var searchResults = await Confession.find({
             _id : {$lt: oid}
-            })
-            .limit(resultsPerPage).sort({_id: -1}).lean();
+            }).populate({
+                path: "voteID",
+                options: {
+                    sort : {netVotes : -1}
+                }
+            }).limit(resultsPerPage).sort({_id: -1}).lean();
     }
     //if searchVar==2, sort by most popular
     else if(searchVar==2){
@@ -100,6 +104,7 @@ exports.searchConfession = async (req, res) => {
 
     for (var i = 0; i < searchResults.length; i++) {
         let votes = searchResults[i].voteID;
+        console.log(votes);
         //console.log(votes);
         //check if logged in user created post
         
@@ -121,7 +126,9 @@ exports.searchConfession = async (req, res) => {
         }
         delete searchResults[i].voteID.upvoteList;
         delete searchResults[i].voteID.downvoteList;
-    }    
+    }  
+    
+    
     
     res.status(201).json(searchResults);
 }
