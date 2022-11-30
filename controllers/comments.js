@@ -132,5 +132,6 @@ exports.searchComments = async (req, res) => {
         delete searchResults[i].voteID.upvoteList;
         delete searchResults[i].voteID.downvoteList;
     }
-    res.status(201).json(searchResults);
+    const result = searchResults.map(({userID, ...rest}) => ({...rest}));
+    res.status(201).json(result);
 }
