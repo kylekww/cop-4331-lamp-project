@@ -128,9 +128,9 @@ exports.searchConfession = async (req, res) => {
         delete searchResults[i].voteID.downvoteList;
     }  
     
+    const result = searchResults.map(({userID, ...rest}) => ({...rest}));
     
-    
-    res.status(201).json(searchResults);
+    res.status(201).json(result);
 }
 
 
