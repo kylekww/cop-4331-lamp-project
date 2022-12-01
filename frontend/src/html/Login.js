@@ -48,6 +48,7 @@ function Login() {
                 <button type = "button" class = "button" onClick = {doLogin}>Login</button>
                 <p id = "noerror"></p>
                 <p>Don't have an account? <a href = "/register">Signup!</a></p>
+                <p>Forgot your password? <a href="/resetpassword">Reset it!</a></p>
             </div>   
         </div>
     );

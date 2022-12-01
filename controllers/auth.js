@@ -89,7 +89,7 @@ exports.register = async(req,res)=>{
     });
 };
 
-exports.emailVerify = async (req,res, next) => {
+exports.emailVerify = async (req,res) => {
     console.log(req.params.token);
     const user = await User.findOne({emailVerifyToken: req.params.token});
     console.log(user?.toObject());
@@ -236,7 +236,7 @@ exports.resetLink = async (req, res) => {
     const user = await User.findOne({email: req.body.email});
 
     if(!user){
-        return res.status(500).json({message: "We could not find a user with this email address"});
+        return res.status(500).json({message: "We could not find a user with this username"});
     }
 
     user.passwordResetToken = crypto.randomBytes(64).toString("hex");
@@ -250,10 +250,13 @@ exports.resetLink = async (req, res) => {
         subject: "Hush UCF password reset",
         text: 
             `
-            ${user.username}, This email has been sent to you because you (or someone else) requested a password reset.
+            ${user.name}, This email has been sent to you because you (or someone else) requested a password reset.
             If you did not request a reset, please ignore this email.  Otherwise, follow the link below.
-            https://${req.headers.host}/reset-password/${user.passwordResetToken}`
-            // http://${req.headers.host}/api/v1/auth/passwordReset/${user.passwordResetToken}    
+            https://${req.headers.host}/newpassword/${user.passwordResetToken}  
+
+            Username: ${user.username}`
+            // http://${req.headers.host}/newpassword/${user.passwordResetToken}  
+            // http://${req.headers.host}/api/v1/auth/passwordReset/${user.passwordResetToken}
             
     }, 
         function(error, info)
@@ -269,6 +272,7 @@ exports.resetLink = async (req, res) => {
 
 exports.passwordReset = async (req, res) => {
     console.log(req.params.token);
+    console.log("LOOK HERE: " + JSON.stringify(req.body));
     const user = await User.findOne({passwordResetToken: req.params.token});
 
     console.log(user?.toObject());
@@ -278,7 +282,7 @@ exports.passwordReset = async (req, res) => {
     }    
 
     user.passwordResetToken = null;
-    const hashedPassword = await bcrpyt.hash(req.body.password, 12)
+    const hashedPassword = await bcrpyt.hash(req.body.password, 12);
     user.password = hashedPassword;
     await user.save();
     
