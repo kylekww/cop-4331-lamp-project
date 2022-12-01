@@ -1,5 +1,5 @@
 import '../../css/styles.css';
-import React, { useState, useEffect, MouseEvent, useRef, useCallback } from 'react';
+import React, { useState, useEffect, MouseEvent, useRef, useCallback, createContext } from 'react';
 import { MenuItem, Menu, ListItemIcon, ListItemText, Badge, Tooltip, IconButton } from '@mui/material';
 import CommentIcon from '@mui/icons-material/Comment';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -15,11 +15,11 @@ function Confession(Props) {
   const[searchVal, setSearch] = useState(1);
   const[oid, setOid] = useState('');
   const {post, wasLastList} = searchConfessions(searchVal, oid);
-
-  
+  const[isNew, setIsNew] = useState(!Props.isNew);
   //changes from hot/new vice versa
   useEffect(() => {
     post.length = 0;
+    setIsNew(current => !current);
     Props.isNew ? setSearch(1) : setSearch(2)
   }, [Props.isNew])
   
@@ -34,10 +34,10 @@ function Confession(Props) {
     const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
     if(bottom && !wasLastList){
       if(post.length - 1 < 0){
-        console.log('we must set oid to neutral')
+        //console.log('we must set oid to neutral')
         setOid('');
       }
-      console.log(post[post.length - 1]._id)
+      //console.log(post[post.length - 1]._id)
       setOid(post[post.length - 1]._id);
     }
   }
@@ -48,7 +48,7 @@ function Confession(Props) {
         <div className = "confessionFeed">
           <div className= "confessionFeedWrapper" onScroll={handleScroll}>
           {post.map((posts) => ( 
-            <ConfessionPost post = {posts} />
+            <ConfessionPost isNew = {isNew} post = {posts} />
             ))}
           </div>
         </div> 

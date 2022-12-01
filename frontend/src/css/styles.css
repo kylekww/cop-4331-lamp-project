@@ -259,6 +259,7 @@ input {
   align-self: center;
   justify-content: center;
   z-index: 1;
+  background-color: #f1eee8;
 }
 
 .confessionPostWrapper{

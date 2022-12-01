@@ -9,8 +9,8 @@ export default function SearchConfessions(searchVal, oid){
     setWasLastList(false)
   }, [searchVal]);
     useEffect(() => {
-        console.log('oid: ' + oid)
-        console.log('searchVal: ' + searchVal)
+        //console.log('oid: ' + oid)
+        //console.log('searchVal: ' + searchVal)
         const displayPosts = async event =>
         {
           const data = await fetch("/api/v1/confessions/searchConfession", {

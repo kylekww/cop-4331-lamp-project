@@ -7,13 +7,13 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteIcon from '@mui/icons-material/Delete';
-
-function ConfessionPost({post}, Props) {
-    const[vote, setVote] = useState(post.voteID.netVotes);
-    const[interacted, setInteracted] = useState(post.userInteracted)
+function ConfessionPost(Props) {
+    const[vote, setVote] = useState(Props.post.voteID.netVotes);
+    const[interacted, setInteracted] = useState(Props.post.userInteracted)
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     
+    //console.log(isNew._currentValue)
     const handleOptionsClick = (event) => {
         setAnchorEl(event.currentTarget);
       };
@@ -112,13 +112,13 @@ function ConfessionPost({post}, Props) {
                 </div>
                 
                 <div className='confessionText'>
-                    {post.confession}
+                    {Props.post.confession}
                 </div>
 
                 <div className= 'confessionVotesComments'>
                   <div className = 'votes'>
                     <Tooltip title="Upvote">
-                      <IconButton value = {post._id} onClick={ upvoteHelper } style={{
+                      <IconButton value = {Props.post._id} onClick={ upvoteHelper } style={{
                           color: "#BABABA",
                         }}>
                           <KeyboardArrowUpIcon sx={{ fontSize: 50 }}/>
@@ -133,7 +133,7 @@ function ConfessionPost({post}, Props) {
                     }}} showZero>
                     </Badge>
                     <Tooltip title="Downvote">
-                      <IconButton value = {post._id} onClick={ downvoteHelper } style={{
+                      <IconButton value = {Props.post._id} onClick={ downvoteHelper } style={{
                           color: "#BABABA"
                         }}>
                           <KeyboardArrowDownIcon sx={{ fontSize: 50 }}/>
@@ -142,11 +142,11 @@ function ConfessionPost({post}, Props) {
                   </div>
 
                   <div className='comments'>
-                    <Badge badgeContent= {post.comments.length} max={99} sx={{
+                    <Badge badgeContent= {Props.post.comments.length} max={99} sx={{
                       "& .MuiBadge-badge": {
                         backgroundColor: Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
                         color: "white"
-                    }}}>
+                    }}} showZero>
                       <Tooltip title="Add Comment">
                         <IconButton onClick={ clickCommentButton } style={{
                           color: "#BABABA"
