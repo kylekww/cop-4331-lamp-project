@@ -20,9 +20,7 @@ exports.changeVote = async (req, res) => {
         return res.status(404).json({message: "Could not find element"})
     }
 
-    let votes = await Votes.findById({_id: element.voteID});
-    
-
+    let votes = await Votes.findById({_id: element.voteID});  
 
     if(element.deleted === 1 || element.deleted === -1){
 
@@ -53,37 +51,40 @@ exports.changeVote = async (req, res) => {
         if(inList==-1){
             votes.downvoteList.pull(voterID);
             votes.upvoteList.push(voterID);
-            votes.netVotes=votes.netVotes+2;
+            element.netVotes += 2;
+            // votes.netVotes=votes.netVotes+2;
             await votes.save();
             return res.status(201).json({
                 message: "vote changed from downvote to upvote",
                 "upvoteList": votes.upvoteList,
                 "downvoteList": votes.downvoteList,
-                "netVotes": votes.netVotes
+                "netVotes": element.netVotes
             });
         }
         ////Votes.find({ upvoteList: voterID });
         else if(inList==1){
             votes.upvoteList.pull(voterID);
-            votes.netVotes--;
+            element.netVotes--;
+            // votes.netVotes--;
             await votes.save();
 
             return res.status(201).json({
                 message: "vote changed from upvote to none",
                 "upvoteList": votes.upvoteList,
                 "downvoteList": votes.downvoteList,
-                "netVotes": votes.netVotes
+                "netVotes": element.netVotes
             });
         }
         else{
             votes.upvoteList.push(voterID);
-            votes.netVotes++;
+            element.netVotes++;
+            // votes.netVotes++;
             await votes.save();
             return res.status(201).json({
                 message: "vote added as upvote",
                 "upvoteList": votes.upvoteList,
                 "downvoteList": votes.downvoteList,
-                "netVotes": votes.netVotes
+                "netVotes": element.netVotes
             });
         }
     }
@@ -91,38 +92,41 @@ exports.changeVote = async (req, res) => {
         if(inList==1){
             votes.upvoteList.pull(voterID);
             votes.downvoteList.push(voterID);
-            votes.netVotes = votes.netVotes - 2; 
+            element.netVotes -= 2;
+            // votes.netVotes = votes.netVotes - 2; 
             await votes.save();
 
             return res.status(201).json({
                 message: "vote changed from upvote to downvote",
                 "upvoteList": votes.upvoteList,
                 "downvoteList": votes.downvoteList,
-                "netVotes": votes.netVotes
+                "netVotes": element.netVotes
             });
         }
         else if(inList==-1){
             votes.downvoteList.pull(voterID);
-            votes.netVotes++;
+            element.netVotes++;
+            // votes.netVotes++;
             await votes.save();
 
             return res.status(201).json({
                 message: "vote changed from downvote to none",
                 "upvoteList": votes.upvoteList,
                 "downvoteList": votes.downvoteList,
-                "netVotes": votes.netVotes
+                "netVotes": element.netVotes
             });
         }
         else{
             votes.downvoteList.push(voterID);
-            votes.netVotes--;
+            element.netVotes--;
+            // votes.netVotes--;
             await votes.save();
 
             return res.status(201).json({
                 message: "vote added as downvote",
                 "upvoteList": votes.upvoteList,
                 "downvoteList": votes.downvoteList,
-                "netVotes": votes.netVotes
+                "netVotes": element.netVotes
             });
         }
     }

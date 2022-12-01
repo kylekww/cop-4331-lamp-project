@@ -26,7 +26,6 @@ exports.addConfession = async (req, res) => {
 // delete confession 
 exports.deleteConfession = async (req, res) => {
     confession = await Confession.findById(req.body.id);
-    
 
     user = await User.findById(req.session.userId);
     if(user.moderator){
@@ -42,7 +41,7 @@ exports.deleteConfession = async (req, res) => {
 //search confession
 exports.searchConfession = async (req, res) => {
 
-    let resultsPerPage = 15;
+    let resultsPerPage = 5;
     let searchVar = req.body.searchVal;
     let oid = req.body.oid;
     
@@ -57,16 +56,12 @@ exports.searchConfession = async (req, res) => {
         }).limit(resultsPerPage).sort({_id: -1}).lean();
     }
     else if(oid == "" && searchVar==2){
-        var searchResults = await Confession.aggregate([
-            {$lookup:{
-                "from": "votes",
-                "localField": "voteID",
-                "foreignField": "_id",
-                "as": "voteID"
-            }},
-            {$unwind: "$voteID"},
-            {"$sort": {"voteID.netVotes": -1}}
-        ]).limit(resultsPerPage);
+        var searchResults = await Confession.find({})
+        .populate({
+            path: "voteID",
+            options: {
+                sort : {netVotes : -1}
+            }}).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
     }
     else if(searchVar==1){
         var searchResults = await Confession.find({
@@ -80,17 +75,23 @@ exports.searchConfession = async (req, res) => {
     }
     //if searchVar==2, sort by most popular
     else if(searchVar==2){
-        var searchResults = await Confession.aggregate([
-            {$match: {_id: {$lt: mongoose.Types.ObjectId(oid)}}},
-            {$lookup:{
-                "from": "votes",
-                "localField": "voteID",
-                "foreignField": "_id",
-                "as": "voteID"
-            }},
-            {$unwind: "$voteID"},
-            {"$sort": {"voteID.netVotes": -1}}
-        ]).limit(resultsPerPage);
+        var lastResult = await Confession.findById({_id: oid});
+
+        console.log("Last result:" + lastResult);
+
+        console.log("Last result net votes: " + lastResult.netVotes);
+
+        var searchResults = await Confession.find({
+            $or: [
+                    {netVotes: {$lt: lastResult.netVotes}},
+                    {_id: {$lt: lastResult._id}}
+                ]
+        }).populate({
+            path: "voteID",
+            options: {
+                sort : {netVotes : -1}
+            }
+        }).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
     }
     else {
         res.status(400).json({message : "Not a valid search type"});
@@ -132,7 +133,6 @@ exports.searchConfession = async (req, res) => {
     
     res.status(201).json(result);
 }
-
 
 //confession information
 exports.information = async (req, res) => {
