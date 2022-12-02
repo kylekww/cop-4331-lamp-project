@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TouchableOpacity , View, Image, Text } from 'react-native';
+import { StyleSheet, Button, View, Image, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import Logo from './Logo';
 //import EditProfile from './EditProfile';
 
 export default function Profile(Props) {
@@ -48,7 +47,6 @@ export default function Profile(Props) {
     };
 
     const returnLanding = async () => {
-        console.log('return');
         Props.navigation.navigate('LandingPage');
     }    
 
@@ -69,22 +67,16 @@ export default function Profile(Props) {
             colors={['rgba(128,199,239,1)', 'rgba(89,35,206,1)']}
             style={styles.background}
             />
-            <View style={styles.logoConstraint}>
-                <Logo isNew={true}></Logo>
-            </View>
             <View style ={styles.container}>
+                
                 <View style = {styles.squarebg}>
                     <Text>Profile View</Text>
                     <Text style = {styles.profile}>Name: {name}</Text>
                     <Text style = {styles.profile}>Username: {username}</Text>
-                    <TouchableOpacity style={styles.button} 
-                        onPress={returnLanding}>
-                        <Text style={styles.buttonText}>return</Text>
-                    </TouchableOpacity>
-                     <TouchableOpacity style={styles.button} 
-                        onPress={logOut}>
-                        <Text style={styles.buttonText}>logout</Text>
-                    </TouchableOpacity>
+                    <View style = {styles.button}>
+                        <Button title = "return" onClick= {returnLanding}/>    
+                        <Button title = "logout" onClick = {logOut}/>
+                    </View>    
                 </View>   
             </View>
         </View>
@@ -123,7 +115,7 @@ const styles = StyleSheet.create({
     },
     buttonText:{
         fontSize: 30,
-        color: 'black',
+        color: 'white',
         alignSelf: 'center',
     },
     text: {
@@ -137,7 +129,7 @@ const styles = StyleSheet.create({
     squarebg: {
         padding: 5,
         width: '100%',
-        height: '80%',
+        height: '100%',
         backgroundColor: 'rgb(231, 232, 243)',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -151,20 +143,5 @@ const styles = StyleSheet.create({
     logo: {
         width: 432,
         height: 432,
-    },
-    logoConstraint: {
-        alignSelf: 'center',
-        top: 20,
-        height: 200,
-        width: 200,
-    },
-    button: {
-        margin: 10,
-        alignSelf: 'center',
-        borderColor: 'rgba(70, 24, 203, 0.9)',
-        borderWidth: 6,
-        borderRadius: 12,
-        width: 120,
-        height: 60,
     },
 });

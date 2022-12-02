@@ -13,6 +13,9 @@ export default function LandingPage(Props) {
     const toggleIsNew = () => {
         setIsNew(current => !current);
     }
+    const goToProfile = () => {
+        console.log('doubleclick');
+    }
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -20,7 +23,7 @@ export default function LandingPage(Props) {
                 colors={isNew?['rgba(128,199,239,1)', 'rgba(89,35,206,1)']:['#DE621C', 'rgba(227, 19, 19, 0.921875)']}
                 style={styles.background}
             />
-            <Tools isNew={isNew} toggleIsNew={toggleIsNew}></Tools>           
+            <Tools isNew={isNew} toggleIsNew={toggleIsNew} goToProfile={goToProfile}></Tools>           
             <Header isNew={isNew}></Header>
             <PageTip></PageTip>
             <Confession isNew={isNew}></Confession>

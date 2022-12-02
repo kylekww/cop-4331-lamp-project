@@ -6,6 +6,8 @@ export default function ProfileButton(Props) {
     const color = user.color; // This will be replaced with user.color
     
     const clickProfileButton = async () => {
+      console.log('click');
+      Props.goToProfile;
       Props.navigation.navigate('Profile');
     }
     
@@ -40,37 +42,37 @@ export default function ProfileButton(Props) {
 }
 
 const styles = StyleSheet.create({
-    profileButton: {
-        padding: 10,
-        alignItems: 'center',
-        textAlign: 'center',
-        alignSelf: 'center',
-        borderWidth: 3,
-        borderRadius: 60,
-        borderColor: '#158888',
-        width: 60,
-        height: 60,
-    },
-    profileContainer: {
-      alignContent: 'center',
-      width: '25%',
-    },
-    profileTool: {
-      height: '75%',
-    },
-    buttonText:{
-        fontSize: 30,
-        color: 'white',
-        alignSelf: 'center',
-    },
-    textName: {
-      fontSize: 16,
-      flexWrap: 'wrap',
+  profileButton: {
+    padding: 10,
+    alignItems: 'center',
+    textAlign: 'center',
+    alignSelf: 'center',
+    borderWidth: 3,
+    borderRadius: 60,
+    borderColor: '#158888',
+    width: 60,
+    height: 60,
+  },
+  profileContainer: {
+    alignContent: 'center',
+    width: '25%',
+  },
+  profileTool: {
+    height: '75%',
+  },
+  buttonText:{
+      fontSize: 30,
       color: 'white',
       alignSelf: 'center',
-      textAlign: 'center',
-      maxWidth: 72,
-      marginTop: '40%',
-      zIndex: 1,
-    }
+  },
+  textName: {
+    fontSize: 16,
+    flexWrap: 'wrap',
+    color: 'white',
+    alignSelf: 'center',
+    textAlign: 'center',
+    maxWidth: 72,
+    marginTop: '40%',
+    zIndex: 1,
+  }
 });

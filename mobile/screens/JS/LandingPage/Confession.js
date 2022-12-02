@@ -45,28 +45,28 @@ export default function Confession(Props) {
     };
     const handleEditPost = () => {
       setAnchorEl(null);
-      console.log("Edit post");
+      //console.log("Edit post");
     };
     const handleDeletePost = () => {
       setAnchorEl(null);
-      console.log("Delete post");
+      //console.log("Delete post");
     };   
       
     const upvoteHelper = (e) => {
       upvoteConfession(e.currentTarget.value);
       if(interacted == 1){
-        console.log('this user was interacted before the upvote')
+        //console.log('this user was interacted before the upvote')
         
         setInteracted(0)
         setVote(vote - 1)
       } 
       if(interacted == 0){
-        console.log('this user was not interacted before the upvote')
+        //console.log('this user was not interacted before the upvote')
         setInteracted(1)
         setVote(vote + 1)
       }
       if(interacted == -1){
-        console.log('downvoted before vote, now upvoted')
+        //console.log('downvoted before vote, now upvoted')
         setInteracted(1)
         setVote(vote + 2)
       }
@@ -75,17 +75,17 @@ export default function Confession(Props) {
     const downvoteHelper = (e) => {
       downvoteConfession(e.currentTarget.value);
       if(interacted == -1){
-          console.log('downvoted before, now neutral')
+          //console.log('downvoted before, now neutral')
           setInteracted(0)
           setVote(vote + 1)
       }
       if(interacted == 0){
-          console.log('neutral to downvoted')
+          //console.log('neutral to downvoted')
           setInteracted(-1)
           setVote(vote - 1)
       }
       if(interacted == 1){
-          console.log('upvote to downvote')
+          //console.log('upvote to downvote')
           setInteracted(-1)
           setVote(vote - 2)
       }
@@ -118,7 +118,7 @@ export default function Confession(Props) {
   ]);
 
   const pressHandler = (key) => {
-    console.log(key);
+    //console.log(key);
   }
 
   return (
@@ -182,11 +182,11 @@ async function upvoteConfession(id) {
   })
   .then(res => {  
     res.json().then((data) => {       
-      console.log(data);
+      //console.log(data);
     }) 
   })
   .catch(err => {
-    console.log(err);
+    //console.log(err);
   });
   
 }
@@ -208,11 +208,11 @@ async function downvoteConfession(id) {
   .then(res => {
 
     res.json().then((data) => {       
-      console.log(data);
+      //console.log(data);
     }) 
   })
   .catch(err => {
-    console.log(err);
+    //console.log(err);
   });
 }
 

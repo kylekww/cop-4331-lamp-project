@@ -8,6 +8,7 @@ export default function Tools(Props) {
   // Toggle hot/new page
   const isNew = Props.isNew;
   const toggleIsNew = Props.toggleIsNew;
+  const goToProfile = Props.goToProfile;
   // Button colors
   const newButtonColor = ['white','rgba(89,35,206,.5)','rgba(89,35,206,1)'];
   const hotButtonColor = ['white','rgba(167, 15, 15, 0.4)','rgba(167, 15, 15, 0.9)'];
@@ -17,20 +18,18 @@ export default function Tools(Props) {
     if(!isNew) {
       toggleIsNew();
       UseNewButton();
-      console.log("Showing New Confessions");
     }
   }
   const clickHotButton = async () => {
     if(isNew) {
       toggleIsNew();
       UseHotButton();
-      console.log("Showing Hot Confessions");
     } 
   }
 
   return (
     <View style = {styles.tools}>
-      <ProfileButton/>
+      <ProfileButton goToProfile={goToProfile}></ProfileButton>
       <View style ={styles.toolsCenter}>
         <TouchableOpacity style={[styles.newButton,{backgroundColor:newButtonColor[(isNew)?1:0]}]} 
             onPress={clickNewButton}>
@@ -48,14 +47,6 @@ export default function Tools(Props) {
       </View>
     </View>
   );
-}
-
-// Page state change is triggered
-async function UseNewButton() {
-  return {text:"Click New"}
-}
-async function UseHotButton() {
-  return {text:"Click Hot"}
 }
 
 const styles = StyleSheet.create({

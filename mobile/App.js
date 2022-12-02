@@ -4,7 +4,6 @@ import { createAppContainer } from "react-navigation";
 import { enableFreeze } from "react-native-screens";
 import { LogBox } from 'react-native';
 
-import Loginscreen from './screens/JS/Login';
 import RealLoginscreen from './screens/JS/RealLogin';
 import Registrationscreen from './screens/JS/Registration';
 import LandingPagescreen from './screens/JS/LandingPage';
@@ -44,7 +43,7 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       headerShown: false // Will hide header for HomePage
     }
-  }
+  },
 },{
   initialRouteName: "RealLogin"
 });
