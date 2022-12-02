@@ -2,59 +2,95 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { View , FlatList, StyleSheet, Text } from 'react-native';
 
-//import searchConfessions from './searchConfessions';
-import ConfessionBox from './Components/ConfessionBox';
+import searchConfessions from './searchConfessions';
 
 export default function Confession(Props) {
-  // Post info
-  const[searchVal, setSearch] = useState(1);
-  /*useEffect(() => {
+   // Post info
+   const[searchVal, setSearch] = useState(1);
+   const[oid, setOid] = useState('');
+   const {post, wasLastList} = searchConfessions(searchVal, oid);
+   const[isNew, setIsNew] = useState(!Props.isNew);
+   //changes from hot/new vice versa
+  useEffect(() => {
+    post.length = 0;
+    setIsNew(current => !current);
     Props.isNew ? setSearch(1) : setSearch(2)
-    console.log(searchVal);
-  }, [Props.isNew])*/
-  const[oid, setOid] = useState('');
-  /*const{
-    post,
-    length
-  } = searchConfessions(searchVal, oid);
-  const observer = useRef(); */
-  //const[post, setPost] = useState([]);
-  //const[length, setLength] = useState(15);
+  }, [Props.isNew])
 
-  // Edit menu logic
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleOptionsClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleOptionsClose = () => {
-    setAnchorEl(null);
-  };
-  const handleEditPost = () => {
-    setAnchorEl(null);
-    console.log("Edit post");
-  };
-  const handleDeletePost = () => {
-    setAnchorEl(null);
-    console.log("Delete post");
-  };
-  const handleScroll = (e) => {
+   // Edit menu logic
+   const [anchorEl, setAnchorEl] = React.useState(null);
+   const open = Boolean(anchorEl);
+   
+   const handleScroll = (e) => {
+     const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
+     if(bottom && !wasLastList){
+       if(post.length - 1 < 0){
+         //console.log('we must set oid to neutral')
+         setOid('');
+       }
+       //console.log(post[post.length - 1]._id)
+       setOid(post[post.length - 1]._id);
+     }
+   }
+
+    //const[vote, setVote] = useState(post.voteID.netVotes);
+    //const[interacted, setInteracted] = useState(post.userInteracted)
     
-    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-    if(bottom){
-      setOid(post[length - 1]._id);
+    //console.log(isNew._currentValue)
+    const handleOptionsClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleOptionsClose = () => {
+      setAnchorEl(null);
+    };
+    const handleEditPost = () => {
+      setAnchorEl(null);
+      console.log("Edit post");
+    };
+    const handleDeletePost = () => {
+      setAnchorEl(null);
+      console.log("Delete post");
+    };   
       
+    const upvoteHelper = (e) => {
+      upvoteConfession(e.currentTarget.value);
+      if(interacted == 1){
+        console.log('this user was interacted before the upvote')
+        
+        setInteracted(0)
+        setVote(vote - 1)
+      } 
+      if(interacted == 0){
+        console.log('this user was not interacted before the upvote')
+        setInteracted(1)
+        setVote(vote + 1)
+      }
+      if(interacted == -1){
+        console.log('downvoted before vote, now upvoted')
+        setInteracted(1)
+        setVote(vote + 2)
+      }
     }
-    
-  }
-  const upvoteHelper = (e) => {
-    upvoteConfession(e.currentTarget.value);
-  }
+  
+    const downvoteHelper = (e) => {
+      downvoteConfession(e.currentTarget.value);
+      if(interacted == -1){
+          console.log('downvoted before, now neutral')
+          setInteracted(0)
+          setVote(vote + 1)
+      }
+      if(interacted == 0){
+          console.log('neutral to downvoted')
+          setInteracted(-1)
+          setVote(vote - 1)
+      }
+      if(interacted == 1){
+          console.log('upvote to downvote')
+          setInteracted(-1)
+          setVote(vote - 2)
+      }
 
-  const downvoteHelper = (e) => {
-    downvoteConfession(e.currentTarget.value);
-  }
-  // React hook for confessions
+    }
   
   const [tempData, setData] = useState([
     {name: 'Austin', username: 'test1', id: 1},
@@ -94,10 +130,12 @@ export default function Confession(Props) {
                 data={tempData}
                 renderItem={({ item }) => (
                   <View style = {styles.box} >
-                    <TouchableOpacity onPress={pressHandler}>
-                      <Text style = {styles.text}>hi, this is item  {item.id}, the name is {item.name} 
-                      </Text>
-                    </TouchableOpacity>
+                    <View>
+                      <TouchableOpacity onPress={pressHandler}>
+                        <Text style = {styles.text}>hi, this is item  {item.id}, the name is {item.name} 
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 )}
             />
@@ -116,20 +154,6 @@ export default function Confession(Props) {
     - Lazy loading
 */
 
-// This needs to match with user ID
-async function deleteConfession() {
-  const response = await fetch('url', {
-    mode: 'no-cors',
-    method: 'POST', 
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({})
-  });
-  return {text:"This only works if you are the owner of the confession."}
-}
-
-// This redirects the user to the comments page
 async function clickCommentButton() {
   const response = await fetch('url', {
     mode: 'no-cors',
@@ -142,12 +166,10 @@ async function clickCommentButton() {
   window.location.href = '/comments';
 }
 
-/* Both upvote and downvote need to interact with the total vote tally */
-
 async function upvoteConfession(id) {
   const vote = 1;
   const type = 1;
-  const data = await fetch("/api/v1/votes/changeVote", {
+  const data = await fetch("https://hushucf.herokuapp.com/api/v1/votes/changeVote", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -172,7 +194,7 @@ async function upvoteConfession(id) {
 async function downvoteConfession(id) {
   const vote = -1;
   const type = 1;
-  const data = await fetch("/api/v1/votes/changeVote", {
+  const data = await fetch("https://hushucf.herokuapp.com/api/v1/votes/changeVote", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

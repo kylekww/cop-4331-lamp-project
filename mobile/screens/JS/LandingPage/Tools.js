@@ -99,12 +99,13 @@ const styles = StyleSheet.create({
   },
   logoConstraint: {
     top: 30,
-    height: 100,
-    width: 100,
+    height: 80,
+    width: 80,
   },
   logoContainer: {
     flexWrap: 'wrap-reverse',
-    top:20,
+    top:30,
+    right: 20,
     height: 200,
     width: 200,
     zIndex:-1,
