@@ -60,7 +60,7 @@ function Profile() {
 
         <div>
             <div class="container">
-                <h1>Logo goes here</h1>
+                <img src={require('../images/NewIcon.jpg')} class="HushIcon"/>
                 <div class="squarebg">
                     <h1>Profile View</h1>
                     <p id="profile">Name: {user.name}</p>

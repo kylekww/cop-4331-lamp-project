@@ -27,7 +27,8 @@ html {
   width: 100%;
   height: 100%;
   display: grid;
-  place-items: center;
+  justify-items: center;
+  align-items: start;
 }
 
 .squarebg {
@@ -72,6 +73,10 @@ input {
   color: rgba(89,35,206,1);
   text-align: left;
   padding-left: 0.7em;
+}
+
+.HushIcon {
+  height: 300px;
 }
 
 /* End of Global Styles */
@@ -223,6 +228,15 @@ input {
   to {
     transform: rotate(360deg);
   }
+}
+
+.HushIconLanding {
+  height: 100px;
+  right: 7%;
+  position: absolute;
+
+  -webkit-transition: opacity 0.5s linear;
+  transition: opacity 0.5s linear;
 }
 
 /* ----- */

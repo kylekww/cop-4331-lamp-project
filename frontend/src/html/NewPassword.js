@@ -67,7 +67,7 @@ function NewPassword() {
 
     return (
         <div class="container">
-            <h1>Logo goes here</h1>
+            <img src={require('../images/NewIcon.jpg')} class="HushIcon"/>
             <div class="squarebg">
                 <h1>Create a New Password </h1>
                 <input type="password" id="password" placeholder="Password" required />

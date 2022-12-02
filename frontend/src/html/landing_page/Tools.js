@@ -40,6 +40,12 @@ function Tools(Props) {
           </div>
         </button>
       </div>
+      <img src={require('../../images/NewIcon.jpg')} class="HushIconLanding" style={{
+        opacity: isNew ? "1" : "0"
+      }}/>
+      <img src={require('../../images/HotIcon.jpg')} class="HushIconLanding" style={{
+        opacity: isNew ? "0" : "1"
+      }}/>
     </div>
   );
 }
