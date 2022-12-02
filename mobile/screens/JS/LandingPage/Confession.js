@@ -224,10 +224,9 @@ const styles = StyleSheet.create({
       flex: 5.5,
   },
   confessionFeedWrapper: {
-    padding: 20,
     flexDirection: 'column',
-    flex: 1,
-    height: 500, 
+    marginTop: '5%',
+    height: '90%',
     width: '100%',
     position: 'fixed',
   },
