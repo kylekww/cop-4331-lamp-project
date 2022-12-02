@@ -1,6 +1,7 @@
 import ProfileButton from './ProfileButton';
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import Logo from '../Logo';
 
 export default function Tools(Props) {
 
@@ -40,7 +41,10 @@ export default function Tools(Props) {
             <Text style={[styles.buttonText,{color: hotButtonColor[(isNew)?2:0]}]}>Hot</Text>
         </TouchableOpacity>
       </View>
-      <View style={{width:'50%'}}>
+      <View style = {styles.logoContainer}>
+        <View style = {styles.logoConstraint}>
+          <Logo isNew={isNew}></Logo>
+        </View>
       </View>
     </View>
   );
@@ -92,5 +96,17 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: 'white',
     alignSelf: 'center',
+  },
+  logoConstraint: {
+    top: 30,
+    height: 100,
+    width: 100,
+  },
+  logoContainer: {
+    flexWrap: 'wrap-reverse',
+    top:20,
+    height: 200,
+    width: 200,
+    zIndex:-1,
   },
 });

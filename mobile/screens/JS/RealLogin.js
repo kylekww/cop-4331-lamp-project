@@ -73,7 +73,9 @@ export default function RealLogin(Props) {
                 colors={['#80c6ef', '#5923ce']}
                 style={styles.background}
             >
-            <Logo></Logo>
+            <View style={styles.logoConstraint}>
+                <Logo isNew={true}></Logo>
+            </View>
             <View style={styles.box}>
                 <View style={styles.phrase}>
                     <Text style={{fontSize: 25, color: '#5923ce', fontWeight: "bold"}}>
@@ -121,12 +123,17 @@ const styles = StyleSheet.create({
     },
     box: {
         width: '90%',
-        height: '80%',
+        height: '60%',
         justifyContent: 'center',
         backgroundColor: '#e7e8f3',
         borderRadius: 30,
         alignItems: 'center',
         top: 25,
+    },
+    logoConstraint: {
+        top: 20,
+        height: 200,
+        width: 200,
     },
     phrase: {
         alignItems: 'center',
