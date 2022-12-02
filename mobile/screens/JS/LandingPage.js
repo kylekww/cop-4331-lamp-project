@@ -8,68 +8,12 @@ import Header from './LandingPage/Header';
 import PageTip from './LandingPage/PageTip';
 import Confession from './LandingPage/Confession';
 
-export default function LandingPage() {
+export default function LandingPage(Props) {
     const [isNew, setIsNew] = useState([true]);
     const toggleIsNew = () => {
         setIsNew(current => !current);
     }
-    const handleNewPageClick = async () => {
-        if (isNew) {
-            toggleIsNew;
-        }
-    }
-    const handleHotPageClick = async () => {
-        if (!isNew) {
-            toggleIsNew;
-        }
-    }
-
     return (
-        /*
-        <View class="transitioncolor" style={{
-            opacity: isNew ? '0' : '1',
-            background: isNew ? 'transparent' : 'linear-gradient(180deg, rgba(238, 147, 114, 1) 0%, rgba(227, 19, 19, 0.921875) 100%) no-repeat fixed',
-            backgroundSize: '100% auto',
-            height: "100vh",
-            width: "100%",
-            margin: 0
-            }}> 
-        </View>
-            <View class="transitioncolor" style={{
-            opacity: isNew ? '0' : '1',
-            background: isNew ? 'linear-gradient(180deg, rgba(238, 147, 114, 1) 0%, rgba(227, 19, 19, 0.921875) 100%) no-repeat fixed' : 'transparent',
-            height: "100vh",
-            width: "100%"
-            }}> 
-        </View>
-        */
-        /*
-        <View style={styles.container}>
-            <LinearGradient
-                // Background Linear Gradient
-                colors={['rgba(128,199,239,1)', 'rgba(89,35,206,1)']}
-                style={styles.background}
-            />
-            <View style = {styles.workspace}>
-                <View style={[styles.header,{alignSelf: 'left'}]}> 
-                    <ProfileButton />
-                    <View style={[styles.header,{alignSelf: 'center'}]}> 
-                        <TouchableHighlight style={[styles.newButton,{backgroundColor:newButtonColor[(isHot)?1:0]}]} 
-                            onPress={handleNewPageClick} underlayColor='rgb(128,199,239,0.75)'>
-                            <Text style={[styles.buttonText,{color: newButtonColor[(!isHot)?1:0]}]}>New</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight style={[styles.hotButton,{backgroundColor:hotButtonColor[(isHot)?1:0]}]} 
-                            onPress={handleHotPageClick} underlayColor='rgb(222,98,28,0.5)'>
-                            <Text style={[styles.buttonText,{color: hotButtonColor[(!isHot)?1:0]}]}>Hot</Text>
-                        </TouchableHighlight>
-                    </View>
-                </View>
-                <ScrollView style={styles.scrollView}>
-
-                </ScrollView>
-            </View>
-        </View>
-        */
         <View style={styles.container}>
             <LinearGradient
                 // Background Linear Gradient

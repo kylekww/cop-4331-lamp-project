@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
-export default function ProfileButton() {
+export default function ProfileButton(Props) {
     const[user, setUser] = useState([]);
     const color = user.color; // This will be replaced with user.color
     
     const clickProfileButton = async () => {
-      navigation.navigate('Profile');
+      Props.navigation.navigate('Profile');
     }
     
     useEffect(() => {
@@ -36,27 +36,6 @@ export default function ProfileButton() {
         </TouchableOpacity>
       </View>
     </View>
-    /*
-    <View class="ProfileContainer">
-      <View class="ProfileTool">
-        <Avatar onClick={clickProfileButton} style={{border: '3px solid #BABABA'}}
-        sx={{ 
-          bgcolor: `${color}`,
-          '&:hover': {
-            borderColor: '#158888'
-          },
-        }}
-        >
-          <View class="Text">
-            {user.username?.charAt(0).toUpperCase()}
-          </View>
-        </Avatar>
-      </View>
-      <View class="TextName">
-          Hello {user.name}!
-      </View>
-    </View>
-    */
   );
 }
 

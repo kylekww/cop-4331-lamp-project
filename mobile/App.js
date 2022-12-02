@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import { enableFreeze } from "react-native-screens";
+import { LogBox } from 'react-native';
 
 import Loginscreen from './screens/JS/Login';
 import RealLoginscreen from './screens/JS/RealLogin';
@@ -10,6 +11,9 @@ import LandingPagescreen from './screens/JS/LandingPage';
 import ProfileScreen from './screens/JS/Profile';
 
 enableFreeze(true);
+
+console.disableYellowBox = true;
+LogBox.ignoreAllLogs();
 export default class App extends React.Component {
   render() {
     return <AppContainer />;
@@ -17,12 +21,6 @@ export default class App extends React.Component {
 }
 
 const AppNavigator = createStackNavigator({
-  Login: {
-    screen: Loginscreen,
-    navigationOptions: {
-      headerShown: false // Will hide header for HomePage
-    }
-  },
   Registration: {
     screen: Registrationscreen,
     navigationOptions: {

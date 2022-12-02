@@ -1,84 +1,20 @@
-import React, { Component } from 'react';
-import { TouchableHighlight, StyleSheet, TextInput, Button, View, Text, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, TextInput, Button, View, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Logo from './Logo';
 
 global.password = '';
 global.userId = -1;
 global.userName = '';
 
-export default class RealLogin extends Component {
-    constructor()
-    {
-        super()
-        this.state = 
-        {
-            message: ''
-        }
-    }
+export default function RealLogin(Props) {
+    
+    const [state,setState] = useState({message:''});
 
-    render(){
-        return (
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <LinearGradient
-                    colors={['#80c6ef', '#5923ce']}
-                    style={styles.background}
-                >
-                <View style={styles.box}>
-                    <View style={styles.phrase}>
-                        <Text style={{fontSize: 25, color: '#5923ce', fontWeight: "bold"}}>
-                            Make Your Confessions...
-                        </Text>
-                    </View>
-                        <View style={styles.input}>
-                            <TextInput 
-                                style={{fontSize: 16, color: '#5923ce'}} 
-                                placeholder='Username'
-                                //secureTextEntry={true}
-                                onChangeText={(val) => {this.changeUsername(val)}}
-                            />
-                        </View>
-                    <View style={{marginBottom: 10}} />
-                        <View style={styles.input}>
-                            <TextInput 
-                                style={{fontSize: 16, color: '#5923ce'}} 
-                                placeholder='Password'
-                                secureTextEntry={false}
-                                onChangeText={(val) => {this.changePassword(val)}} 
-                            />
-                        </View>
-                    <View style={styles.button}>
-                        <Button 
-                            title="Login!" 
-                            style={{fontSize: 25, color: '#5923ce'}}
-                            onPress={this.handleLogin}
-                         />
-                    </View>
-                </View>
-                <View style={{fontSize: 16, color: '#5923ce', bottom: 10}}>
-                    <Button title="Click here to Register!" onPress={this.goToRegister}/>
-                </View>
-                </LinearGradient>
-            </View>
-        )
-    }
-
-    handleLogin = async () =>
+    const handleLogin = async () =>
     {
         try
         {
-            // var obj = {username: global.userName, password: global.password};
-            // var js = JSON.stringify(obj);
-
-            // const response = await fetch('https://hushucf.herokuapp.com/api/v1/auth/login',
-            //     {method: 'POST', body: js, headers: {'Content-Type': 'application/json'}});
-
-            // var res = JSON.parse(await response.text());
-
-            // if(res.status == 200)
-            // {
-            //     Alert.alert("YES")
-            // }
-
             var obj = {username: global.username, password: global.password};
             var js = JSON.stringify(obj);
 
@@ -101,7 +37,7 @@ export default class RealLogin extends Component {
                 }
                 else if(res.status == 200)
                 {
-                    this.props.navigation.navigate('LandingPage');
+                    Props.navigation.push('LandingPage');
                 }
                 else
                 {  
@@ -112,24 +48,69 @@ export default class RealLogin extends Component {
         }
         catch(e)
         {
-            this.setState({message: e.message});
+            setState({message: e.message});
         }
     }
 
-    goToRegister = async () =>
+    const goToRegister = async () =>
     {
-        this.props.navigation.navigate('Registration');
+        Props.navigation.push('Registration');
     }
 
-    changeUsername = async (val) =>
+    const changeUsername = async (val) =>
     {
         global.username = val;
     }
 
-    changePassword = async (val) =>
+    const changePassword = async (val) =>
     {
         global.password = val;
     }
+
+    return (
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <LinearGradient
+                colors={['#80c6ef', '#5923ce']}
+                style={styles.background}
+            >
+            <Logo></Logo>
+            <View style={styles.box}>
+                <View style={styles.phrase}>
+                    <Text style={{fontSize: 25, color: '#5923ce', fontWeight: "bold"}}>
+                        Make Your Confessions...
+                    </Text>
+                </View>
+                    <View style={styles.input}>
+                        <TextInput 
+                            style={{fontSize: 16, color: '#5923ce'}} 
+                            placeholder='Username'
+                            secureTextEntry={false}
+                            onChangeText={(val) => {changeUsername(val)}}
+                            />
+                    </View>
+                <View style={{marginBottom: 10}} />
+                    <View style={styles.input}>
+                        <TextInput 
+                            style={{fontSize: 16, color: '#5923ce'}} 
+                            placeholder='Password'
+                            secureTextEntry={true}
+                            onChangeText={(val) => {changePassword(val)}} 
+                        />
+                    </View>
+                <View style={styles.button}>
+                    <Button 
+                        title="Login!" 
+                        style={{fontSize: 25, color: '#5923ce'}}
+                        onPress={handleLogin}
+                        />
+                </View>
+            </View>
+            <View style={{fontSize: 16, color: '#5923ce', bottom: 10}}>
+                <Button title="Click here to Register!" onPress={goToRegister}/>
+            </View>
+            </LinearGradient>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -151,9 +132,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         bottom: '33%',
-    },
-    logo: {
-        
     },
     input: {
         borderColor: '#000000',
