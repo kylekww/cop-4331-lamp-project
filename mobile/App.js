@@ -48,7 +48,7 @@ const AppNavigator = createStackNavigator({
     }
   }
 },{
-  initialRouteName: "LandingPage"
+  initialRouteName: "RealLogin"
 });
 
 const AppContainer = createAppContainer(AppNavigator);

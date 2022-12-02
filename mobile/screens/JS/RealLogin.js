@@ -101,11 +101,11 @@ export default class RealLogin extends Component {
                 }
                 else if(res.status == 200)
                 {
-                    alert("yes");
+                    this.props.navigation.navigate('LandingPage');
                 }
                 else
-                {
-                    alert("yes");
+                {  
+                    alert("no");
                 }
             })
             

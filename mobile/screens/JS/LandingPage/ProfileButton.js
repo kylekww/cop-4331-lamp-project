@@ -6,20 +6,19 @@ export default function ProfileButton() {
     const color = user.color; // This will be replaced with user.color
     
     const clickProfileButton = async () => {
-        navigation.navigate('Profile');
+      navigation.navigate('Profile');
     }
     
     useEffect(() => {
-      setUser({name: 'Austin', username: 'Austin', color:'rgba(89,35,206, 1)'});
-    const data = fetch("/api/v1/auth/profile", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
+    const data = fetch("https://hushucf.herokuapp.com/api/v1/auth/profile", {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json",
+      },
     })
     .then(res => {
       res.json().then((data) => {
-        // setUser(data.user);
+        setUser(data.user);
         
       }) 
     })
