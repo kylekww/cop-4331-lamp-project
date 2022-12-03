@@ -8,29 +8,33 @@ import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteIcon from '@mui/icons-material/Delete';
 function ConfessionPost(Props) {
-    const[vote, setVote] = useState(Props.post.voteID.netVotes);
+    const[vote, setVote] = useState(Props.post.netVotes);
     const[interacted, setInteracted] = useState(Props.post.userInteracted)
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     
     //console.log(isNew._currentValue)
     const handleOptionsClick = (event) => {
+      event.currentTarget.disabled = true;
         setAnchorEl(event.currentTarget);
       };
       const handleOptionsClose = () => {
         setAnchorEl(null);
       };
-      const handleEditPost = () => {
+      const handleEditPost = (e) => {
+        e.currentTarget.disabled = true;
         setAnchorEl(null);
         console.log("Edit post");
       };
-      const handleDeletePost = () => {
+      const handleDeletePost = (e) => {
+        e.currentTarget.disabled = true;
         setAnchorEl(null);
         console.log("Delete post");
       };
         
       
       const upvoteHelper = (e) => {
+        e.currentTarget.disabled = true;
         upvoteConfession(e.currentTarget.value);
         if(interacted == 1){
             console.log('this user was interacted before the upvote')
@@ -51,6 +55,7 @@ function ConfessionPost(Props) {
       }
     
       const downvoteHelper = (e) => {
+        e.currentTarget.disabled = true;
         downvoteConfession(e.currentTarget.value);
         if(interacted == -1){
             console.log('downvoted before, now neutral')
@@ -124,7 +129,7 @@ function ConfessionPost(Props) {
                   <div className = 'votes'>
                     <Tooltip title="Upvote">
                       <IconButton value = {Props.post._id} onClick={ upvoteHelper } style={{
-                          color: "#BABABA",
+                          backgroundColor: "#BABABA",
                         }}>
                           <KeyboardArrowUpIcon sx={{ fontSize: 50 }}/>
                       </IconButton>
