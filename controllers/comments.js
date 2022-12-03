@@ -58,18 +58,13 @@ exports.searchComments = async (req, res) => {
         })
         .populate({
             path: "voteID",
-            options: {
-                sort : {netVotes : -1}
-            }
         }).limit(resultsPerPage).sort({_id: -1}).lean();
     }
     else if(oid == "" && searchVar==2){
-        var searchResults = await Comment.find({})
+        
+        var searchResults = await Comment.find({confessionID : confessionOID})
         .populate({
             path: "voteID",
-            options: {
-                sort : {netVotes : -1}
-            }
         }).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
     }
     else if(searchVar==1){
@@ -78,16 +73,14 @@ exports.searchComments = async (req, res) => {
             _id : {$lt: mongoose.Types.ObjectId(oid)}
             })
             .populate({
-                path: "voteID",
-                options: {
-                    sort : {netVotes : -1}
-                }
+                path: "voteID",  
             }).limit(resultsPerPage).sort({_id: -1}).lean();
     }
     //if searchVar==2, sort by most popular
     else if(searchVar==2){
-        
-        var searchResults = await Confession.find( {
+        var oldHigh = await Comment.findById(oid);
+        console.log(oid)
+        var searchResults = await Comment.find( {
             $and : [ { confessionID : confessionOID },
                 {$or : [ { netVotes : oldHigh.netVotes, _id : {$lt : oldHigh._id } },
                  { netVotes : {$lt : oldHigh.netVotes}
@@ -98,20 +91,7 @@ exports.searchComments = async (req, res) => {
             path: "voteID",
         }).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
         
-/*
-        var searchResults = await Comment.aggregate([
-            {$match: {confessionID: confessionOID}},
-            {$match: {_id: {$lt: mongoose.Types.ObjectId(oid)}}},
-            {$lookup:{
-                "from": "votes",
-                "localField": "voteID",
-                "foreignField": "_id",
-                "as": "voteID"
-            }},
-            {$unwind: "$voteID"},
-            {"$sort": {"voteID.netVotes": -1}}
-        ]).limit(resultsPerPage);
-        */
+
     }
     else {
         res.status(400).json({message : "Not a valid search type"});
@@ -119,8 +99,11 @@ exports.searchComments = async (req, res) => {
     }
     //declare new temp unsaved fields 
     for(var i = 0; i < searchResults.length; i++){
-        searchResults[i]["userInteracted"] = 0;
+        searchResults[i]["userInteracted"] = 0;        
         searchResults[i]["userCreated"] = 0;
+        if(searchResults[i].userID == req.session.userId){
+            searchResults[i].userCreated=1;
+        }
     }
 
     for (var i = 0; i < searchResults.length; i++) {
@@ -129,14 +112,12 @@ exports.searchComments = async (req, res) => {
         for(var j = 0; j < votes.downvoteList.length; j++){
             if(votes.downvoteList[j]==req.session.userId){
                 searchResults[i].userInteracted = -1;
-                
             }
         }
         //check if user has upvoted
         for(var j = 0; j < votes.upvoteList.length; j++){
             if(votes.upvoteList[j]==req.session.userId){
                 searchResults[i].userInteracted = 1;
-                
             }
         }
         delete searchResults[i].voteID.upvoteList;
