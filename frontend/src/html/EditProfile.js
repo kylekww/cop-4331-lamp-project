@@ -91,7 +91,7 @@ function EditProfile({ open, handleClose }) {
         console.log("Username: " + username.toString());
         console.log("Password: " + passwordRequirements(password));
         console.log("Password: " + password.toString());
-        console.log("Email: " + validEmail(email))
+        console.log("Email: " + validEmail(email));
         console.log("Email: " + email.toString());
         
         if ((passwordRequirements(password)) && (validEmail(email))) {
