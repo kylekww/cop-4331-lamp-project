@@ -128,8 +128,8 @@ function ConfessionPost(Props) {
                 <div className= 'confessionVotesComments'>
                   <div className = 'votes'>
                     <Tooltip title="Upvote">
-                      <IconButton value = {Props.post._id} onClick={ upvoteHelper } style={{
-                          backgroundColor: "#BABABA",
+                      <IconButton value={Props.post._id} onClick={ upvoteHelper } sx={{
+                          color: "#BABABA",
                         }}>
                           <KeyboardArrowUpIcon sx={{ fontSize: 50 }}/>
                       </IconButton>

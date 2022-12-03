@@ -32,7 +32,7 @@ function Confession(Props) {
 
   
   // Post info
-  const[commentSearchVal, setCommentSearch] = useState(1);
+  const[commentSearchVal, setCommentSearch] = useState(2);
   const[commentoid, setCommentOid] = useState('');
 
   // Pass values in this order: searchVal, comment oid, confession oid

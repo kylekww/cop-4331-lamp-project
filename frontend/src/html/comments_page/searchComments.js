@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 export default function SearchComments(searchVal, oid, confessionOID){
   const [post, setPosts] = useState([]);
-  const[length, setLength] = useState(4);
+  const[length, setLength] = useState(15);
   const[wasLastList, setWasLastList] = useState(false);
   useEffect(() => {
     setPosts([]);
@@ -25,7 +25,7 @@ export default function SearchComments(searchVal, oid, confessionOID){
             res.json().then((data) => {
 
               console.log(data);
-              if(data.length < 4){
+              if(data.length < 15){
                 setWasLastList(true);
                 setPosts([...post, ...data]);
                 return;
