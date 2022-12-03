@@ -93,9 +93,9 @@ function EditProfile({ open, handleClose }) {
         const email = document.getElementById("email").value;
 
         console.log("Username: " + username.toString());
-        console.log("Password: " + isPasswordCorrect);
+        console.log("Password: " + passwordRequirements(password));
         var isPasswordCorrect = passwordRequirements(password);
-        console.log("Email: " + isEmailCorrect)
+        console.log("Email: " + validEmail(email))
         var isEmailCorrect = validEmail(email);
         
         if ((isPasswordCorrect) && (isEmailCorrect)) {
