@@ -27,6 +27,9 @@ exports.addComment = async (req, res) =>{
 
 exports.deleteComment = async (req, res) => {
     comment = await Comment.findById(req.body.id);
+    if(comment == null){
+        return res.status(404).json({message: "Comment not found"});
+    }
 
     user = await User.findById(req.session.userId);
 

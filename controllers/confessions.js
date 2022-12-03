@@ -26,6 +26,9 @@ exports.addConfession = async (req, res) => {
 // delete confession 
 exports.deleteConfession = async (req, res) => {
     confession = await Confession.findById(req.body.id);
+    if(confession == null){
+        return res.status(404).json({message: "Confession not found"});
+    }
     user = await User.findById(req.session.userId);
     if(user.moderator){
         confession.deleted = -1;
