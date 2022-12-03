@@ -30,6 +30,8 @@ function EditProfile({ open, handleClose }) {
         let passwordNumber = false;
         let passwordLength = false;
 
+        console.log("Password: " + password);
+
         if(password == null){
             return true;
         }
@@ -56,21 +58,14 @@ function EditProfile({ open, handleClose }) {
     }
 
     function validEmail(email) {
-        if(email != null){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    function emailValue(email) {
         let knightsEmail = "@knights.ucf.edu";
         var temp = email.toString();
         const knightsEmailArray = knightsEmail.split("")
         const emailArray = temp.split("")
         let validation = false;
         let j = 0;
+
+        console.log("Email: " + temp);
 
         if(email == null){
             return true;
@@ -98,10 +93,9 @@ function EditProfile({ open, handleClose }) {
         const email = document.getElementById("email");
 
         console.log("Username: " + username);
-        console.log("Email: " + email);
-        console.log("Password: " + password);
-
-        if ((passwordRequirements(password)) && (emailValue(email))) {
+        
+        
+        if ((passwordRequirements(password)) && (validEmail(email))) {
             const data = await fetch("/api/v1/auth/editProfile", {
                 method: "POST",
                 headers: {
