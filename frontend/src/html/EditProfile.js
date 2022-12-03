@@ -29,6 +29,10 @@ function EditProfile({ open, handleClose }) {
         let lowerCase = false;
         let passwordNumber = false;
         let passwordLength = false;
+        
+        if(!password){
+            return true;
+        }
 
         if (password.length >= 8) {
             passwordLength = true;
