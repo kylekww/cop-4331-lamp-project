@@ -30,6 +30,9 @@ exports.deleteConfession = async (req, res) => {
         return res.status(404).json({message: "Confession not found"});
     }
     user = await User.findById(req.session.userId);
+    if(user == null){
+        return res.status(404).json({message: "User not found"});
+    }
     if(user.moderator){
         confession.deleted = -1;
         confession.save()
@@ -38,7 +41,11 @@ exports.deleteConfession = async (req, res) => {
     else if(!user.moderator){
         confession.deleted = 1;
         confession.save()
-        return res.status(201).json({message: "This post was deleted successfully"});
+        return res.status(201).json(
+            {
+                message: "This post was deleted successfully", 
+                "confession": confession.toObject()
+            });
     }
 }
 
