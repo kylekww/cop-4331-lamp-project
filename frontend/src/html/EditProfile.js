@@ -28,7 +28,25 @@ function EditProfile({ open, handleClose }) {
         }
     }
 
+    function validUsername(username) {
+        if(username != null){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     function validEmail(email) {
+        if(email != null){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    function emailValue(email) {
         let knightsEmail = "@knights.ucf.edu";
         var temp = email.toString();
         const knightsEmailArray = knightsEmail.split("")
@@ -46,6 +64,15 @@ function EditProfile({ open, handleClose }) {
             }
         }
         return validation;
+    }
+
+    function validPassword(password) {
+        if(password != null){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     const [user, setUser] = useState([]);
@@ -76,10 +103,24 @@ function EditProfile({ open, handleClose }) {
     }
 
     const makeEdits = async event => {
-        const username = document.getElementById("username");;
-        const password = document.getElementById("password");;
-        const email = document.getElementById("email");;
-        if ((passwordRequirements(password)) && (validEmail(email))) {
+        const username = document.getElementById("username");
+        const password = document.getElementById("password");
+        const email = document.getElementById("email");
+        //check if these are null before passing to api
+
+        if(!validUsername){
+            username = user.username;
+        }
+
+        if(!validEmail){
+            email = user.email;
+        }
+
+        if(!validPassword){
+            password = user.password;
+        }
+
+        if ((passwordRequirements(password)) && (emailValue(email))) {
             const data = await fetch("/api/v1/auth/editProfile", {
                 method: "POST",
                 headers: {
@@ -119,7 +160,7 @@ function EditProfile({ open, handleClose }) {
                 <h1>Edit Profile </h1>
                 <input type="text" id="username" placeholder={user.username} required />
                 <input type="text" id="email" placeholder={user.email} required />
-                <input type="password" id="password" placeholder={user.password} required />
+                <input type="password" id="password" placeholder="********" required />
                 <span class="passwordRequirements">
                     Requirements: <br />
                     8 Characters <br />
