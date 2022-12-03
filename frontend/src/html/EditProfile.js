@@ -55,15 +55,6 @@ function EditProfile({ open, handleClose }) {
         }
     }
 
-    function validUsername(username) {
-        if(username != null){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
     function validEmail(email) {
         if(email != null){
             return true;
@@ -105,6 +96,10 @@ function EditProfile({ open, handleClose }) {
         const username = document.getElementById("username");
         const password = document.getElementById("password");
         const email = document.getElementById("email");
+
+        console.log("Username: " + username);
+        console.log("Email: " + email);
+        console.log("Password: " + password);
 
         if ((passwordRequirements(password)) && (emailValue(email))) {
             const data = await fetch("/api/v1/auth/editProfile", {
