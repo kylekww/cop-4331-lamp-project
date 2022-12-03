@@ -104,7 +104,8 @@ function ConfessionPost(Props) {
                         aria-expanded={open ? 'true' : undefined}
                         style={{
                             color: "#BABABA",
-                            display: Props.post.userCreated ? 'block' : 'none'
+                            display: Props.post.userCreated ? 'block' : 'none',
+                            
                       }}>
                         <DeleteIcon sx={{ fontSize: 40 }}/>
                       </IconButton>
@@ -120,7 +121,7 @@ function ConfessionPost(Props) {
                   <div className = 'votes'>
                     <Tooltip title="Upvote">
                       <IconButton value = {Props.post._id} placement = 'top' onClick={ upvoteHelper } style={{
-                          color: "#BABABA",
+                          color: interacted != 1 ? "#BABABA" : (Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)")
                         }}>
                           <KeyboardArrowUpIcon sx={{ fontSize: 50 }}/>
                       </IconButton>
@@ -135,7 +136,7 @@ function ConfessionPost(Props) {
                     </Badge>
                     <Tooltip title="Downvote">
                       <IconButton value = {Props.post._id} onClick={ downvoteHelper } style={{
-                          color: "#BABABA"
+                          color: interacted != -1 ? "#BABABA" : (Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)")
                         }}>
                           <KeyboardArrowDownIcon sx={{ fontSize: 50 }}/>
                       </IconButton>
