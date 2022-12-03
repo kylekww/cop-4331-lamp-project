@@ -131,3 +131,11 @@ exports.changeVote = async (req, res) => {
         }
     }
 }
+
+exports.setVote = async (req, res) => {
+    let id = req.body.id;
+    const confession = await Confession.findById(id);
+    confession.netVotes = req.body.voteNum;
+    confession.save()
+    return res.status(201).json(confession.toObject())
+}
