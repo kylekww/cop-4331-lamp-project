@@ -113,6 +113,7 @@ function EditProfile({ open, handleClose }) {
                 .catch(err => {
                     console.log(err);
                 });
+            window.location.href = '/';
         } else if ((!passwordRequirements(password)) && validEmail(email)) {
             console.log("Password must meet all requirements!");
         }
