@@ -84,10 +84,12 @@ function EditProfile({ open, handleClose }) {
     }
 
     const makeEdits = async event => {
+        const name = document.getElementById("name").value;
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
         const email = document.getElementById("email").value;
 
+        console.log("Name: " + name.toString());
         console.log("Username: " + username.toString());
         console.log("Password: " + password.toString());
         console.log("Email: " + email.toString());
@@ -99,6 +101,7 @@ function EditProfile({ open, handleClose }) {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
+                    name,
                     username,
                     password,
                     email
@@ -130,6 +133,7 @@ function EditProfile({ open, handleClose }) {
             <img src={require('../images/NewIcon.jpg')} class="HushIcon" />
             <div class="squarebg">
                 <h1>Edit Profile </h1>
+                <input type="text" id="name" placeholder={user.name} required />
                 <input type="text" id="username" placeholder={user.username} required />
                 <input type="text" id="email" placeholder={user.email} required />
                 <input type="password" id="password" placeholder="********" required />
