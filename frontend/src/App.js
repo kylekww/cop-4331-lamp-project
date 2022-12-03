@@ -11,6 +11,7 @@ import EmailVerify from './html/EmailVerify';
 import Comments from './html/Comments';
 import ResetPassword from './html/ResetPassword';
 import NewPassword from './html/NewPassword';
+import EditProfile from './html/EditProfile';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/newpassword/:token" index element={<NewPassword />} />
           <Route path="/landing" index element={<LandingPage />} />
           <Route path="/profile" index element={<Profile />} />
+          <Route path="/editprofile" index element={<EditProfile />} />
           <Route path="/verify/:token" index element={<EmailVerify />} />
           <Route path="/comments/:token" index element={<Comments />} />
         </Routes>
