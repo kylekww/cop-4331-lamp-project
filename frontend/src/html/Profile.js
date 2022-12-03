@@ -2,7 +2,6 @@ import { ListItemSecondaryAction } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { render } from 'react-dom';
 import '../css/styles.css';
-import EditProfile from './EditProfile';
 
 function Profile() {
     const [user, setUser] = useState([]);
@@ -45,22 +44,15 @@ function Profile() {
     const returnLanding = async event => {
         window.location.href = '/landing';
     }
-
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const editProfile = async event => {
+        window.location.href = '/editprofile';
+    }
 
     return (
 
         <div>
             <div class="container">
-                <h1>Logo goes here</h1>
+                <img src={require('../images/NewIcon.jpg')} class="HushIcon" />
                 <div class="squarebg">
                     <h1>Profile View</h1>
                     <p id="profile">Name: {user.name}</p>
@@ -68,7 +60,8 @@ function Profile() {
                     <div id="buttons">
                         <button type="button" class="return" onClick={returnLanding}>Return</button>
                         <button type="button" class="logout" onClick={logOut}>Logout</button>
-                        <button type="button" class="return" onClick={<EditProfile />}>Logout</button>
+                    </div>
+                        <div id="buttons"><button type="button" class="return" onClick={editProfile}>Edit Profile</button>
                     </div>
                 </div>
             </div>

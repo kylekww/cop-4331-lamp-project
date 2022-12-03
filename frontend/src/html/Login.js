@@ -40,8 +40,9 @@ function Login() {
     };
     return (
         <div class ="container">
-            <h1>Logo goes here</h1>
+            <img src={require('../images/NewIcon.jpg')} class="HushIcon"/>
             <div class = "squarebg">
+                <h1>Hush UCF</h1>
                 <h1>Make your Confessions...</h1>
                 <input type = "text" id = "loginName" placeholder='Username' required />
                 <input type = "password" id = "loginPassword" placeholder='Password' required />
@@ -49,7 +50,7 @@ function Login() {
                 <p id = "noerror"></p>
                 <p>Don't have an account? <a href = "/register">Signup!</a></p>
                 <p>Forgot your password? <a href="/resetpassword">Reset it!</a></p>
-            </div>   
+            </div> 
         </div>
     );
 }

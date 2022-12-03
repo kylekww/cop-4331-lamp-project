@@ -102,7 +102,7 @@ function Registration() {
     };
     return (
         <div class="container">
-            <h1>Logo goes here</h1>
+            <img src={require('../images/NewIcon.jpg')} class="HushIcon"/>
             <div class="squarebg">
                 <h1>Signup </h1>
                 <input type="text" id="name" placeholder="Name" required />

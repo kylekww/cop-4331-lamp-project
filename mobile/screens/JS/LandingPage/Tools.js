@@ -1,12 +1,14 @@
 import ProfileButton from './ProfileButton';
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import Logo from '../Logo';
 
 export default function Tools(Props) {
 
   // Toggle hot/new page
   const isNew = Props.isNew;
   const toggleIsNew = Props.toggleIsNew;
+  const goToProfile = Props.goToProfile;
   // Button colors
   const newButtonColor = ['white','rgba(89,35,206,.5)','rgba(89,35,206,1)'];
   const hotButtonColor = ['white','rgba(167, 15, 15, 0.4)','rgba(167, 15, 15, 0.9)'];
@@ -16,20 +18,18 @@ export default function Tools(Props) {
     if(!isNew) {
       toggleIsNew();
       UseNewButton();
-      console.log("Showing New Confessions");
     }
   }
   const clickHotButton = async () => {
     if(isNew) {
       toggleIsNew();
       UseHotButton();
-      console.log("Showing Hot Confessions");
     } 
   }
 
   return (
     <View style = {styles.tools}>
-      <ProfileButton/>
+      <ProfileButton goToProfile={goToProfile}></ProfileButton>
       <View style ={styles.toolsCenter}>
         <TouchableOpacity style={[styles.newButton,{backgroundColor:newButtonColor[(isNew)?1:0]}]} 
             onPress={clickNewButton}>
@@ -40,18 +40,13 @@ export default function Tools(Props) {
             <Text style={[styles.buttonText,{color: hotButtonColor[(isNew)?2:0]}]}>Hot</Text>
         </TouchableOpacity>
       </View>
-      <View style={{width:'50%'}}>
+      <View style = {styles.logoContainer}>
+        <View style = {styles.logoConstraint}>
+          <Logo isNew={isNew}></Logo>
+        </View>
       </View>
     </View>
   );
-}
-
-// Page state change is triggered
-async function UseNewButton() {
-  return {text:"Click New"}
-}
-async function UseHotButton() {
-  return {text:"Click Hot"}
 }
 
 const styles = StyleSheet.create({
@@ -92,5 +87,18 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: 'white',
     alignSelf: 'center',
+  },
+  logoConstraint: {
+    top: 30,
+    height: 80,
+    width: 80,
+  },
+  logoContainer: {
+    flexWrap: 'wrap-reverse',
+    top:30,
+    right: 20,
+    height: 200,
+    width: 200,
+    zIndex:-1,
   },
 });

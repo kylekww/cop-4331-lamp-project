@@ -1,90 +1,22 @@
-import React, { Component, useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView, SafeAreaView} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
-global.firstName = '';
-global.userName = '';
-global.email = '';
-global.password = '';
-global.localName = '';
-global.userId = -1;
-global.lastName = '';
-global.search = '';
-global.card = '';
+const firstName = '';
+const userName = '';
+const email = '';
+const password = '';
 
-const requirements = 'Requirements:\n8 Characters\n1 Number\n1 Upper Case Character\n1 Lower Case Character';
-
-export default class Registrationscreen extends Component {
-
-    constructor() 
-    {
-      super()
-      this.state = 
-      {
-         message: ' '
-      }
-    }
-
-    render(){
-        return(
-            <View style={styles.container}>
-                <LinearGradient
-                    // Background Linear Gradient
-                    colors={['rgba(128,199,239,1)', 'rgba(89,35,206,1)']}
-                    style={styles.background}
-                    />
-                <ScrollView style={styles.scrollView}>
-                    <Text style={styles.text}>Logo goes here </Text>
-                    <View style={{alignItems: 'flex-end'}}>
-                        <View style={styles.squarebg}>
-                            <Text style={styles.text}> Signup </Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="First Name"
-                                onChangeText={(val) => { this.changeFirstNameHandler(val) }}
-                            />
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Username"
-                                onChangeText={(val) => { this.changeUserNameHandler(val) }}
-                            />
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Password"
-                                secureTextEntry={true}
-                                onChangeText={(val) => { this.changePasswordHandler(val) }}
-                            />
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Email"
-                                onChangeText={(val) => { this.changeEmailHandler(val) }}
-                            />
-                            <Text style={styles.text2}>
-                                {requirements}
-                            </Text>
-                            <TouchableHighlight style={styles.button} onPress={this.handleRegister} underlayColor='rgb(60, 23, 141)'>
-                                <Text style={styles.buttonText}>Create Account</Text>
-                            </TouchableHighlight>
-                            <Text style={styles.text2}> Already have an account? </Text>
-                            <TouchableOpacity 
-                                style={styles.button2}
-                                onPress={this.handleReturn}>
-                                <Text style={styles.button2}> Login!</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <Text style={[styles.text,{color:'white'}]}>{this.state.message} </Text>
-                    </View>    
-                </ScrollView>
-            </View>
-        );
-    }
+export default function Registrationscreen(Props) {
+    const [state,setState] = useState({message:''});
+    const requirements = 'Requirements:\n8 Characters\n1 Number\n1 Upper Case Character\n1 Lower Case Character';
+    
     handleRegister = async () =>
     {
         try
         {
-            var obj = {username:global.userName,password:global.password,
-                name:global.firstName,email:global.email,
+            var obj = {username:userName,password:password,name:firstName,email:email,
                 color:("#" + Math.floor(Math.random() * 16777215).toString(16))
             };
             var js = JSON.stringify(obj);
@@ -95,37 +27,87 @@ export default class Registrationscreen extends Component {
                 if(res.status !== 201) alert("Invalid registration " + res.status);
                 else {
                     alert("Registration was successful.");
-                    this.props.navigation.navigate('RealLogin');
+                    Props.navigation.pop();
                     console.log(res);
                 }});
         }
         catch(e)
         {
-        this.setState({message: e.message });
+        setState({message: e.message });
         }
     }  
 
-    changeFirstNameHandler = async (val) =>
+    const changeFirstNameHandler = async (val) =>
     {
         global.firstName = val;
     }  
 
-    changePasswordHandler = async (val) =>
+    const changePasswordHandler = async (val) =>
     {
         global.password = val;
     }
-    changeUserNameHandler = async (val) =>
+    const changeUserNameHandler = async (val) =>
     {
         global.userName = val;
     }  
 
-    changeEmailHandler = async (val) =>
+    const changeEmailHandler = async (val) =>
     {
         global.email = val;
     }
-    handleReturn = async () => {
-        this.props.navigation.navigate('RealLogin');
+    const handleReturn = async () => {
+        Props.navigation.pop();
     }
+
+    return(
+        <View style={styles.container}>
+            <LinearGradient
+                // Background Linear Gradient
+                colors={['rgba(128,199,239,1)', 'rgba(89,35,206,1)']}
+                style={styles.background}
+                />
+            <ScrollView style={styles.scrollView}>
+                <Text style={styles.text}>Logo goes here </Text>
+                <View style={{alignItems: 'flex-end'}}>
+                    <View style={styles.squarebg}>
+                        <Text style={styles.text}> Signup </Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="First Name"
+                            onChangeText={(val) => { changeFirstNameHandler(val) }}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Username"
+                            onChangeText={(val) => { changeUserNameHandler(val) }}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Password"
+                            secureTextEntry={true}
+                            onChangeText={(val) => { changePasswordHandler(val) }}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Email"
+                            onChangeText={(val) => { changeEmailHandler(val) }}
+                        />
+                        <Text style={styles.text2}>{requirements}</Text>
+                        <TouchableHighlight style={styles.button} onPress={handleRegister} underlayColor='rgb(60, 23, 141)'>
+                            <Text style={styles.buttonText}>Create Account</Text>
+                        </TouchableHighlight>
+                        <Text style={styles.text2}> Already have an account? </Text>
+                        <TouchableOpacity 
+                            style={styles.button2}
+                            onPress={handleReturn}>
+                            <Text style={styles.button2}> Login!</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={[styles.text,{color:'white'}]}>{state.message} </Text>
+                </View>    
+            </ScrollView>
+        </View>
+    );
     
 }
 
