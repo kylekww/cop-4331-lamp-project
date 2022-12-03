@@ -85,15 +85,7 @@ function EditProfile({ open, handleClose }) {
         const email = document.getElementById("email").value;
 
         console.log("Username: " + username.toString());
-
-        if(!password){
-            password = user.password;
-        }
         console.log("Password: " + password.toString());
-        
-        if(!email){
-            email = user.email;
-        }
         console.log("Email: " + email.toString());
         
         if ((passwordRequirements(password)) && (validEmail(email))) {
