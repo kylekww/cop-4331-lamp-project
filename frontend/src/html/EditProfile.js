@@ -109,7 +109,7 @@ function EditProfile({ open, handleClose }) {
                     res.json().then((data) => {
                         console.log(data);
                     })
-                    window.location.href = '/';
+                    window.location.href = '/editProfile';
                 })
                 .catch(err => {
                     console.log(err);
