@@ -88,9 +88,9 @@ function EditProfile({ open, handleClose }) {
     }
 
     const makeEdits = async event => {
-        const username = document.getElementById("username");
-        const password = document.getElementById("password");
-        const email = document.getElementById("email");
+        const username = +document.getElementById("username").value;
+        const password = +document.getElementById("password").value;
+        const email = +document.getElementById("email").value;
 
         console.log("Username: " + username);
         
