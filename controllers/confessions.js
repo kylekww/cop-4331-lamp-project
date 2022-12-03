@@ -41,7 +41,7 @@ exports.deleteConfession = async (req, res) => {
 //search confession
 exports.searchConfession = async (req, res) => {
 
-    let resultsPerPage = 15;
+    let resultsPerPage = 3;
     let searchVar = req.body.searchVal;
     let oid = req.body.oid;
     
@@ -59,7 +59,10 @@ exports.searchConfession = async (req, res) => {
         var searchResults = await Confession.find({})
         .populate({
             path: "voteID",
-            }).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
+            options: {
+                sort : {netVotes : -1}
+            }
+        }).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
     }
     else if(searchVar==1){
         var searchResults = await Confession.find({
@@ -86,6 +89,12 @@ exports.searchConfession = async (req, res) => {
 
         console.log(searchResults);
 
+    }
+    else if(searchVar==3 && oid != ""){
+
+        const result=await Confession.findOne({_id: oid}, {userID:0}).lean();
+        res.status(201).json(result);
+        return;
     }
     else {
         res.status(400).json({message : "Not a valid search type"});
@@ -122,7 +131,8 @@ exports.searchConfession = async (req, res) => {
         delete searchResults[i].voteID.downvoteList;
     }  
     
-    const result = searchResults.map(({userID, ...rest}) => ({...rest}));
+    let result = searchResults.map(({userID, ...rest}) => ({...rest}));
+    result = searchResults.map(({voteID, ...rest}) => ({...rest}));
     
     res.status(201).json(result);
 }

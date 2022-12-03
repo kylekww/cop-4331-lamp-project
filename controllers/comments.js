@@ -64,17 +64,13 @@ exports.searchComments = async (req, res) => {
         }).limit(resultsPerPage).sort({_id: -1}).lean();
     }
     else if(oid == "" && searchVar==2){
-        var searchResults = await await Comment.aggregate([
-            {$match: {confessionID: confessionOID}},
-            {$lookup:{
-                "from": "votes",
-                "localField": "voteID",
-                "foreignField": "_id",
-                "as": "voteID"
-            }},
-            {$unwind: "$voteID"},
-            {"$sort": {"voteID.netVotes": -1}}
-        ]).limit(resultsPerPage);
+        var searchResults = await Comment.find({})
+        .populate({
+            path: "voteID",
+            options: {
+                sort : {netVotes : -1}
+            }
+        }).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
     }
     else if(searchVar==1){
         var searchResults = await Comment.find({
@@ -90,6 +86,19 @@ exports.searchComments = async (req, res) => {
     }
     //if searchVar==2, sort by most popular
     else if(searchVar==2){
+        
+        var searchResults = await Confession.find( {
+            $and : [ { confessionID : confessionOID },
+                {$or : [ { netVotes : oldHigh.netVotes, _id : {$lt : oldHigh._id } },
+                 { netVotes : {$lt : oldHigh.netVotes}
+                }
+            ]}
+            ]  
+        }).populate({
+            path: "voteID",
+        }).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
+        
+/*
         var searchResults = await Comment.aggregate([
             {$match: {confessionID: confessionOID}},
             {$match: {_id: {$lt: mongoose.Types.ObjectId(oid)}}},
@@ -102,6 +111,7 @@ exports.searchComments = async (req, res) => {
             {$unwind: "$voteID"},
             {"$sort": {"voteID.netVotes": -1}}
         ]).limit(resultsPerPage);
+        */
     }
     else {
         res.status(400).json({message : "Not a valid search type"});

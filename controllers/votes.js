@@ -134,8 +134,18 @@ exports.changeVote = async (req, res) => {
 
 exports.setVote = async (req, res) => {
     let id = req.body.id;
-    const confession = await Confession.findById(id);
-    confession.netVotes = req.body.voteNum;
-    confession.save()
-    return res.status(201).json(confession.toObject())
+
+    if(req.body.type==1){
+        var element = await Confession.findById(id);
+    }
+    else if(req.body.type==2){
+        var element = await Comment.findById(id);
+    }
+    else{
+        return res.status(404).json({message: "Could not find element"})
+    }
+    
+    element.netVotes = req.body.voteNum;
+    element.save()
+    return res.status(201).json(element.toObject())
 }
