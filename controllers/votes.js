@@ -53,7 +53,8 @@ exports.changeVote = async (req, res) => {
             votes.upvoteList.push(voterID);
             element.netVotes += 2;
             // votes.netVotes=votes.netVotes+2;
-            await votes.save();
+            votes.save();
+            element.save();
             return res.status(201).json({
                 message: "vote changed from downvote to upvote",
                 "upvoteList": votes.upvoteList,
@@ -66,7 +67,8 @@ exports.changeVote = async (req, res) => {
             votes.upvoteList.pull(voterID);
             element.netVotes--;
             // votes.netVotes--;
-            await votes.save();
+            votes.save();
+            element.save();
 
             return res.status(201).json({
                 message: "vote changed from upvote to none",
@@ -79,7 +81,8 @@ exports.changeVote = async (req, res) => {
             votes.upvoteList.push(voterID);
             element.netVotes++;
             // votes.netVotes++;
-            await votes.save();
+            element.save()
+            votes.save();
             return res.status(201).json({
                 message: "vote added as upvote",
                 "upvoteList": votes.upvoteList,
@@ -94,7 +97,8 @@ exports.changeVote = async (req, res) => {
             votes.downvoteList.push(voterID);
             element.netVotes -= 2;
             // votes.netVotes = votes.netVotes - 2; 
-            await votes.save();
+            votes.save();
+            element.save();
 
             return res.status(201).json({
                 message: "vote changed from upvote to downvote",
@@ -107,7 +111,8 @@ exports.changeVote = async (req, res) => {
             votes.downvoteList.pull(voterID);
             element.netVotes++;
             // votes.netVotes++;
-            await votes.save();
+            votes.save();
+            element.save();
 
             return res.status(201).json({
                 message: "vote changed from downvote to none",
@@ -120,7 +125,8 @@ exports.changeVote = async (req, res) => {
             votes.downvoteList.push(voterID);
             element.netVotes--;
             // votes.netVotes--;
-            await votes.save();
+            votes.save();
+            element.save();
 
             return res.status(201).json({
                 message: "vote added as downvote",
