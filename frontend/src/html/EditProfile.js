@@ -30,8 +30,9 @@ function EditProfile({ open, handleClose }) {
 
     function validEmail(email) {
         let knightsEmail = "@knights.ucf.edu";
+        var temp = email.toString();
         const knightsEmailArray = knightsEmail.split("")
-        const emailArray = email.split("")
+        const emailArray = temp.split("")
         let validation = false;
         let j = 0;
 
@@ -127,8 +128,8 @@ function EditProfile({ open, handleClose }) {
                     1 Lower Case Character <br />
                 </span>
                 <p id="noerror">Error: Username already taken!</p>
-                <button type="button" class="return" onClick={profileReturn}>Return to Profile</button>
                 <button type="button" class="return" onClick={makeEdits}>Make Edits</button>
+                <button type="button" class="return" onClick={profileReturn}>Return to Profile</button>
             </div>
         </div>
     );
