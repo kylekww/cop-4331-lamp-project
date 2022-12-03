@@ -1,28 +1,6 @@
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import Button from '@mui/material/Button';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import React, { useState, useEffect } from 'react';
 
 function EditProfile({ open, handleClose }) {
-
-    const [textInputUsername, setTextInputUsername] = useState('');
-    const handleTextInputChangeUsername = event => {
-        setTextInputUsername(event.target.value);
-    };
-
-    const [textInputPassword, setTextInputPassword] = useState('');
-    const handleTextInputChangePassword = event => {
-        setTextInputPassword(event.target.value);
-    };
-
-    const [textInputEmail, setTextInputEmail] = useState('');
-    const handleTextInputChangeEmail = event => {
-        setTextInputEmail(event.target.value);
-    };
-
     function passwordRequirements(password) {
         let upperCase = false;
         let lowerCase = false;
@@ -92,10 +70,14 @@ function EditProfile({ open, handleClose }) {
         viewProfile()
     }, [])
 
+    const profileReturn = async event => {
+        window.location.href = '/profile';
+    }
+
     const makeEdits = async event => {
-        const username = textInputUsername;
-        const password = textInputPassword;
-        const email = textInputEmail;
+        const username = document.getElementById("username");;
+        const password = document.getElementById("password");;
+        const email = document.getElementById("email");;
         if ((passwordRequirements(password)) && (validEmail(email))) {
             const data = await fetch("/api/v1/auth/editProfile", {
                 method: "POST",
@@ -130,45 +112,26 @@ function EditProfile({ open, handleClose }) {
         }
     }
     return (
-        <Dialog open={open}>
-            <DialogTitle>Edit Profile</DialogTitle>
-            <DialogContent>
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="email"
-                    label={user.email}
-                    type="email"
-                    fullWidth
-                    variant="standard"
-                    onChange={handleTextInputChangeEmail}
-                />
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="username"
-                    label={user.username}
-                    type="username"
-                    fullWidth
-                    variant="standard"
-                    onChange={handleTextInputChangeUsername}
-                />
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="password"
-                    label={user.password}
-                    type="password"
-                    fullWidth
-                    variant="standard"
-                    onChange={handleTextInputChangePassword}
-                />
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={makeEdits}>Edit</Button>
-            </DialogActions>
-        </Dialog>
+        <div class="container">
+            <img src={require('../images/NewIcon.jpg')} class="HushIcon" />
+            <div class="squarebg">
+                <h1>Edit Profile </h1>
+                <input type="text" id="username" placeholder={user.username} required />
+                <input type="text" id="email" placeholder={user.email} required />
+                <input type="password" id="password" placeholder={user.password} required />
+                <span class="passwordRequirements">
+                    Requirements: <br />
+                    8 Characters <br />
+                    1 Number <br />
+                    1 Upper Case Character <br />
+                    1 Lower Case Character <br />
+                </span>
+                <p id="noerror">Error: Username already taken!</p>
+                <button type="button" class="return" onClick={profileReturn}>Return to Profile</button>
+                <button type="button" class="return" onClick={makeEdits}>Make Edits</button>
+            </div>
+        </div>
     );
-}
+};
+
 export default EditProfile;
