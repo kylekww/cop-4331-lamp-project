@@ -35,10 +35,12 @@ exports.deleteComment = async (req, res) => {
 
     if(user.moderator){
         comment.deleted = -1;
+        comment.save();
         return res.status(200).json({message: "comment removed by moderator", deleted: comment.deleted});
     }
     else{
         comment.deleted = 1;
+        comment.save();
         return res.status(200).json({message: "comment removed", deleted: comment.deleted});
     }
 }
