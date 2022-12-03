@@ -11,30 +11,38 @@ function ConfessionPost(Props) {
     const[vote, setVote] = useState(Props.post.netVotes);
     const[interacted, setInteracted] = useState(Props.post.userInteracted)
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const[deleted, setDeleted] = useState(Props.post.deleted != 0 ? true:false)
     const open = Boolean(anchorEl);
-    
+    if(deleted)
+      return null;
     //console.log(isNew._currentValue)
     const handleOptionsClick = (event) => {
       event.currentTarget.disabled = true;
-        setAnchorEl(event.currentTarget);
+          setAnchorEl(event.currentTarget);
       };
       const handleOptionsClose = () => {
         setAnchorEl(null);
       };
       const handleEditPost = (e) => {
+        if(deleted) return null
         e.currentTarget.disabled = true;
         setAnchorEl(null);
+        
         console.log("Edit post");
       };
       const handleDeletePost = (e) => {
+        if(deleted) return null
         e.currentTarget.disabled = true;
         setAnchorEl(null);
+        deleteConfession(Props.post._id)
+        setDeleted(true)
         console.log("Delete post");
       };
         
       
       const upvoteHelper = (e) => {
         e.currentTarget.disabled = true;
+        if(deleted) return null
         upvoteConfession(e.currentTarget.value);
         if(interacted == 1){
             console.log('this user was interacted before the upvote')
@@ -57,6 +65,7 @@ function ConfessionPost(Props) {
       const downvoteHelper = (e) => {
         e.currentTarget.disabled = true;
         downvoteConfession(e.currentTarget.value);
+        if(deleted) return null
         if(interacted == -1){
             console.log('downvoted before, now neutral')
             setInteracted(0)
@@ -77,6 +86,7 @@ function ConfessionPost(Props) {
 
     function clickCommentButton() {
       window.location.href = '/comments/' + Props.post._id;
+      if(deleted) return null
     }
 
     return(
@@ -93,6 +103,7 @@ function ConfessionPost(Props) {
                         aria-expanded={open ? 'true' : undefined}
                         style={{
                             color: "#BABABA",
+                            display: Props.post.userCreated ? 'block' : 'none'
                       }}>
                         <MoreHorizIcon sx={{ fontSize: 40 }}/>
                       </IconButton>
@@ -128,7 +139,7 @@ function ConfessionPost(Props) {
                 <div className= 'confessionVotesComments'>
                   <div className = 'votes'>
                     <Tooltip title="Upvote">
-                      <IconButton value={Props.post._id} onClick={ upvoteHelper } sx={{
+                      <IconButton value = {Props.post._id} onClick={ upvoteHelper } style={{
                           color: "#BABABA",
                         }}>
                           <KeyboardArrowUpIcon sx={{ fontSize: 50 }}/>
@@ -222,4 +233,24 @@ async function upvoteConfession(id) {
     });
   }
 
+  async function deleteConfession(id){
+    const data = await fetch("/api/v1/confessions/deleteConfession", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id
+      }),
+    })
+    .then(res => {
+      res.json().then((data) => {
+          
+        console.log(data);
+      }) 
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
   export default ConfessionPost;
