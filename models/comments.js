@@ -9,7 +9,7 @@ const schema = new mongoose.Schema(
         },
         deleted: {
             type: Number,
-            defaultValue: 0
+            default: 0
         },
         confessionID: {
             type: mongoose.Schema.Types.ObjectId,
@@ -22,11 +22,16 @@ const schema = new mongoose.Schema(
         voteID: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "votes",
+        },
+        netVotes:{
+            type: Number,
+            default: 0
         }
     },
     { timestamps: true },
     { minimize: false }
 )
+schema.index({netVotes:1, _id: 1});
 const model = mongoose.model('comment',schema);
 
 module.exports = model;
