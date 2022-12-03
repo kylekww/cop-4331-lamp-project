@@ -92,6 +92,12 @@ exports.searchConfession = async (req, res) => {
             {"$sort": {"voteID.netVotes": -1}}
         ]).limit(resultsPerPage);
     }
+    else if(searchVar==3 && oid != ""){
+
+        const result=await Confession.findOne({_id: oid}, {userID:0, comments:0}).lean();
+        res.status(201).json(result);
+        return;
+    }
     else {
         res.status(400).json({message : "Not a valid search type"});
         return;
@@ -104,7 +110,6 @@ exports.searchConfession = async (req, res) => {
 
     for (var i = 0; i < searchResults.length; i++) {
         let votes = searchResults[i].voteID;
-        console.log(votes);
         //console.log(votes);
         //check if logged in user created post
         
@@ -127,8 +132,10 @@ exports.searchConfession = async (req, res) => {
         delete searchResults[i].voteID.upvoteList;
         delete searchResults[i].voteID.downvoteList;
     }  
+
     
     const result = searchResults.map(({userID, ...rest}) => ({...rest}));
+    
     
     res.status(201).json(result);
 }
