@@ -30,9 +30,7 @@ function EditProfile({ open, handleClose }) {
         let passwordNumber = false;
         let passwordLength = false;
 
-        console.log("Password: " + password);
-
-        if(password == null){
+        if(!password){
             return true;
         }
 
@@ -65,9 +63,7 @@ function EditProfile({ open, handleClose }) {
         let validation = false;
         let j = 0;
 
-        console.log("Email: " + temp);
-
-        if(email == null){
+        if(!email){
             return true;
         }
 
@@ -94,9 +90,9 @@ function EditProfile({ open, handleClose }) {
 
         console.log("Username: " + username.toString());
         console.log("Password: " + passwordRequirements(password));
-        var isPasswordCorrect = passwordRequirements(password);
+        console.log("Password: " + password.toString());
         console.log("Email: " + validEmail(email))
-        var isEmailCorrect = validEmail(email);
+        console.log("Email: " + email.toString());
         
         if ((isPasswordCorrect) && (isEmailCorrect)) {
             const data = await fetch("/api/v1/auth/editProfile", {
