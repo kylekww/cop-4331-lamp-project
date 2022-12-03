@@ -188,7 +188,7 @@ exports.editProfile = async (req, res) => {
         }
 
         user.emailVerifyToken = crypto.randomBytes(64).toString("hex");
-        await user.save();
+        user.save();
 
         sendEmail.sendMail
         ({
@@ -210,7 +210,7 @@ exports.editProfile = async (req, res) => {
             }
         );
 
-        await user.save();
+        user.save();
         delete req.session.userId;
         return res.status(200).json({message: "account info updated successfully. Please check your email to reverify.",
                                     user: _.omit(user.toObject(),dbSecretFields)});
@@ -226,7 +226,7 @@ exports.editProfile = async (req, res) => {
             {...req.body, verified: true}, {new: true});
         }
         
-        await user.save();
+        user.save();
         return res.status(200).json({message: "account info updated successfully",
                                     user: _.omit(user.toObject(),dbSecretFields)});
     }
