@@ -1,11 +1,38 @@
 import React, { useState, useEffect } from 'react';
 
 function EditProfile({ open, handleClose }) {
+    const [user, setUser] = useState([]);
+
+    useEffect(() => {
+        const viewProfile = async event => {
+            const data = await fetch("/api/v1/auth/profile", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then(res => {
+                    res.json().then((data) => {
+                        console.log(data);
+                        setUser(data.user);
+                    })
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        };
+        viewProfile()
+    }, [])
+
     function passwordRequirements(password) {
         let upperCase = false;
         let lowerCase = false;
         let passwordNumber = false;
         let passwordLength = false;
+
+        if(password == null){
+            return true;
+        }
 
         if (password.length >= 8) {
             passwordLength = true;
@@ -54,6 +81,10 @@ function EditProfile({ open, handleClose }) {
         let validation = false;
         let j = 0;
 
+        if(email == null){
+            return true;
+        }
+
         for (let i = (emailArray.length - knightsEmailArray.length); i < emailArray.length; i++) {
             if (knightsEmailArray[j] == emailArray[i]) {
                 validation = true;
@@ -66,38 +97,6 @@ function EditProfile({ open, handleClose }) {
         return validation;
     }
 
-    function validPassword(password) {
-        if(password != null){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    const [user, setUser] = useState([]);
-
-    useEffect(() => {
-        const viewProfile = async event => {
-            const data = await fetch("/api/v1/auth/profile", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-                .then(res => {
-                    res.json().then((data) => {
-                        console.log(data);
-                        setUser(data.user);
-                    })
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        };
-        viewProfile()
-    }, [])
-
     const profileReturn = async event => {
         window.location.href = '/profile';
     }
@@ -106,19 +105,6 @@ function EditProfile({ open, handleClose }) {
         const username = document.getElementById("username");
         const password = document.getElementById("password");
         const email = document.getElementById("email");
-        //check if these are null before passing to api
-
-        if(!validUsername){
-            username = user.username;
-        }
-
-        if(!validEmail){
-            email = user.email;
-        }
-
-        if(!validPassword){
-            password = user.password;
-        }
 
         if ((passwordRequirements(password)) && (emailValue(email))) {
             const data = await fetch("/api/v1/auth/editProfile", {
