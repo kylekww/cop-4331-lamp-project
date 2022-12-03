@@ -41,7 +41,7 @@ exports.deleteConfession = async (req, res) => {
 //search confession
 exports.searchConfession = async (req, res) => {
 
-    let resultsPerPage = 3;
+    let resultsPerPage = 15;
     let searchVar = req.body.searchVal;
     let oid = req.body.oid;
     

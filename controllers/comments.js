@@ -45,7 +45,7 @@ exports.deleteComment = async (req, res) => {
 
 exports.searchComments = async (req, res) => {
     
-    let resultsPerPage = 4;
+    let resultsPerPage = 15;
     let searchVar = req.body.searchVal;
     let oid = req.body.oid;
     let confessionOID = mongoose.Types.ObjectId(req.body.confessionOID);
