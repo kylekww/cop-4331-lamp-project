@@ -167,6 +167,13 @@ exports.deleteAccount = async (req, res) => {
 exports.editProfile = async (req, res) => {
     user = await User.findById(req.session.userId);
 
+    var obj = req.body;
+    Object.keys(obj).forEach(key => {
+        if(obj[key] == ""){
+            delete obj[key];
+        }
+      });
+
     if(req.body.username){
         usernameTaken = await User.findOne({'username': req.body.username}).collation({ 'locale' : 'en_US' , 'strength': 2});
 
