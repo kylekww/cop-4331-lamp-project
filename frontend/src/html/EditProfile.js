@@ -109,11 +109,11 @@ function EditProfile({ open, handleClose }) {
                     res.json().then((data) => {
                         console.log(data);
                     })
+                    window.location.href = '/';
                 })
                 .catch(err => {
                     console.log(err);
                 });
-            window.location.href = '/';
         } else if ((!passwordRequirements(password)) && validEmail(email)) {
             console.log("Password must meet all requirements!");
         }
