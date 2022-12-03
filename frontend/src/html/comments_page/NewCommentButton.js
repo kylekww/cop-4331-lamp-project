@@ -13,6 +13,7 @@ function NewCommentButton(Props) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    console.log(open);
   };
 
   const handleClose = () => {
@@ -21,7 +22,7 @@ function NewCommentButton(Props) {
 
   return (
     <div>
-      <DialogNewComment open={open} handleClose={handleClose}></DialogNewComment>
+      <DialogNewComment oid={Props.oid} open={open} handleClose={handleClose}></DialogNewComment>
       <div onClick={handleClickOpen} class="NewConfessionButton NewColor" >
         <label class="unselectable">
             <AddCommentIcon style={{ fontSize: "4vmin", color: "white", top: "50%" }}/>

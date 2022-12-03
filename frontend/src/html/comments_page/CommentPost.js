@@ -1,7 +1,6 @@
 import '../../css/styles.css';
 import React, { useState } from "react";
 import { MenuItem, Menu, ListItemIcon, ListItemText, Badge, Tooltip, IconButton } from '@mui/material';
-import CommentIcon from '@mui/icons-material/Comment';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditIcon from '@mui/icons-material/Edit';
@@ -12,8 +11,7 @@ function ConfessionPost(Props) {
     const[interacted, setInteracted] = useState(Props.post.userInteracted)
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    
-    //console.log(isNew._currentValue)
+
     const handleOptionsClick = (event) => {
         setAnchorEl(event.currentTarget);
       };
@@ -70,10 +68,6 @@ function ConfessionPost(Props) {
 
       }
 
-    function clickCommentButton() {
-      window.location.href = '/comments/' + Props.post._id;
-    }
-
     return(
         <div className = "confessionPost">
               <div className = "confessionPostWrapper">
@@ -105,19 +99,19 @@ function ConfessionPost(Props) {
                       <ListItemIcon>
                         <EditIcon sx={{ fontSize: 25 }}/>
                       </ListItemIcon>
-                      <ListItemText>Edit Confession</ListItemText>
+                      <ListItemText>Edit Comment</ListItemText>
                     </MenuItem>
                     <MenuItem elevation={0} onClick={ handleDeletePost }>
                       <ListItemIcon>
                         <DeleteIcon sx={{ fontSize: 25 }}/>
                       </ListItemIcon>
-                      <ListItemText>Delete Confession</ListItemText>
+                      <ListItemText>Delete Comment</ListItemText>
                     </MenuItem>
                   </Menu>
                 </div>
                 
                 <div className='confessionText'>
-                    {Props.post.confession}
+                    {Props.post.comment}
                 </div>
 
                 <div className= 'confessionVotesComments'>
@@ -131,7 +125,7 @@ function ConfessionPost(Props) {
                     </Tooltip>
                     <Badge badgeContent = {vote} max={999} sx={{
                       "& .MuiBadge-badge": {
-                        backgroundColor: Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
+                        backgroundColor: "#463bdd",
                         color: "white",
                         fontSize: 20,
                         height: 30
@@ -144,22 +138,6 @@ function ConfessionPost(Props) {
                           <KeyboardArrowDownIcon sx={{ fontSize: 50 }}/>
                       </IconButton>
                     </Tooltip>
-                  </div>
-
-                  <div className='comments'>
-                    <Badge badgeContent= {Props.post.comments.length} max={99} sx={{
-                      "& .MuiBadge-badge": {
-                        backgroundColor: Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
-                        color: "white"
-                    }}} showZero>
-                      <Tooltip title="Add Comment">
-                        <IconButton onClick={ clickCommentButton } style={{
-                          color: "#BABABA"
-                        }}>
-                          <CommentIcon sx={{ fontSize: 30 }}/>
-                        </IconButton>
-                      </Tooltip>
-                    </Badge>
                   </div>
                 </div>
               </div>

@@ -6,14 +6,17 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import React, {useState} from 'react';
+import { useParams } from "react-router-dom";
 
 function DialogNewComment({open, handleClose}) {
 
   const [textInput, setTextInput] = useState('');
+  const confessionID = useParams().token;
 
   const handleTextInputChange = event => {
     setTextInput(event.target.value);
-};
+  };
+
   const postComment = async event => {
     const comment = textInput;
     const data = await fetch("/api/v1/comments/addComment", {
@@ -22,7 +25,8 @@ function DialogNewComment({open, handleClose}) {
           "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        comment
+        comment,
+        confessionID
     }),
       
   })
