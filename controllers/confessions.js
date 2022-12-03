@@ -41,7 +41,7 @@ exports.deleteConfession = async (req, res) => {
 //search confession
 exports.searchConfession = async (req, res) => {
 
-    let resultsPerPage = 5;
+    let resultsPerPage = 15;
     let searchVar = req.body.searchVal;
     let oid = req.body.oid;
     
@@ -59,9 +59,7 @@ exports.searchConfession = async (req, res) => {
         var searchResults = await Confession.find({})
         .populate({
             path: "voteID",
-            options: {
-                sort : {netVotes : -1}
-            }}).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
+            }).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
     }
     else if(searchVar==1){
         var searchResults = await Confession.find({
@@ -75,23 +73,19 @@ exports.searchConfession = async (req, res) => {
     }
     //if searchVar==2, sort by most popular
     else if(searchVar==2){
-        var lastResult = await Confession.findById({_id: oid});
+        var oldHigh = await Confession.findById(oid);
+        var searchResults = await Confession.find( {
 
-        console.log("Last result:" + lastResult);
-
-        console.log("Last result net votes: " + lastResult.netVotes);
-
-        var searchResults = await Confession.find({
-            $or: [
-                    {netVotes: {$lt: lastResult.netVotes}},
-                    {_id: {$lt: lastResult._id}}
-                ]
+            $or : [ { netVotes : oldHigh.netVotes, _id : {$lt : oldHigh._id } },
+                 { netVotes : {$lt : oldHigh.netVotes}
+                }
+            ]
         }).populate({
             path: "voteID",
-            options: {
-                sort : {netVotes : -1}
-            }
         }).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
+
+        console.log(searchResults);
+
     }
     else {
         res.status(400).json({message : "Not a valid search type"});
@@ -105,8 +99,7 @@ exports.searchConfession = async (req, res) => {
 
     for (var i = 0; i < searchResults.length; i++) {
         let votes = searchResults[i].voteID;
-        console.log(votes);
-        //console.log(votes);
+        
         //check if logged in user created post
         
         if(searchResults[i].userID == req.session.userId){
