@@ -26,7 +26,6 @@ exports.addConfession = async (req, res) => {
 // delete confession 
 exports.deleteConfession = async (req, res) => {
     confession = await Confession.findById(req.body.id);
-    
 
     user = await User.findById(req.session.userId);
     if(user.moderator){
@@ -42,7 +41,7 @@ exports.deleteConfession = async (req, res) => {
 //search confession
 exports.searchConfession = async (req, res) => {
 
-    let resultsPerPage = 15;
+    let resultsPerPage = 3;
     let searchVar = req.body.searchVal;
     let oid = req.body.oid;
     
@@ -57,16 +56,13 @@ exports.searchConfession = async (req, res) => {
         }).limit(resultsPerPage).sort({_id: -1}).lean();
     }
     else if(oid == "" && searchVar==2){
-        var searchResults = await Confession.aggregate([
-            {$lookup:{
-                "from": "votes",
-                "localField": "voteID",
-                "foreignField": "_id",
-                "as": "voteID"
-            }},
-            {$unwind: "$voteID"},
-            {"$sort": {"voteID.netVotes": -1}}
-        ]).limit(resultsPerPage);
+        var searchResults = await Confession.find({})
+        .populate({
+            path: "voteID",
+            options: {
+                sort : {netVotes : -1}
+            }
+        }).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
     }
     else if(searchVar==1){
         var searchResults = await Confession.find({
@@ -80,17 +76,22 @@ exports.searchConfession = async (req, res) => {
     }
     //if searchVar==2, sort by most popular
     else if(searchVar==2){
-        var searchResults = await Confession.aggregate([
-            {$match: {_id: {$lt: mongoose.Types.ObjectId(oid)}}},
-            {$lookup:{
-                "from": "votes",
-                "localField": "voteID",
-                "foreignField": "_id",
-                "as": "voteID"
-            }},
-            {$unwind: "$voteID"},
-            {"$sort": {"voteID.netVotes": -1}}
-        ]).limit(resultsPerPage);
+        var oldHigh = await Confession.findById(oid);
+        var searchResults = await Confession.find( {
+
+            $or : [ { netVotes : oldHigh.netVotes, _id : {$lt : oldHigh._id } },
+                 { netVotes : {$lt : oldHigh.netVotes}
+                }
+            ]
+        }).populate({
+            path: "voteID",
+        }).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
+    }
+    else if(searchVar==3 && oid != ""){
+
+        const result=await Confession.findOne({_id: oid}, {userID:0}).lean();
+        res.status(201).json(result);
+        return;
     }
     else if(searchVar==3 && oid != ""){
 
@@ -110,7 +111,7 @@ exports.searchConfession = async (req, res) => {
 
     for (var i = 0; i < searchResults.length; i++) {
         let votes = searchResults[i].voteID;
-        //console.log(votes);
+        
         //check if logged in user created post
         
         if(searchResults[i].userID == req.session.userId){
@@ -133,13 +134,13 @@ exports.searchConfession = async (req, res) => {
         delete searchResults[i].voteID.downvoteList;
     }  
 
+
+    let result = searchResults.map(({userID, ...rest}) => ({...rest}));
+    result = searchResults.map(({voteID, ...rest}) => ({...rest}));
     
-    const result = searchResults.map(({userID, ...rest}) => ({...rest}));
-    
-    
+
     res.status(201).json(result);
 }
-
 
 //confession information
 exports.information = async (req, res) => {

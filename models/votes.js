@@ -12,10 +12,10 @@ const schema = new mongoose.Schema(
             ref: "user",
             default: []
         }],
-        netVotes:{
-            type: Number,
-            default: 0
-        }
+        // netVotes:{
+        //     type: Number,
+        //     default: 0
+        // }
         
     },
     { minimize: false }
