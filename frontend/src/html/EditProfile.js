@@ -91,11 +91,12 @@ function EditProfile({ open, handleClose }) {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
         const email = document.getElementById("email").value;
-        var isPasswordCorrect = passwordRequirements(password);
-        var isEmailCorrect = validEmail(email);
 
         console.log("Username: " + username.toString());
-        
+        console.log("Password: " + isPasswordCorrect);
+        var isPasswordCorrect = passwordRequirements(password);
+        console.log("Email: " + isEmailCorrect)
+        var isEmailCorrect = validEmail(email);
         
         if ((isPasswordCorrect) && (isEmailCorrect)) {
             const data = await fetch("/api/v1/auth/editProfile", {
