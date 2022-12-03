@@ -30,10 +30,6 @@ function EditProfile({ open, handleClose }) {
         let passwordNumber = false;
         let passwordLength = false;
 
-        if(!password){
-            return true;
-        }
-
         if (password.length >= 8) {
             passwordLength = true;
         }
@@ -89,9 +85,15 @@ function EditProfile({ open, handleClose }) {
         const email = document.getElementById("email").value;
 
         console.log("Username: " + username.toString());
-        console.log("Password: " + passwordRequirements(password));
+
+        if(!password){
+            password = user.password;
+        }
         console.log("Password: " + password.toString());
-        console.log("Email: " + validEmail(email));
+        
+        if(!email){
+            email = user.email;
+        }
         console.log("Email: " + email.toString());
         
         if ((passwordRequirements(password)) && (validEmail(email))) {
