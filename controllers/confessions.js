@@ -44,7 +44,6 @@ exports.deleteConfession = async (req, res) => {
         return res.status(201).json(
             {
                 message: "This post was deleted successfully", 
-                "confession": confession.toObject()
             });
     }
 }
