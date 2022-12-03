@@ -94,7 +94,7 @@ function EditProfile({ open, handleClose }) {
         console.log("Email: " + validEmail(email))
         console.log("Email: " + email.toString());
         
-        if ((isPasswordCorrect) && (isEmailCorrect)) {
+        if ((passwordRequirements(password)) && (validEmail(email))) {
             const data = await fetch("/api/v1/auth/editProfile", {
                 method: "POST",
                 headers: {
@@ -116,10 +116,10 @@ function EditProfile({ open, handleClose }) {
                     console.log(err);
                 });
             handleClose();
-        } else if ((!isPasswordCorrect) && isEmailCorrect) {
+        } else if ((!passwordRequirements(password)) && validEmail(email)) {
             console.log("Password must meet all requirements!");
         }
-        else if (isPasswordCorrect && (!isEmailCorrect)) {
+        else if (passwordRequirements(password) && (!validEmail(email))) {
             console.log("You must use your knights email!");
         }
         else {
