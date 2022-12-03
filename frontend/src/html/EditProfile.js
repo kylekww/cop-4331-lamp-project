@@ -113,7 +113,6 @@ function EditProfile({ open, handleClose }) {
                 .catch(err => {
                     console.log(err);
                 });
-            handleClose();
         } else if ((!passwordRequirements(password)) && validEmail(email)) {
             console.log("Password must meet all requirements!");
         }
