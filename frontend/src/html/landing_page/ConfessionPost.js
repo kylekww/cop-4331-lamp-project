@@ -7,6 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteIcon from '@mui/icons-material/Delete';
+
 function ConfessionPost(Props) {
     const[vote, setVote] = useState(Props.post.netVotes);
     const[interacted, setInteracted] = useState(Props.post.userInteracted)
@@ -94,10 +95,10 @@ function ConfessionPost(Props) {
               <div className = "confessionPostWrapper">
                 <div className = "confessionPostEdit">
                   <div className = "confessionPostEditButton">
-                    <Tooltip title="Options">
+                    <Tooltip title="Delete Confession">
                       <IconButton 
                         id="edit-button" 
-                        onClick={ handleOptionsClick } 
+                        onClick={ handleDeletePost } 
                         aria-controls={open ? 'edit-menu' : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
@@ -105,31 +106,10 @@ function ConfessionPost(Props) {
                             color: "#BABABA",
                             display: Props.post.userCreated ? 'block' : 'none'
                       }}>
-                        <MoreHorizIcon sx={{ fontSize: 40 }}/>
+                        <DeleteIcon sx={{ fontSize: 40 }}/>
                       </IconButton>
                     </Tooltip>
                   </div>
-                  <Menu 
-                    elevation={0}
-                    id="edit-menu"
-                    anchorEl={ anchorEl }
-                    open={ open }
-                    onClose={ handleOptionsClose }
-                    MenuListProps={{ 'aria-labelledby': 'edit-button' }}
-                  >
-                    <MenuItem elevation={0} onClick={ handleEditPost }>
-                      <ListItemIcon>
-                        <EditIcon sx={{ fontSize: 25 }}/>
-                      </ListItemIcon>
-                      <ListItemText>Edit Confession</ListItemText>
-                    </MenuItem>
-                    <MenuItem elevation={0} onClick={ handleDeletePost }>
-                      <ListItemIcon>
-                        <DeleteIcon sx={{ fontSize: 25 }}/>
-                      </ListItemIcon>
-                      <ListItemText>Delete Confession</ListItemText>
-                    </MenuItem>
-                  </Menu>
                 </div>
                 
                 <div className='confessionText'>
@@ -139,7 +119,7 @@ function ConfessionPost(Props) {
                 <div className= 'confessionVotesComments'>
                   <div className = 'votes'>
                     <Tooltip title="Upvote">
-                      <IconButton value = {Props.post._id} onClick={ upvoteHelper } style={{
+                      <IconButton value = {Props.post._id} placement = 'top' onClick={ upvoteHelper } style={{
                           color: "#BABABA",
                         }}>
                           <KeyboardArrowUpIcon sx={{ fontSize: 50 }}/>
