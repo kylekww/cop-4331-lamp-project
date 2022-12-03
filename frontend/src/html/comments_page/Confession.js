@@ -1,19 +1,13 @@
 import '../../css/styles.css';
 import React, { useState, useEffect, MouseEvent, useRef, useCallback } from 'react';
-import { MenuItem, Menu, ListItemIcon, ListItemText, Badge, Tooltip, IconButton } from '@mui/material';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import EditIcon from '@mui/icons-material/Edit';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import DeleteIcon from '@mui/icons-material/Delete';
 import searchComments from './searchComments';
+import CommentPost from './CommentPost';
 
 function Confession(Props) {
 
   // Get the confession
   const oid = Props.oid;
-  console.log(oid);
-  const[searchVal, setSearch] = useState(1);
+  const[searchVal, setSearch] = useState(3);
   const [confession, setConfession] = useState([]);
   useEffect(() => {
     const data = fetch("/api/v1/confessions/searchConfession", {
@@ -28,9 +22,8 @@ function Confession(Props) {
     })
     .then(res => {
       res.json().then((data) => { 
-        setConfession(data[0]);
-        console.log(data);
-        console.log(data[0]);
+        setConfession(data);
+        //console.log(data);
       })
     })
     .catch(err => {
@@ -38,46 +31,28 @@ function Confession(Props) {
     })}, []);
 
   
-  const[commentoid, commentsetOid] = useState('');
-  const{
-    post,
-    length
-  } = searchComments(searchVal, oid);
-  const observer = useRef();
-  //const[post, setPost] = useState([]);
-  //const[length, setLength] = useState(15);
+  // Post info
+  const[commentSearchVal, setCommentSearch] = useState(1);
+  const[commentoid, setCommentOid] = useState('');
+
+  // Pass values in this order: searchVal, comment oid, confession oid
+  const {post, wasLastList} = searchComments(commentSearchVal, commentoid, oid);
 
   // Edit menu logic
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const handleOptionsClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleOptionsClose = () => {
-    setAnchorEl(null);
-  };
-  const handleEditPost = () => {
-    setAnchorEl(null);
-    console.log("Edit post");
-  };
-  const handleDeletePost = () => {
-    setAnchorEl(null);
-    console.log("Delete post");
-  };
-
-  // Comment scroll
+  
   const handleScroll = (e) => {
-    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-    if(bottom){
-      commentsetOid(post[length - 1]._id);
+    const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
+    if(bottom && !wasLastList){
+      if(post.length - 1 < 0){
+        console.log('This never happens lol');
+        setCommentOid('');
+      }
+      //console.log(post[post.length - 1]._id)
+      //console.log('We are here');
+      setCommentOid(post[post.length - 1]._id);
     }
-  }
-  const upvoteHelper = (e) => {
-    upvoteComment(e.currentTarget.value);
-  }
-
-  const downvoteHelper = (e) => {
-    downvoteComment(e.currentTarget.value);
   }
 
   return (
@@ -97,89 +72,11 @@ function Confession(Props) {
       </div>
 
       {/* Comments */}
-      <div className = "confession">
-        <div className = "confessionFeed">
-
-          <div className= "confessionFeedWrapper" onScroll={handleScroll} ref = {observer}>
-          {post.map(posts => ( 
-            <div className = "confessionPost">
-              <div className = "confessionPostWrapper">
-
-                <div className = "confessionPostEdit">
-                  <div className = "confessionPostEditButton">
-                    <Tooltip title="Options">
-                      <IconButton 
-                        id="edit-button" 
-                        onClick={ handleOptionsClick } 
-                        aria-controls={open ? 'edit-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        style={{
-                            color: "#BABABA",
-                      }}>
-                        <MoreHorizIcon sx={{ fontSize: 40 }}/>
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                  <Menu 
-                    elevation={0}
-                    id="edit-menu"
-                    anchorEl={ anchorEl }
-                    open={ open }
-                    onClose={ handleOptionsClose }
-                    MenuListProps={{ 'aria-labelledby': 'edit-button' }}
-                  >
-                    <MenuItem elevation={0} onClick={ handleEditPost }>
-                      <ListItemIcon>
-                        <EditIcon sx={{ fontSize: 25 }}/>
-                      </ListItemIcon>
-                      <ListItemText>Edit Confession</ListItemText>
-                    </MenuItem>
-                    <MenuItem elevation={0} onClick={ handleDeletePost }>
-                      <ListItemIcon>
-                        <DeleteIcon sx={{ fontSize: 25 }}/>
-                      </ListItemIcon>
-                      <ListItemText>Delete Confession</ListItemText>
-                    </MenuItem>
-                  </Menu>
-                </div>
-                
-                <div className='confessionText'>
-                    {posts.confession}
-                </div>
-
-                <div className= 'confessionVotesComments'>
-                  <div className = 'votes'>
-                    <Tooltip title="Upvote">
-                      <IconButton value = {posts._id} onClick={ upvoteHelper } style={{
-                          color: "#BABABA",
-                        }}>
-                          <KeyboardArrowUpIcon sx={{ fontSize: 50 }}/>
-                      </IconButton>
-                    </Tooltip>
-                    <Badge badgeContent={1000} max={999} sx={{
-                      "& .MuiBadge-badge": {
-                        backgroundColor: Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
-                        color: "white",
-                        fontSize: 20,
-                        height: 30
-                    }}}>
-                    </Badge>
-                    <Tooltip title="Downvote">
-                      <IconButton value = {posts._id} onClick={ downvoteHelper } style={{
-                          color: "#BABABA"
-                        }}>
-                          <KeyboardArrowDownIcon sx={{ fontSize: 50 }}/>
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                </div>
-              </div>
-            </div>
-            ))}
-          </div>
-        </div> 
-      </div> 
+      <div className= "commentsFeedWrapper" onScroll={handleScroll}>
+        {post.map((posts) => (
+          <CommentPost post = {posts} />
+        ))}
+      </div>
     </>
   );
 }

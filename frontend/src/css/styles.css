@@ -310,6 +310,20 @@ input {
   margin: 0;
   font-family: 'Roboto', sans-serif;
 }
+
+.commentsFeedWrapper{
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  height: 500px;
+  overflow-y: auto;
+  width: 100%;
+  top: 39%;
+  position: fixed;
+  overflow-x: hidden;
+
+}
+
 .votes{
   display: flex;
   align-items: center;
