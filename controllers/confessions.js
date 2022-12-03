@@ -30,10 +30,12 @@ exports.deleteConfession = async (req, res) => {
     user = await User.findById(req.session.userId);
     if(user.moderator){
         confession.deleted = -1;
+        confession.save()
         return res.status(201).json({message: "This post was deleted by a moderator"});
     }
     else if(!user.moderator){
         confession.deleted = 1;
+        confession.save()
         return res.status(201).json({message: "This post was deleted successfully"});
     }
 }
