@@ -7,7 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteIcon from '@mui/icons-material/Delete';
 function ConfessionPost(Props) {
-    const[vote, setVote] = useState(Props.post.voteID.netVotes);
+    const[vote, setVote] = useState(Props.post.netVotes);
     const[interacted, setInteracted] = useState(Props.post.userInteracted)
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -147,7 +147,7 @@ function ConfessionPost(Props) {
 
 async function upvoteConfession(id) {
     const vote = 1;
-    const type = 1;
+    const type = 2;
     const data = await fetch("/api/v1/votes/changeVote", {
       method: "PUT",
       headers: {
@@ -172,7 +172,7 @@ async function upvoteConfession(id) {
   
   async function downvoteConfession(id) {
     const vote = -1;
-    const type = 1;
+    const type = 2;
     const data = await fetch("/api/v1/votes/changeVote", {
       method: "PUT",
       headers: {
