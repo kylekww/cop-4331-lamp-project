@@ -78,7 +78,14 @@ input {
 .HushIcon {
   height: 300px;
 }
+.HushIconLogin{
+  height: 85%;
 
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 /* End of Global Styles */
 
 /* Login.js */
@@ -239,12 +246,6 @@ input {
   transition: opacity 0.5s linear;
 }
 
-.HushIconComments {
-  height: 100px;
-  right: 7%;
-  position: relative;
-}
-
 /* ----- */
 
 .confession{
@@ -321,33 +322,13 @@ input {
   display: flex;
   padding: 20px;
   flex-direction: column;
-  top: 51%;
-  height: 49%;
+  height: 500px;
   overflow-y: auto;
   width: 100%;
+  top: 39%;
   position: fixed;
   overflow-x: hidden;
-}
 
-.commentsPage {
-  display: flex;
-  /* grid-template-columns: 100%; */
-  flex-direction: column;
-  align-items: center;
-  justify-items: flex-start;
-}
-
-.commentsPageTopBar {
-  width: 90%;
-  height: 8%;
-  display: flex;
-  flex-direction: row;
-  flex-flow: row;
-  position: relative;
-  justify-content: space-between;
-  justify-items: center;
-  align-items: center;
-  align-content: flex-end;
 }
 
 .votes{
@@ -535,7 +516,7 @@ line-height: 5vmin;
 display: flex;
 text-align: center;
 
-color: #FFFFFF;   
+color: #BABABA;   
 }
 
 .PageTip .Line {
@@ -543,7 +524,7 @@ width: 40vmin;
 height: 0px;
 display: flex;
 
-border: 2px solid #FFFFFF;
+border: 2px solid #BABABA;
 }
 
 /* ----- */
@@ -644,28 +625,25 @@ align-content: center;
 margin-left: 7%;
 }
 
-.TextName {
-display: flex;
-width: 100%;
-align-items: center;
-align-content: center;
-left: 5px;
-flex-direction: row;
-justify-items: flex-start;
-align-items: center;
+.ProfileContainer .TextName {
+/* Text is aligned horizontally by removing "flex: 5 1" from inspect element view */
 font-family: 'Roboto', sans-serif;
 font-style: normal;
 font-weight: 400;
 font-size: 2vmin;
+line-height: 4vmin;
 color: white;
+left: 10%;
+top: 45%;
+z-index: 1;
 text-shadow: 0px 0px 0px;
-margin: 0px 0px 0px 10px;
 }
 
 .ProfileTool {
 width: 7vmin;
-height: 60px;
+height: 7vmin;
 flex: 5;
+height: 50%;
 text-align: center;
 }
 
@@ -793,7 +771,7 @@ transform: translateY(1vmin);
 
 /* CommentsPage.js */
 
-.largeCommentsContainer {
+.largeConfessionContainer {
   width: 90%;
   left: 5%;
   height: 30vmin;
@@ -807,23 +785,18 @@ transform: translateY(1vmin);
 .largeConfession {
   display: flex;
   height: 90%;
-  border-radius: 30px;
+  border-radius: 10px;
   box-shadow: 0px 0px 16px -8px rgb(0 0 0 / 68%);
-  margin: 10px 0;
-  justify-items: center;
-  align-items: center;
-  flex-wrap: wrap;
-  text-align: center;
+  margin: 30px 0;
+  align-self: center;
+  justify-content: center;
   z-index: 1;
-  background-color: white;
-  border: 7px solid #BABABA;
 }
 
 .largeConfessionText{
   font-family: 'Roboto', sans-serif;
   font-size: 3vmin;
   font-weight: 700;
-  text-align: center;
   margin: 20px 0;
   overflow-wrap: break-word;
   max-width: 700px;
@@ -851,53 +824,9 @@ transform: translateY(1vmin);
 }
 
 .commentsPageTip .Line {
-  width: 40vmin;
+  width: 58vmin;
   height: 0px;
   display: flex;
   
   border: 2px solid white;
 }
-
-.CommentsReturnButtonWrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-items: flex-start;
-}
-
-.CommentReturnButton {
-  box-sizing: border-box;
-  width: 60px;
-  height: 60px;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-  justify-items: center;
-  
-  transition: all 0.35s;
-  }
-  
-  .CommentReturnButton:hover {
-  opacity: 1.0;
-  }
-  
-  .CommentReturnButton .Text:hover {
-  animation-name: rotate-by-90;
-  animation-duration: 1000ms;
-  animation-timing-function: ease-out 100ms;
-  }
-  
-  .CommentReturnButton:active {
-  transition: 0s;
-  transform: translateY(1vmin);
-  }
-
-  .NewColorInverted {
-    border: 0.5vmin solid rgba(70, 24, 203, 0.9);
-    border-radius: 100%;
-    background: rgba(89,35,206,0.25);
-  } 
-  .NewColorInverted:hover {
-    background: rgba(89,35,206,0.6);
-    transition: background-color 0.5s ease-in-out;
-  }
