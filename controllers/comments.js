@@ -30,8 +30,10 @@ exports.deleteComment = async (req, res) => {
     if(comment == null){
         return res.status(404).json({message: "Comment not found"});
     }
-
     user = await User.findById(req.session.userId);
+    if(user == null){
+        return res.status(404).json({message: "User not found"});
+    }
 
     if(comment.deleted === -1 || comment.deleted === 1)
         return res.json({message: "this comment has already been deleted"});
