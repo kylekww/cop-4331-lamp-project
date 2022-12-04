@@ -58,37 +58,29 @@ exports.searchConfession = async (req, res) => {
     // Input: cookie, confession._id "oid" and search criteria
     //if searchVar==1, sort by most recent 
     if (oid == "" && searchVar==1){
-        var searchResults = await Confession.find({}).populate({
+        var searchResults = await Confession.find({deleted : 0}).populate({
             path: "voteID",
-            options: {
-                sort : {netVotes : -1}
-            }
         }).limit(resultsPerPage).sort({_id: -1}).lean();
     }
     else if(oid == "" && searchVar==2){
-        var searchResults = await Confession.find({})
+        var searchResults = await Confession.find({deleted : 0})
         .populate({
             path: "voteID",
-            options: {
-                sort : {netVotes : -1}
-            }
         }).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
     }
     else if(searchVar==1){
         var searchResults = await Confession.find({
+            deleted : 0,
             _id : {$lt: oid}
             }).populate({
                 path: "voteID",
-                options: {
-                    sort : {netVotes : -1}
-                }
             }).limit(resultsPerPage).sort({_id: -1}).lean();
     }
     //if searchVar==2, sort by most popular
     else if(searchVar==2){
         var oldHigh = await Confession.findById(oid);
         var searchResults = await Confession.find( {
-
+            deleted : 0,
             $or : [ { netVotes : oldHigh.netVotes, _id : {$lt : oldHigh._id } },
                  { netVotes : {$lt : oldHigh.netVotes}
                 }
@@ -99,25 +91,15 @@ exports.searchConfession = async (req, res) => {
     }
     else if(searchVar==3 && oid != ""){
         
-        var searchResults =await Confession.find({_id: oid}, {userID:0}).populate({
+         var searchResults = await Confession.find({deleted : 0, _id: oid}).populate({
             path: "voteID",
-            options: {
-                sort : {netVotes : -1}
-            }
         }).limit(resultsPerPage).sort({_id: -1}).lean();
-        //res.status(201).json(result);
-        //return;
-    }
-    else if(searchVar==3 && oid != ""){
-        const result=await Confession.findOne({_id: oid}, {userID:0, comments:0}).lean();
-        res.status(201).json(result);
-        return;
     }
     else {
         res.status(400).json({message : "Not a valid search type"});
         return;
     }
-    console.log(searchResults);
+    
     //declare new temp unsaved fields 
     for(var i = 0; i < searchResults.length; i++){
         searchResults[i]["userInteracted"] = 0;

@@ -27,6 +27,7 @@ exports.addComment = async (req, res) =>{
 
 exports.deleteComment = async (req, res) => {
     comment = await Comment.findById(req.body.id);
+
     if(comment == null){
         return res.status(404).json({message: "Comment not found"});
     }
@@ -41,11 +42,27 @@ exports.deleteComment = async (req, res) => {
     if(user.moderator){
         comment.deleted = -1;
         comment.save();
+        await Confession.findOneAndUpdate( 
+            {_id: comment.confessionID}, 
+            { $pull: {comments: comment._id}},
+            {new:true});
+        
+            
         return res.status(200).json({message: "comment removed by moderator", deleted: comment.deleted});
     }
     else{
         comment.deleted = 1;
         comment.save();
+        console.log(comment._id);
+        
+        
+        await Confession.findOneAndUpdate( 
+            {_id: comment.confessionID}, 
+            { $pull: {comments: comment._id}},
+            {new:true});
+        
+        
+            
         return res.status(200).json({message: "comment removed", deleted: comment.deleted});
     }
 }
@@ -61,6 +78,7 @@ exports.searchComments = async (req, res) => {
     //if searchVar==1, sort by most recent 
     if (oid == "" && searchVar==1){
         var searchResults = await Comment.find({
+            deleted : 0,
             confessionID : confessionOID
         })
         .populate({
@@ -69,13 +87,16 @@ exports.searchComments = async (req, res) => {
     }
     else if(oid == "" && searchVar==2){
         
-        var searchResults = await Comment.find({confessionID : confessionOID})
+        var searchResults = await Comment.find({
+            deleted : 0,
+            confessionID : confessionOID})
         .populate({
             path: "voteID",
         }).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
     }
     else if(searchVar==1){
         var searchResults = await Comment.find({
+            deleted : 0,
             confessionID : confessionOID,
             _id : {$lt: mongoose.Types.ObjectId(oid)}
             })
@@ -86,8 +107,9 @@ exports.searchComments = async (req, res) => {
     //if searchVar==2, sort by most popular
     else if(searchVar==2){
         var oldHigh = await Comment.findById(oid);
-        console.log(oid)
+        
         var searchResults = await Comment.find( {
+            deleted : 0,
             $and : [ { confessionID : confessionOID },
                 {$or : [ { netVotes : oldHigh.netVotes, _id : {$lt : oldHigh._id } },
                  { netVotes : {$lt : oldHigh.netVotes}
