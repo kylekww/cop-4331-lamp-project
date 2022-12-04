@@ -22,9 +22,19 @@ export default function NewConfessionButton(Props) {
   return (
     //<DialogNewConfession open={open} handleClose={handleClose}></DialogNewConfession>
     <View>
-      <TouchableOpacity onPress={handleClickOpen} style={[styles.button, {backgroundColor:newButtonColor[(Props.isNew?1:0)]}]}>
-          <Text styles={styles.text}>Got something to confess?</Text>
-      </TouchableOpacity>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <TouchableOpacity onPress={handleClickOpen} style={[styles.button, {backgroundColor:newButtonColor[(Props.isNew?1:0)]}]}>
+            <Text styles={styles.text}>Got something to confess?</Text>
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 }
