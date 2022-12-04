@@ -8,7 +8,14 @@ export default function SearchConfessions(searchVal, oid){
     oid = '';
     setWasLastList(false)
   }, [searchVal]);
+  if(post.length == 0 && wasLastList){
+    console.log('nothing here!!!!')
+    setWasLastList(false)
+  }
     useEffect(() => {
+      console.log('wasLastList' + wasLastList)
+      
+      console.log('wasLastList after if statement 1' + wasLastList)  
         //console.log('oid: ' + oid)
         //console.log('searchVal: ' + searchVal)
         const displayPosts = async event =>
@@ -42,8 +49,10 @@ export default function SearchConfessions(searchVal, oid){
             console.log(err);
           });
         }
-        if(!wasLastList)
-            displayPosts();
+        if(!wasLastList){
+          displayPosts();
+        }
+          
         
     }, [searchVal, oid])
     return {post, wasLastList};

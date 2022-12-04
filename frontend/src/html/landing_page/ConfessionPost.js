@@ -119,7 +119,7 @@ function ConfessionPost(Props) {
 
                 <div className= 'confessionVotesComments'>
                   <div className = 'votes'>
-                    <Tooltip title="Upvote" placement="top">
+                    <Tooltip title="Upvote">
                       <IconButton value = {Props.post._id} placement = 'top' onClick={ upvoteHelper } style={{
                           color: interacted != 1 ? "#BABABA" : (Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)")
                         }}>
