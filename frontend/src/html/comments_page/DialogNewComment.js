@@ -32,7 +32,7 @@ function DialogNewComment({open, handleClose}) {
   })
   .then(res => {
     res.json().then((data) => {
-      console.log(data);
+      //console.log(data);
     }) 
   })
   .catch(err => {

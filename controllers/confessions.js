@@ -98,13 +98,17 @@ exports.searchConfession = async (req, res) => {
         }).sort({netVotes: -1, _id: -1}).limit(resultsPerPage).lean();
     }
     else if(searchVar==3 && oid != ""){
-
-        const result=await Confession.findOne({_id: oid}, {userID:0}).lean();
-        res.status(201).json(result);
-        return;
+        
+        var searchResults =await Confession.find({_id: oid}, {userID:0}).populate({
+            path: "voteID",
+            options: {
+                sort : {netVotes : -1}
+            }
+        }).limit(resultsPerPage).sort({_id: -1}).lean();
+        //res.status(201).json(result);
+        //return;
     }
     else if(searchVar==3 && oid != ""){
-
         const result=await Confession.findOne({_id: oid}, {userID:0, comments:0}).lean();
         res.status(201).json(result);
         return;
@@ -113,6 +117,7 @@ exports.searchConfession = async (req, res) => {
         res.status(400).json({message : "Not a valid search type"});
         return;
     }
+    console.log(searchResults);
     //declare new temp unsaved fields 
     for(var i = 0; i < searchResults.length; i++){
         searchResults[i]["userInteracted"] = 0;
@@ -144,12 +149,11 @@ exports.searchConfession = async (req, res) => {
         delete searchResults[i].voteID.downvoteList;
     }  
 
-
     let result = searchResults.map(({userID, ...rest}) => ({...rest}));
     result = searchResults.map(({voteID, ...rest}) => ({...rest}));
     
-
-    res.status(201).json(result);
+    if(searchVar == 3) res.status(201).json(result[0]);
+    else res.status(201).json(result);
 }
 
 //confession information

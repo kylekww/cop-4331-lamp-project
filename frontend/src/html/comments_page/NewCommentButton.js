@@ -14,7 +14,7 @@ function NewCommentButton(Props) {
 
   const handleClickOpen = () => {
     setOpen(true);
-    console.log(open);
+    //console.log(open);
   };
 
   const handleClose = () => {

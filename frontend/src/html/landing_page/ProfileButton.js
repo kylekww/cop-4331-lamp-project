@@ -44,7 +44,7 @@ function ProfileButton() {
           </IconButton>
         </Tooltip>
       </div>
-      <div class="TextName">
+      <div class="TextName" id="ProfileTextName">
           Hello {user.name}!
       </div>
     </div>

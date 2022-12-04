@@ -24,7 +24,7 @@ export default function SearchComments(searchVal, oid, confessionOID){
           .then(res => {
             res.json().then((data) => {
 
-              console.log(data);
+              //console.log(data);
               if(data.length < 15){
                 setWasLastList(true);
                 setPosts([...post, ...data]);

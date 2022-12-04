@@ -78,7 +78,14 @@ input {
 .HushIcon {
   height: 300px;
 }
+.HushIconLogin{
+  height: 85%;
 
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 /* End of Global Styles */
 
 /* Login.js */
@@ -266,25 +273,35 @@ input {
   width: 100%;
   position: fixed;
   overflow-x: hidden;
-
 }
 
 .confessionPost{
-  
   display: flex;
-  width: 50%;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  width: 60%;
   border-radius: 10px;
+  border: 5px solid #BABABA;
   box-shadow: 0px 0px 16px -8px rgb(0 0 0 / 68%);
   margin: 30px 0;
   align-self: center;
-  justify-content: center;
   z-index: 1;
   background-color: #f1eee8;
 }
 
 .confessionPostWrapper{
   padding: 10px;
-  width: 66%;
+  width: 90%;
+  left: 5%;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+  justify-items: center;
 }
 
 .confessionPostEdit{
@@ -302,14 +319,65 @@ input {
 .confessionText{
   margin: 20px 0;
   overflow-wrap: break-word;
-  max-width: 700px;
+  max-width: 70%;
   text-align: center;
 }
 
 .confessionVotesComments{
   display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  justify-items: center;
+  justify-content: space-between;
+}
+
+.confessionLeftColumn {
+  flex-direction: column;
+  align-content: space-between;
+}
+
+.commentPost{
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  width: 60%;
+  border-radius: 10px;
+  border: 5px solid #BABABA;
+  box-shadow: 0px 0px 16px -8px rgb(0 0 0 / 68%);
+  margin: 30px 0;
+  align-self: center;
+  z-index: 1;
+  background-color: #f1eee8;
+}
+
+.commentPostWrapper{
+  padding: 10px;
+  width: 90%;
+  left: 5%;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
   align-items: center;
   justify-content: space-between;
+  justify-items: center;
+}
+
+.commentLeftSide {
+  flex-direction: column;
+  align-content: space-between;
+}
+
+.commentText{
+  margin: 20px 0;
+  overflow-wrap: break-word;
+  align-items: center;
+  justify-items: center;
+  height: 100%;
+  max-width: 700px;
+  text-align: center;
 }
 
 .comments{
@@ -321,8 +389,8 @@ input {
   display: flex;
   padding: 20px;
   flex-direction: column;
-  top: 51%;
-  height: 49%;
+  top: 48%;
+  height: 52%;
   overflow-y: auto;
   width: 100%;
   position: fixed;
@@ -338,7 +406,8 @@ input {
 }
 
 .commentsPageTopBar {
-  width: 90%;
+  width: 94%;
+  margin-right: 5.5%;
   height: 8%;
   display: flex;
   flex-direction: row;
@@ -360,7 +429,7 @@ input {
 .LandingPageHeader {
 position: relative;
 width: 90%;
-height: 10%;
+height: 11%;
 left: 5%;
 top: 10%;
 box-sizing: border-box;
@@ -407,6 +476,7 @@ position: flex;
 font-weight: 600;
 font-size: 2.5vmin;
 line-height: 100%;
+margin-bottom: 1vmin;
 }
 
 .LandingPageHeader-helper {
@@ -535,7 +605,7 @@ line-height: 5vmin;
 display: flex;
 text-align: center;
 
-color: #FFFFFF;   
+color: white;   
 }
 
 .PageTip .Line {
@@ -543,7 +613,7 @@ width: 40vmin;
 height: 0px;
 display: flex;
 
-border: 2px solid #FFFFFF;
+border: 2px solid white;
 }
 
 /* ----- */
@@ -641,7 +711,7 @@ line-height: 4vmin;
 .ProfileContainer {
 display: flex;
 align-content: center;
-margin-left: 7%;
+margin-left: 5.5%;
 }
 
 .TextName {
@@ -806,14 +876,17 @@ transform: translateY(1vmin);
 
 .largeConfession {
   display: flex;
+  flex-direction: row;
+  justify-items: center;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  text-align: center;
+
   height: 90%;
   border-radius: 30px;
   box-shadow: 0px 0px 16px -8px rgb(0 0 0 / 68%);
-  margin: 10px 0;
-  justify-items: center;
-  align-items: center;
-  flex-wrap: wrap;
-  text-align: center;
   z-index: 1;
   background-color: white;
   border: 7px solid #BABABA;

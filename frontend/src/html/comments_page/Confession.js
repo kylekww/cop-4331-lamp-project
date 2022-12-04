@@ -2,11 +2,18 @@ import '../../css/styles.css';
 import React, { useState, useEffect, MouseEvent, useRef, useCallback } from 'react';
 import searchComments from './searchComments';
 import CommentPost from './CommentPost';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ConfessionVotes from './ConfessionVotes';
+import { Badge, Tooltip, IconButton } from '@mui/material';
 
 function Confession(Props) {
 
   // Get the confession
   const oid = Props.oid;
+  const[vote, setVote] = useState(0);
+  const[interacted, setInteracted] = useState(null);
   const[searchVal, setSearch] = useState(3);
   const [confession, setConfession] = useState([]);
   useEffect(() => {
@@ -23,7 +30,8 @@ function Confession(Props) {
     .then(res => {
       res.json().then((data) => { 
         setConfession(data);
-        //console.log(data);
+        setVote(data.netVotes);
+        setInteracted(data.userInteracted);
       })
     })
     .catch(err => {
@@ -60,10 +68,20 @@ function Confession(Props) {
     {/* Large confession */}
       <div class="largeCommentsContainer">
           <div class="largeConfession">
+
+              <ConfessionVotes post={confession} vote={vote} setVote={setVote} interacted={interacted} setInteracted={setInteracted}/>
+
               <div class="largeConfessionText">
                   {confession.confession}
               </div>
-          </div>
+
+              <div>
+                <KeyboardArrowDownIcon sx={{ fontSize: 100 }} style={{
+                  color: 'white'
+                }}/>
+              </div>
+
+            </div>
           <div class="commentsPageTip">
               How do YOU feel about this?
               <element class="Line">
@@ -79,70 +97,6 @@ function Confession(Props) {
       </div>
     </>
   );
-}
-
-async function deleteComment() {
-  const response = await fetch('url', {
-    mode: 'no-cors',
-    method: 'POST', 
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({})
-  });
-  return {text:"This only works if you are the owner of the comment."}
-}
-
-/* Both upvote and downvote need to interact with the total vote tally */
-
-async function upvoteComment(id) {
-  const vote = 1;
-  const type = 1;
-  const data = await fetch("/api/v1/votes/changeVote", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      vote,
-      type,
-      id
-    }),
-  })
-  .then(res => {  
-    res.json().then((data) => {       
-      console.log(data);
-    }) 
-  })
-  .catch(err => {
-    console.log(err);
-  });
-  
-}
-
-async function downvoteComment(id) {
-  const vote = -1;
-  const type = 1;
-  const data = await fetch("/api/v1/votes/changeVote", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      vote,
-      type,
-      id
-    }),
-  })
-  .then(res => {
-
-    res.json().then((data) => {       
-      console.log(data);
-    }) 
-  })
-  .catch(err => {
-    console.log(err);
-  });
 }
 
 export default Confession;

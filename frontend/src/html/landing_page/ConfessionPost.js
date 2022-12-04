@@ -1,16 +1,14 @@
 import '../../css/styles.css';
 import React, { useState } from "react";
-import { MenuItem, Menu, ListItemIcon, ListItemText, Badge, Tooltip, IconButton } from '@mui/material';
+import { Badge, Tooltip, IconButton } from '@mui/material';
 import CommentIcon from '@mui/icons-material/Comment';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import EditIcon from '@mui/icons-material/Edit';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 function ConfessionPost(Props) {
     const[vote, setVote] = useState(Props.post.netVotes);
-    const[interacted, setInteracted] = useState(Props.post.userInteracted)
+    const[interacted, setInteracted] = useState(Props.post.userInteracted);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const[deleted, setDeleted] = useState(Props.post.deleted != 0 ? true:false)
     const open = Boolean(anchorEl);
@@ -91,74 +89,78 @@ function ConfessionPost(Props) {
     }
 
     return(
-        <div className = "confessionPost">
+            <div className = "confessionPost">
               <div className = "confessionPostWrapper">
-                <div className = "confessionPostEdit">
-                  <div className = "confessionPostEditButton">
-                    <Tooltip title="Delete Confession">
-                      <IconButton 
-                        id="edit-button" 
-                        onClick={ handleDeletePost } 
-                        aria-controls={open ? 'edit-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        style={{
-                            color: "#BABABA",
-                            display: Props.post.userCreated ? 'block' : 'none',
-                            
-                      }}>
-                        <DeleteIcon sx={{ fontSize: 40 }}/>
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                </div>
-                
-                <div className='confessionText'>
-                    {Props.post.confession}
-                </div>
 
-                <div className= 'confessionVotesComments'>
-                  <div className = 'votes'>
-                    <Tooltip title="Upvote">
-                      <IconButton value = {Props.post._id} placement = 'top' onClick={ upvoteHelper } style={{
-                          color: interacted != 1 ? "#BABABA" : (Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)")
+                <div class="confessionLeftColumn">
+                  <div className = "confessionPostEdit">
+                    <div className = "confessionPostEditButton">
+                      <Tooltip title="Delete Confession">
+                        <IconButton 
+                          id="edit-button" 
+                          onClick={ handleDeletePost } 
+                          aria-controls={open ? 'edit-menu' : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open ? 'true' : undefined}
+                          style={{
+                              color: "#BABABA",
+                              display: Props.post.userCreated ? 'block' : 'none',
+                              
                         }}>
-                          <KeyboardArrowUpIcon sx={{ fontSize: 50 }}/>
-                      </IconButton>
-                    </Tooltip>
-                    <Badge badgeContent = {vote} max={999} sx={{
-                      "& .MuiBadge-badge": {
-                        backgroundColor: Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
-                        color: "white",
-                        fontSize: 20,
-                        height: 30
-                    }}} showZero>
-                    </Badge>
-                    <Tooltip title="Downvote">
-                      <IconButton value = {Props.post._id} onClick={ downvoteHelper } style={{
-                          color: interacted != -1 ? "#BABABA" : (Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)")
-                        }}>
-                          <KeyboardArrowDownIcon sx={{ fontSize: 50 }}/>
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-
-                  <div className='comments'>
-                    <Badge badgeContent= {Props.post.comments.length} max={99} sx={{
-                      "& .MuiBadge-badge": {
-                        backgroundColor: Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
-                        color: "white"
-                    }}} showZero>
-                      <Tooltip title="Add Comment">
-                        <IconButton onClick={ clickCommentButton } style={{
-                          color: "#BABABA"
-                        }}>
-                          <CommentIcon sx={{ fontSize: 30 }}/>
+                          <DeleteIcon sx={{ fontSize: 40 }}/>
                         </IconButton>
                       </Tooltip>
-                    </Badge>
+                    </div>
+                  </div>
+
+                  <div className= 'confessionVotesComments'>
+                    <div className = 'votes'>
+                      <Tooltip title="Upvote">
+                        <IconButton value = {Props.post._id} placement = 'top' onClick={ upvoteHelper } style={{
+                            color: interacted != 1 ? "#BABABA" : (Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)")
+                          }}>
+                            <KeyboardArrowUpIcon sx={{ fontSize: 50 }}/>
+                        </IconButton>
+                      </Tooltip>
+                      <Badge badgeContent = {vote} max={999} sx={{
+                        "& .MuiBadge-badge": {
+                          backgroundColor: Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
+                          color: "white",
+                          fontSize: 20,
+                          height: 30
+                      }}} showZero>
+                      </Badge>
+                      <Tooltip title="Downvote">
+                        <IconButton value = {Props.post._id} onClick={ downvoteHelper } style={{
+                            color: interacted != -1 ? "#BABABA" : (Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)")
+                          }}>
+                            <KeyboardArrowDownIcon sx={{ fontSize: 50 }}/>
+                        </IconButton>
+                      </Tooltip>
+                    </div>
                   </div>
                 </div>
+
+                <div className='confessionText'>
+                  {Props.post.confession}
+                </div>
+
+                <div className='comments'>
+                  <Badge badgeContent= {Props.post.comments.filter(comment => comment.deleted != -1).length} max={99} sx={{
+                    "& .MuiBadge-badge": {
+                      backgroundColor: Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
+                      color: "white"
+                  }}} showZero>
+                    <Tooltip title="Add Comment">
+                      <IconButton onClick={ clickCommentButton } style={{
+                        color: "#BABABA"
+                      }}>
+                        <CommentIcon sx={{ fontSize: 30 }}/>
+                      </IconButton>
+                    </Tooltip>
+                  </Badge>
+                </div>
+
               </div>
             </div>
     )
