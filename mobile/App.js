@@ -8,7 +8,6 @@ import RealLoginscreen from './screens/JS/RealLogin';
 import Registrationscreen from './screens/JS/Registration';
 import LandingPagescreen from './screens/JS/LandingPage';
 import ProfileScreen from './screens/JS/Profile';
-import CommentsPageScreen from './screens/JS/Comments';
 
 enableFreeze(true);
 
@@ -45,14 +44,8 @@ const AppNavigator = createStackNavigator({
       headerShown: false // Will hide header for HomePage
     }
   },
-  CommentsPage: {
-    screen: CommentsPageScreen,
-    navigationOptions: {
-      headerShown: false
-    }
-  }
 },{
-  initialRouteName: "CommentsPage"
+  initialRouteName: "RealLogin"
 });
 
 const AppContainer = createAppContainer(AppNavigator);
