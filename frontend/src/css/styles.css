@@ -535,7 +535,7 @@ line-height: 5vmin;
 display: flex;
 text-align: center;
 
-color: #BABABA;   
+color: #FFFFFF;   
 }
 
 .PageTip .Line {
@@ -543,7 +543,7 @@ width: 40vmin;
 height: 0px;
 display: flex;
 
-border: 2px solid #BABABA;
+border: 2px solid #FFFFFF;
 }
 
 /* ----- */
