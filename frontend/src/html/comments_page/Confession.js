@@ -58,14 +58,14 @@ function Confession(Props) {
   return (
     <>
     {/* Large confession */}
-      <div class="largeConfessionContainer">
+      <div class="largeCommentsContainer">
           <div class="largeConfession">
               <div class="largeConfessionText">
                   {confession.confession}
               </div>
           </div>
           <div class="commentsPageTip">
-              Be careful... comments are signed by YOU!
+              How do YOU feel about this?
               <element class="Line">
               </element>
           </div>

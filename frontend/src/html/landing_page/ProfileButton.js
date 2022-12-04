@@ -1,6 +1,7 @@
 import '../../css/styles.css';
 import React, { useState, useEffect } from 'react';
 import { Avatar } from '@mui/material';
+import { Tooltip, IconButton } from '@mui/material';
 
 function ProfileButton() {
   const[user, setUser] = useState([]);
@@ -26,18 +27,22 @@ function ProfileButton() {
   return (
     <div class="ProfileContainer">
       <div class="ProfileTool">
-        <Avatar onClick={clickProfileButton} style={{border: '3px solid #BABABA'}}
-        sx={{ 
-          bgcolor: `${color}`,
-          '&:hover': {
-            borderColor: '#158888'
-          },
-        }}
-        >
-          <div class="Text">
-            {user.username?.charAt(0).toUpperCase()}
-          </div>
-        </Avatar>
+        <Tooltip title="View Profile">
+          <IconButton>
+            <Avatar onClick={clickProfileButton} style={{border: '3px solid #BABABA'}}
+            sx={{ 
+              bgcolor: `${color}`,
+              '&:hover': {
+                borderColor: '#158888'
+              },
+            }}
+            >
+              <div class="Text">
+                {user.username?.charAt(0).toUpperCase()}
+              </div>
+            </Avatar>
+          </IconButton>
+        </Tooltip>
       </div>
       <div class="TextName">
           Hello {user.name}!

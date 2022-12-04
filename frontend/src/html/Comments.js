@@ -6,6 +6,7 @@ import searchComments from './comments_page/searchComments';
 import { useParams } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Tooltip, IconButton } from '@mui/material';
+import ProfileButton from './landing_page/ProfileButton';
 
 function Comments() {
   // Comment info
@@ -35,24 +36,23 @@ function Comments() {
   };
 
   return (
-    <div style={{
-      display: "grid",
-      alignContent: "center"
-    }}>
-      <div style={{
-          alignContent: "center",
-          justifyContent: "center",
-          display: "flex"
-      }}>
-        <Tooltip title="Return">
-          <IconButton onClick={ goBack } style={{
-              color: "#BABABA",
+    <div class="commentsPage">
+      <div class="commentsPageTopBar">
+        <ProfileButton />
+        <div class="CommentsReturnButtonWrapper">
+          <Tooltip title="Return">
+            <IconButton onClick={ goBack } class="CommentReturnButton NewColorInverted" style={{
+              color: "#FFFFFF",
             }}>
-              <ArrowBackIcon sx={{ fontSize: 50 }}/>
-          </IconButton>
-        </Tooltip>
-          <Confession oid={useParams().token}/>
+              <ArrowBackIcon sx={{ fontSize: 40 }}/>
+            </IconButton>
+          </Tooltip>
+        </div>
+        <div>
+        <img src={require('../images/NewIcon.jpg')} class="HushIconComments" />
+        </div>
       </div>
+      <Confession oid={useParams().token}/>
       <NewCommentButton oid={useParams().token}/>
     </div>
   );
