@@ -23,6 +23,33 @@ html {
   
 }
 
+.easteregg {
+  background: red;
+  border: none !important;
+  height: 25px;
+  width: 25px;
+  font-size: 0;
+  position: absolute;
+  left: 28.4%;
+  top: 52%;
+}
+
+.eastereggMoveAway {
+  background: blue;
+  border: none !important;
+  height: 25px;
+  width: 25px;
+  font-size: 0;
+  position: absolute;
+  left: 28.5%;
+  top: 52%;
+  transform: translateY(50px);
+}
+
+.eastereggMoveAway:active {
+  
+}
+
 .container {
   width: 100%;
   height: 100%;
@@ -79,7 +106,14 @@ input {
   height: 300px;
 }
 .HushIconLogin{
-  height: 85%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: center;
+  place-items: center;
 
   /* Center and scale the image nicely */
   background-position: center;
@@ -285,6 +319,7 @@ input {
   width: 60%;
   border-radius: 10px;
   border: 5px solid #BABABA;
+  min-height: 50%;
   box-shadow: 0px 0px 16px -8px rgb(0 0 0 / 68%);
   margin: 30px 0;
   align-self: center;
