@@ -118,8 +118,8 @@ export default function Confession(Props) {
 
   ]);
 
-  const pressHandler = (key) => {
-    //console.log(key);
+  function pressHandler() {
+    //window.location.href = '/comments/' + Props.post._id;
   }
 
   return (
@@ -127,27 +127,34 @@ export default function Confession(Props) {
         <View style = {styles.confessionFeed}>
           <View style = {styles.confessionFeedWrapper}>
             <FlatList  
-                keyExtractor={(item) => item.id}
-                data={tempData}
+                keyExtractor={(item) => item._id}
+                data={post}
                 renderItem={({ item }) => (
                   <View style = {styles.box} >
                     <View style={styles.columnSpace}>
-                      <Text style = {styles.text}>hi, this is item  {item.id}, the name is {item.name} 
-                      </Text>
-                      <View style = {styles.rowSpace}>
+                      <View style = {{flexWrap: 'wrap'}}>
+                        <Text style = {styles.text}>{item.confession}</Text>
+                      </View>
+                      <View style = {[styles.rowSpace,{marginTop:10}]}>
                         <TouchableOpacity onPress={pressHandler}>
-                          <Text style = {styles.text}>delete</Text>
+                        <Icons style = {'delete'}
+                            height = {30} width = {30}
+                            />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={pressHandler}>
-                          <Text style = {styles.text}>edit</Text>
-                        </TouchableOpacity>
-                        <View style = {styles.rowSpace}>
+                        <View style = {{left:10}}>
+                          <TouchableOpacity onPress={pressHandler}>
+                            <Icons style = {'comment'}
+                                height = {30} width = {30}
+                                />
+                          </TouchableOpacity>
+                        </View>
+                        <View style = {[styles.rowSpace,{right:10}]}>
                           <TouchableOpacity onPress={pressHandler}>
                           <Icons style = {'downvote'}
                             height = {30} width = {30}
                             />
                           </TouchableOpacity>
-                          <Text style = {styles.text}>0</Text>
+                          <Text style = {styles.text}>{item.netVotes}</Text>
                           <TouchableOpacity onPress={pressHandler}>
                             <Icons style = {'upvote'}
                             height = {30} width = {30}
@@ -255,7 +262,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     alignSelf: 'center',
     textAlign: 'center',
-    flexWrap: 'wrap',
     padding: 10,
     borderRadius: 10,
     borderWidth: 1,
@@ -281,6 +287,7 @@ const styles = StyleSheet.create({
   rowSpace: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginLeft:10,
   },
   columnSpace: {
     flexDirection: 'column',

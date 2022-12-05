@@ -69,10 +69,11 @@ const styles = StyleSheet.create({
       padding: 10,
       alignItems: 'center',
       alignSelf: 'center',
-      flexWrap: 'wrap',
+      textAlign: 'center',
       borderWidth: 5,
       borderRadius: 30,
       width: '70%',
       height: 60,
+      bottom: 20,
   },
 });
