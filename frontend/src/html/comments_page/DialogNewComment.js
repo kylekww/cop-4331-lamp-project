@@ -16,6 +16,7 @@ function DialogNewComment({open, handleClose}) {
 
   const handleTextInputChange = event => {
     setTextInput(event.target.value);
+    setLength(event.target.value.length)
   };
 
   const postComment = async event => {
