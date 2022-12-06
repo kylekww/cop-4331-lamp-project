@@ -79,7 +79,7 @@ function DialogNewComment({open, handleClose}) {
       
       <DialogActions>
         <Button onClick={goodbye}  sx={{ color: 'rgba(89,35,206,1)' }}>Return</Button>
-        <Button onClick={postComment}  sx={{ color: 'rgba(89,35,206,1)' }}>Post Confession</Button>
+        <Button onClick={postComment}  sx={{ color: 'rgba(89,35,206,1)' }}>Post Comment</Button>
       </DialogActions>
     </Dialog>
 );
