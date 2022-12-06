@@ -5,30 +5,17 @@ import CommentIcon from '@mui/icons-material/Comment';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import DeleteIcon from '@mui/icons-material/Delete';
-
 function ConfessionPost(Props) {
     const[vote, setVote] = useState(Props.post.netVotes);
     const[interacted, setInteracted] = useState(Props.post.userInteracted);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const[deleted, setDeleted] = useState(Props.post.deleted != 0 ? true:false)
+    const[id, setId] = useState(Props.post._id);
     const open = Boolean(anchorEl);
+
     if(deleted)
       return null;
-    //console.log(isNew._currentValue)
-    const handleOptionsClick = (event) => {
-      event.currentTarget.disabled = true;
-          setAnchorEl(event.currentTarget);
-      };
-      const handleOptionsClose = () => {
-        setAnchorEl(null);
-      };
-      const handleEditPost = (e) => {
-        if(deleted) return null
-        e.currentTarget.disabled = true;
-        setAnchorEl(null);
-        
-        console.log("Edit post");
-      };
+
       const handleDeletePost = (e) => {
         if(deleted) return null
         e.currentTarget.disabled = true;
@@ -37,12 +24,16 @@ function ConfessionPost(Props) {
         setDeleted(true)
         console.log("Delete post");
       };
-        
+      const delay = ms => new Promise(
+       
+        resolve => setTimeout(resolve, ms)
+      );
       
-      const upvoteHelper = (e) => {
-        e.currentTarget.disabled = true;
+      const upvoteHelper = async (e) => {
+        console.log('start')
+        await delay(400);
         if(deleted) return null
-        upvoteConfession(e.currentTarget.value);
+        upvoteConfession(id);
         if(interacted == 1){
             console.log('this user was interacted before the upvote')
             
@@ -59,11 +50,13 @@ function ConfessionPost(Props) {
             setInteracted(1)
             setVote(vote + 2)
         }
+        
+        console.log('end')
       }
     
-      const downvoteHelper = (e) => {
-        e.currentTarget.disabled = true;
-        downvoteConfession(e.currentTarget.value);
+      const downvoteHelper = async (e) => {
+        await delay(400);
+        downvoteConfession(id);
         if(deleted) return null
         if(interacted == -1){
             console.log('downvoted before, now neutral')
@@ -83,7 +76,8 @@ function ConfessionPost(Props) {
 
       }
 
-    function clickCommentButton() {
+    async function clickCommentButton() {
+      await delay(400);
       window.location.href = '/comments/' + Props.post._id;
       if(deleted) return null
     }
