@@ -8,7 +8,7 @@ import searchComments from './Comments/searchComments';
 import GoBackButton from './Comments/GoBackButton';
 import Replies from './Comments/Replies';
 
-export default function Comments()
+export default function Comments(Props)
 {
     //Comment indo
     const[searchVal, setSearch] = useState(1);
@@ -20,21 +20,17 @@ export default function Comments()
     const [anchorE1, setAnchorE1] = React.useState(null);
     const open = Boolean(anchorE1);
 
-    const handleScroll = (e) => {
-        const bottom = Math.rounf(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
-        if(bottom && !wasLastList){
-            if(post.length -1 < 0){
-                //console.log('we must set oid to neutral');
-                setOid('');
-            }
-            //console.log(post[post.length - 1]._id);
-            setOid(post[post.length - 1]._id);
-        }
-    }
-
-    const goBack = (event) => {
-
-    }
+    // const handleScroll = (e) => {
+    //     const bottom = Math.rounf(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
+    //     if(bottom && !wasLastList){
+    //         if(post.length -1 < 0){
+    //             //console.log('we must set oid to neutral');
+    //             setOid('');
+    //         }
+    //         //console.log(post[post.length - 1]._id);
+    //         setOid(post[post.length - 1]._id);
+    //     }
+    // }
 
     return (
         <View style={styles.container}>
@@ -44,7 +40,7 @@ export default function Comments()
             />
 
             <View>
-                <GoBackButton></GoBackButton>
+                <GoBackButton navigation={Props.navigation}></GoBackButton>
             </View>
 
             <Confession></Confession>

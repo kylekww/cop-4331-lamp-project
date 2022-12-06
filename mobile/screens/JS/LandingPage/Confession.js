@@ -99,6 +99,11 @@ export default function Confession(Props) {
     //window.location.href = '/comments/' + Props.post._id;
   }
 
+  const GoToComments = async () => 
+  {
+    Props.navigation.push('CommentsPage');
+  }
+
   return (
     <View style = {styles.confession}>
         <View style = {styles.confessionFeed}>
@@ -122,7 +127,7 @@ export default function Confession(Props) {
                             />
                         </TouchableOpacity>
                         <View style = {{left:10}}>
-                          <TouchableOpacity onPress={pressHandler}>
+                          <TouchableOpacity onPress={GoToComments}>
                             <Icons style = {'comment'}
                                 height = {30} width = {30}
                                 />

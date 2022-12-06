@@ -6,7 +6,7 @@ export default function GoBackButton(Props)
     const newButtonColor = ['#000000', '#111111'];
 
     const handleClick = () => {
-        alert("Taking you back to LandingPage");
+        Props.navigation.pop();
     }
 
     return (
