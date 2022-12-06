@@ -1,24 +1,29 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { View , FlatList, StyleSheet, Text } from 'react-native';
+import { View , FlatList, StyleSheet, Text, RefreshControl } from 'react-native';
 import Icons from '../Icons';
 
 import searchConfessions from './searchConfessions';
 
 export default function Confession(Props) {
+  const[refreshing,setRefreshing] = useState(true);
    // Post info
    const[searchVal, setSearch] = useState(1);
    const[oid, setOid] = useState('');
-   const {post, wasLastList} = searchConfessions(searchVal, oid);
-   const[isNew, setIsNew] = useState(!Props.isNew);
+   const {post,wasLastList} = searchConfessions(searchVal, oid);
+   const[isNew, setIsNew] = useState(Props.isNew);
 
    //changes from hot/new vice versa
   useEffect(() => {
     post.length = 0;
-    setIsNew(current => !current);
-    Props.isNew ? setSearch(1) : setSearch(2)
+    Props.isNew ? setSearch(1) : setSearch(2);
+    setRefreshing(false);
   }, [Props.isNew]);
 
+  const loadUserData = () => {
+    Props.isNew ? setSearch(1) : setSearch(2);
+    setRefreshing(false);
+  };
    // Edit menu logic
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -41,26 +46,23 @@ export default function Confession(Props) {
     deleted = (val.deleted != 0 ? true:false);
     vote = (val.netVotes);
     interacted = (val.userInteracted);
-    id.disabled = true;
     if(deleted) return null
     //upvoteConfession(id.value);
     if(interacted == 1){
-      console.log('this user was interacted before the upvote')
+      console.log('this user was interacted before the upvote'+id)
       interacted = 0;
       vote -= 1;
     } 
     if(interacted == 0){
-      console.log('this user was not interacted before the upvote')
+      console.log('this user was not interacted before the upvote'+id)
       interacted = 1;
       vote += 1;
     }
     if(interacted == -1){
-      console.log('downvoted before vote, now upvoted')
+      console.log('downvoted before vote, now upvoted'+id)
       interacted = 1;
       vote += 2;
     }
-    val.interacted = interacted;
-    val.vote = vote;
   }
   
   const downvoteHelper = (val) => {
@@ -68,21 +70,20 @@ export default function Confession(Props) {
     deleted = (val.deleted != 0 ? true:false);
     vote = (val.netVotes);
     interacted = (val.userInteracted);
-    id.disabled = true;
     //downvoteConfession(id.value);
     if(deleted) return null
     if(interacted == -1){
-      console.log('downvoted before, now neutral')
+      console.log('downvoted before, now neutral'+id)
       interacted = 0;
       vote += 1;
     }
     if(interacted == 0){
-      console.log('neutral to downvoted')
+      console.log('neutral to downvoted'+id)
       interacted = -1;
       vote -= 1;
     }
     if(interacted == 1){
-      console.log('upvote to downvote')
+      console.log('upvote to downvote'+id)
       interacted = -1;
       vote -= 2;
     }
@@ -105,6 +106,9 @@ export default function Confession(Props) {
             <FlatList  
                 keyExtractor={(item) => item._id}
                 data={post}
+                refreshControl={
+                  <RefreshControl refreshing={refreshing} onRefresh={loadUserData}/>
+                }
                 renderItem={({ item }) => (
                   <View style = {styles.box} >
                     <View style={styles.columnSpace}>
