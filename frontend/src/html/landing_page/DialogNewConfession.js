@@ -35,6 +35,7 @@ function DialogNewConfession({open, handleClose}) {
   .catch(err => {
     console.log(err);
   });
+  window.location.reload(false);
   handleClose();
   }
   const goodbye = async event =>{
@@ -46,7 +47,6 @@ function DialogNewConfession({open, handleClose}) {
         <DialogTitle sx={{ color: 'rgba(89,35,206,1)' }}>Got something on your mind?</DialogTitle>
         <DialogContent>
           <TextField
-            
             autoFocus
             multiline       
             minRows = {5}   
