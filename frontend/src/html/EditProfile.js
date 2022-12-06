@@ -133,20 +133,20 @@ function EditProfile({ open, handleClose }) {
             <img src={require('../images/NewIcon.jpg')} class="HushIcon" />
             <div class="squarebg">
                 <h1>Edit Profile </h1>
-                <input type="text" id="name" placeholder={user.name} required />
-                <input type="text" id="username" placeholder={user.username} required />
-                <input type="text" id="email" placeholder={user.email} required />
-                <input type="password" id="password" placeholder="********" required />
+                <input type="text" id="name" placeholder={user.name} required inputProps={{ "data-testid": "name" }}/>
+                <input type="text" id="username" placeholder={user.username} required inputProps={{ "data-testid": "username" }}/>
+                <input type="text" id="email" placeholder={user.email} required inputProps={{ "data-testid": "email" }}/>
+                <input type="password" id="password" placeholder="********" required inputProps={{ "data-testid": "password" }}/>
                 <span class="passwordRequirements">
-                    Requirements: <br />
+                    {"Requirements: "}<br />
                     8 Characters <br />
                     1 Number <br />
                     1 Upper Case Character <br />
                     1 Lower Case Character <br />
                 </span>
                 <p id="noerror">Error: Username already taken!</p>
-                <button type="button" class="return" onClick={makeEdits}>Make Edits</button>
-                <button type="button" class="return" onClick={profileReturn}>Return to Profile</button>
+                <button type="button" class="return" data-testid="edit-button" onClick={makeEdits}>Make Edits</button>
+                <button type="button" class="return" data-testid="cancel-button" onClick={profileReturn}>Return to Profile</button>
             </div>
         </div>
     );

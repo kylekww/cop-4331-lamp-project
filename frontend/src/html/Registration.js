@@ -162,6 +162,7 @@ const[error, hasError] = useState(true);
                 id="name"
                 label="Full Name"
                 name="Full Name"
+                inputProps={{ "data-testid": "name" }}
                 autoComplete="fullname"
                 autoFocus
               />
@@ -172,6 +173,7 @@ const[error, hasError] = useState(true);
                 id="username"
                 label="Username"
                 name="username"
+                inputProps={{ "data-testid": "username" }}
                 autoComplete="username"
                 autoFocus
               />
@@ -182,6 +184,7 @@ const[error, hasError] = useState(true);
                 id="email"
                 label="Knights Email Account"
                 name="Email"
+                inputProps={{ "data-testid": "email" }}
                 autoComplete="Email"
                 autoFocus
               />
@@ -193,6 +196,7 @@ const[error, hasError] = useState(true);
                 label="Password"
                 type="password"
                 id="password"
+                inputProps={{ "data-testid": "password" }}
                 autoComplete="current-password"
               />
               <Typography component="h1" variant="h6"sx ={{
@@ -204,6 +208,7 @@ const[error, hasError] = useState(true);
               <Button
                 type="submit"
                 fullWidth
+                data-testid="register-button"
                 variant="contained"
                 onClick = {doRegistration}
                 sx={{ mt: 3, 
@@ -222,7 +227,7 @@ const[error, hasError] = useState(true);
                 <Typography component="h1" variant="h6"sx ={{
                 color: 'rgb(227, 19, 19)'
               }}>
-                  Password Requirements:
+                  {"Password Requirements:"}
                 </Typography>
                 <Typography component="h1" variant="h6" sx ={{
                 color: long ? 'rgb(96,171,52)' : 'rgb(227, 19, 19)'
@@ -246,7 +251,7 @@ const[error, hasError] = useState(true);
                 </Typography>     
                 </Grid>
                 <Grid item>
-                  <Link href="/" variant="body2">
+                  <Link href="/" variant="body2" data-testid="login-link">
                     {"Already have an account? Login!"}
                   </Link>
                 </Grid>
@@ -264,7 +269,7 @@ const[error, hasError] = useState(true);
           sx = {{
             backgroundImage: 'linear-gradient(rgb(222, 98, 28), rgb(227, 19, 19));'
           }}
-          ><img src={require('../images/HotIconGiant.png')} class="HushIconLogin"/></Grid>
+          ><img src={require('../images/HotIconGiant.png')} class="HushIconLogin" data-testid="register-icon"/></Grid>
       </Grid>
     </ThemeProvider>
   );
