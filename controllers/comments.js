@@ -4,7 +4,8 @@ const Votes = require('../models/votes');
 const User = require('../models/user');
 const _ = require('lodash');
 const addCommentValidator = require('../validators/addComment');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const {dbSecretFields, commentSecretFields} = require('../configs');
 
 exports.addComment = async (req, res) =>{
     const validationResult = addCommentValidator(req.body);
@@ -22,7 +23,7 @@ exports.addComment = async (req, res) =>{
     confession.comments.push(comment);
     confession.save();
 
-    return res.status(200).json({message: "comment added successfully", comment: comment.toObject()});
+    return res.status(200).json({message: "comment added successfully"});
 }
 
 exports.deleteComment = async (req, res) => {
