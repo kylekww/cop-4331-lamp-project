@@ -77,7 +77,7 @@ const doLogin = async event =>
           sm={4}
           md={7}
           
-          ><img src={require('../images/NewIconGiant.png')} className="HushIconLogin" title="LoginIcon"/>
+          ><img src={require('../images/NewIconGiant.png')} className="HushIconLogin" data-testid="login-icon"/>
           <input type="button" value="sound" onClick={playSoundEffect()} class="easteregg"/>
         </Grid>
         
@@ -109,6 +109,7 @@ const doLogin = async event =>
                 label="Username"
                 name="username"
                 title="username"
+                inputProps={{ "data-testid": "username" }}
                 autoComplete="username"
                 autoFocus
               />
@@ -120,18 +121,19 @@ const doLogin = async event =>
                 label="Password"
                 type="password"
                 title="password"
+                inputProps={{ "data-testid": "password" }}
                 id="password"
                 autoComplete="current-password"
               />
-              <Typography component="h1" variant="h6" title="ErrorText" sx={{
-                opacity: visible ? '100%' : '0%',
+              <Typography component="h1" variant="h6" data-testid="error-text" sx={{
+                visibility: visible ? 'visible' : 'hidden',
                 color: error ? 'rgba(89,35,206,1)' : 'rgba(68,122,154,1)'
               }}>
               {login}
             </Typography>
               <Button
                 type="submit"
-                title="LoginButton"
+                data-testid="login-button"
                 fullWidth
                 variant="contained"
                 onClick = {doLogin}
