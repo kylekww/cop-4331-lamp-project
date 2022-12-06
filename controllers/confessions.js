@@ -4,6 +4,7 @@ const User = require('../models/user');
 const _ = require('lodash');
 const addConfessionValidator = require('../validators/addConfession');
 const mongoose = require('mongoose');
+const {dbSecretFields, confessionSecretFields} = require('../configs');
 
 //add confession
 exports.addConfession = async (req, res) => {
@@ -19,8 +20,10 @@ exports.addConfession = async (req, res) => {
     return res.status(201)
     .json({
         message: "confession posted", 
-        confession: confession.toObject()
+        confession: _.omit(confession.toObject(), confessionSecretFields)
     });
+
+    //_.omit(req.user.toObject(),dbSecretFields)
 }
 
 // delete confession 

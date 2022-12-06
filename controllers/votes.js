@@ -17,7 +17,12 @@ exports.changeVote = async (req, res) => {
         var element = await Comment.findById(req.body.id);
     }
     else{
-        return res.status(404).json({message: "Could not find element"})
+        return res.status(404).json({message: "Could not find element"});
+    }
+
+    if(!element){
+        console.log(element);
+        return res.status(404).json({message: "Could not find element"});
     }
 
     let votes = await Votes.findById({_id: element.voteID});  
@@ -57,8 +62,6 @@ exports.changeVote = async (req, res) => {
             element.save();
             return res.status(201).json({
                 message: "vote changed from downvote to upvote",
-                "upvoteList": votes.upvoteList,
-                "downvoteList": votes.downvoteList,
                 "netVotes": element.netVotes
             });
         }
@@ -72,8 +75,6 @@ exports.changeVote = async (req, res) => {
 
             return res.status(201).json({
                 message: "vote changed from upvote to none",
-                "upvoteList": votes.upvoteList,
-                "downvoteList": votes.downvoteList,
                 "netVotes": element.netVotes
             });
         }
@@ -85,8 +86,6 @@ exports.changeVote = async (req, res) => {
             votes.save();
             return res.status(201).json({
                 message: "vote added as upvote",
-                "upvoteList": votes.upvoteList,
-                "downvoteList": votes.downvoteList,
                 "netVotes": element.netVotes
             });
         }
@@ -102,8 +101,6 @@ exports.changeVote = async (req, res) => {
 
             return res.status(201).json({
                 message: "vote changed from upvote to downvote",
-                "upvoteList": votes.upvoteList,
-                "downvoteList": votes.downvoteList,
                 "netVotes": element.netVotes
             });
         }
@@ -116,8 +113,6 @@ exports.changeVote = async (req, res) => {
 
             return res.status(201).json({
                 message: "vote changed from downvote to none",
-                "upvoteList": votes.upvoteList,
-                "downvoteList": votes.downvoteList,
                 "netVotes": element.netVotes
             });
         }
@@ -130,8 +125,6 @@ exports.changeVote = async (req, res) => {
 
             return res.status(201).json({
                 message: "vote added as downvote",
-                "upvoteList": votes.upvoteList,
-                "downvoteList": votes.downvoteList,
                 "netVotes": element.netVotes
             });
         }
