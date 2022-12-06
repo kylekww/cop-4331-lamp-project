@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, Modal } from 'react-native';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Modal, KeyboardAvoidingView } from 'react-native';
 //import DialogNewConfession from './DialogNewConfession';
 
 /* Need to be added:
@@ -9,13 +9,23 @@ import { View, StyleSheet, Text, TextInput, TouchableOpacity, Modal } from 'reac
 
 export default function NewConfessionButton(Props) {
   const [open, setOpen] = React.useState(false);
-  const newButtonColor = ['#DE621C','rgba(128,199,239,.5)'];
+  const newButtonColor = ['#DE621C','rgba(128,199,239,1)'];
+  const altColor = ['rgba(227, 19, 19, 0.921875)','rgba(89,35,206,1)'];
+
+  const input = useRef(null);
+
+  React.useEffect(()=> {
+    if (input.current) {
+      input.current.focus();
+    }
+  },[]);
+  
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handlePost = () => {
     setOpen(false);
   };
 
@@ -31,14 +41,26 @@ export default function NewConfessionButton(Props) {
           setOpen(!open);
         }}
       >
-        <View style={[styles.modalView, {backgroundColor:newButtonColor[(Props.isNew?1:0)]}]}>
-          <TextInput styles={styles.text}
-            placeholder="What's on your mind?">
-          </TextInput>
-        </View>
+        <KeyboardAvoidingView behavior={'padding'}>
+          <View style={[styles.modalView, {backgroundColor:altColor[(Props.isNew?1:0)]}]}>
+            <View style ={{ width: '75%', height: 200}}>
+              <TextInput style={styles.text}
+                ref = {input}
+                maxLength = {280}
+                multiline = {true}
+                autoFocus = {true}
+                placeholderTextColor='white'
+                placeholder="What's on your mind?">
+              </TextInput>
+            </View>
+            <TouchableOpacity onPress={handlePost} style={[styles.button2, {backgroundColor:newButtonColor[(Props.isNew?1:0)]}]}>
+            <Text style={styles.text2}>Post</Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
       </Modal>
       <TouchableOpacity onPress={handleClickOpen} style={[styles.button, {backgroundColor:newButtonColor[(Props.isNew?1:0)]}]}>
-          <Text styles={styles.text}>What's on your mind?</Text>
+          <Text style={styles.text2}>What's on your mind?</Text>
       </TouchableOpacity>
     </View>
   );
@@ -54,7 +76,7 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     top:'20%',
-    flexWrap: 'wrap',
+    justifyContent: 'space-between',
     borderRadius: 20,
     padding: 15,
     alignItems: "center",
@@ -62,8 +84,13 @@ const styles = StyleSheet.create({
   },
   text: {
       alignSelf: 'center',
-      fontSize: 30,
+      fontSize: 24,
       color: 'white',
+  },
+  text2: {
+    alignSelf: 'center',
+    fontSize: 24,
+    color: 'black',
   },
   button: {
       padding: 10,
@@ -75,5 +102,18 @@ const styles = StyleSheet.create({
       width: '70%',
       height: 60,
       bottom: 20,
+      opacity: 0.5,
   },
+  button2: {
+    padding: 10,
+    alignItems: 'center',
+    alignSelf: 'center',
+    textAlign: 'center',
+    borderWidth: 5,
+    borderRadius: 30,
+    width: '80%',
+    height: 60,
+    bottom: 40,
+    opacity: 0.5,
+},
 });
