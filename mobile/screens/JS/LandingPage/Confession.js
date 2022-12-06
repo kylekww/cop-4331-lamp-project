@@ -11,6 +11,7 @@ export default function Confession(Props) {
    const[oid, setOid] = useState('');
    const {post, wasLastList} = searchConfessions(searchVal, oid);
    const[isNew, setIsNew] = useState(!Props.isNew);
+
    //changes from hot/new vice versa
   useEffect(() => {
     post.length = 0;
@@ -21,39 +22,13 @@ export default function Confession(Props) {
    // Edit menu logic
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  
-  const handleScroll = (e) => {
-    const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
-    if(bottom && !wasLastList){
-      if(post.length - 1 < 0){
-        //console.log('we must set oid to neutral')
-        setOid('');
-      }
-      //console.log(post[post.length - 1]._id)
-      setOid(post[post.length - 1]._id);
-    }
-  }
 
   //const[vote, setVote] = useState(post.voteID.netVotes);
   //const[interacted, setInteracted] = useState(post.userInteracted)
   
   //console.log(isNew._currentValue)
-  const handleOptionsClick = (event) => {
-    event.currentTarget.disabled = true;
-    setAnchorEl(event.currentTarget);
-  };
-  const handleOptionsClose = () => {
-    setAnchorEl(null);
-  };
-  const handleEditPost = (e) => {
-    //if(deleted) return null
-    e.currentTarget.disabled = true;
-    setAnchorEl(null);
-    
-    console.log("Edit post");
-  };
   const handleDeletePost = (e) => {
-    //if(deleted) return null
+    if(deleted) return null
     e.currentTarget.disabled = true;
     setAnchorEl(null);
     deleteConfession(Props.post._id)
@@ -61,62 +36,63 @@ export default function Confession(Props) {
     console.log("Delete post");
   }; 
       
-  const upvoteHelper = (e) => {
-    e.currentTarget.disabled = true;
-    //if(deleted) return null
-    upvoteConfession(e.currentTarget.value);
+  const upvoteHelper = (val) => {
+    id = val._id;
+    deleted = (val.deleted != 0 ? true:false);
+    vote = (val.netVotes);
+    interacted = (val.userInteracted);
+    id.disabled = true;
+    if(deleted) return null
+    //upvoteConfession(id.value);
     if(interacted == 1){
       console.log('this user was interacted before the upvote')
-      setInteracted(0)
-      setVote(vote - 1)
+      interacted = 0;
+      vote -= 1;
     } 
     if(interacted == 0){
       console.log('this user was not interacted before the upvote')
-      setInteracted(1)
-      setVote(vote + 1)
+      interacted = 1;
+      vote += 1;
     }
     if(interacted == -1){
       console.log('downvoted before vote, now upvoted')
-      setInteracted(1)
-      setVote(vote + 2)
+      interacted = 1;
+      vote += 2;
     }
+    val.interacted = interacted;
+    val.vote = vote;
   }
   
-  const downvoteHelper = (e) => {
-    e.currentTarget.disabled = true;
-    downvoteConfession(e.currentTarget.value);
-    //if(deleted) return null
+  const downvoteHelper = (val) => {
+    id = val._id;
+    deleted = (val.deleted != 0 ? true:false);
+    vote = (val.netVotes);
+    interacted = (val.userInteracted);
+    id.disabled = true;
+    //downvoteConfession(id.value);
+    if(deleted) return null
     if(interacted == -1){
       console.log('downvoted before, now neutral')
-      setInteracted(0)
-      setVote(vote + 1)
+      interacted = 0;
+      vote += 1;
     }
     if(interacted == 0){
       console.log('neutral to downvoted')
-      setInteracted(-1)
-      setVote(vote - 1)
+      interacted = -1;
+      vote -= 1;
     }
     if(interacted == 1){
       console.log('upvote to downvote')
-      setInteracted(-1)
-      setVote(vote - 2)
+      interacted = -1;
+      vote -= 2;
     }
   }
 
-  function clickCommentButton() {
+  function clickCommentButton(val) {
+    console.log(val._id);
     //window.location.href = '/comments/' + Props.post._id;
+    if(val.deleted) return null;
   }
-  
-  const [tempData, setData] = useState([
-    {name: 'Austin', username: 'test1', id: 1},
-    {name: 'Austin', username: 'test1', id: 2},
-    {name: 'Austin', username: 'test1', id: 3},
-    {name: 'Austin', username: 'test1', id: 4},
-    {name: 'Austin', username: 'test1', id: 5},
-    {name: 'Austin', username: 'test1', id: 6},
-    {name: 'Austin', username: 'test1', id: 7},
-
-  ]);
 
   function pressHandler() {
     //window.location.href = '/comments/' + Props.post._id;
@@ -149,13 +125,13 @@ export default function Confession(Props) {
                           </TouchableOpacity>
                         </View>
                         <View style = {[styles.rowSpace,{right:10}]}>
-                          <TouchableOpacity onPress={pressHandler}>
+                          <TouchableOpacity onPress={downvoteHelper(item)}>
                           <Icons style = {'downvote'}
                             height = {30} width = {30}
                             />
                           </TouchableOpacity>
                           <Text style = {styles.text}>{item.netVotes}</Text>
-                          <TouchableOpacity onPress={pressHandler}>
+                          <TouchableOpacity onPress={upvoteHelper(item)}>
                             <Icons style = {'upvote'}
                             height = {30} width = {30}
                             />
@@ -181,18 +157,6 @@ export default function Confession(Props) {
     - Lazy loading
 */
 
-async function clickCommentButton() {
-  const response = await fetch('url', {
-    mode: 'no-cors',
-    method: 'POST', 
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({})
-  });
-  window.location.href = '/comments';
-}
-
 async function upvoteConfession(id) {
   const vote = 1;
   const type = 1;
@@ -213,7 +177,7 @@ async function upvoteConfession(id) {
     }) 
   })
   .catch(err => {
-    //console.log(err);
+    console.log(err);
   });
   
 }
@@ -239,7 +203,7 @@ async function downvoteConfession(id) {
     }) 
   })
   .catch(err => {
-    //console.log(err);
+    console.log(err);
   });
 }
 
