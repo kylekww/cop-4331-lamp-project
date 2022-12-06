@@ -6,13 +6,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import React, {useState} from 'react';
-
+import Typography from '@mui/material/Typography';
 function DialogNewConfession({open, handleClose}) {
 
   const [textInput, setTextInput] = useState('');
-
+  const [length, setLength] = useState(0)
   const handleTextInputChange = event => {
     setTextInput(event.target.value);
+    setLength(event.target.value.length)
 };
   const postConfession = async event => {
     const confession = textInput;
@@ -36,27 +37,44 @@ function DialogNewConfession({open, handleClose}) {
   });
   handleClose();
   }
+  const goodbye = async event =>{
+    setLength(0)
+    handleClose()
+  }
   return (
-    <Dialog open={open}>
-        <DialogTitle>New Confession</DialogTitle>
+      <Dialog open={open} fullWidth >
+        <DialogTitle sx={{ color: 'rgba(89,35,206,1)' }}>Got something on your mind?</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            What's on your mind?
-          </DialogContentText>
           <TextField
+            
             autoFocus
+            multiline       
+            minRows = {5}   
             margin="dense"
             id="name"
-            label="Type here"
-            type="confession"
+            label="Write Confession"
+            height = '24.0'
             fullWidth
             variant="standard"
             onChange= {handleTextInputChange}
+            inputProps={{ maxLength: 280 }}
+            sx={{
+              "& .MuiFormLabel-root": {
+                  color: 'rgba(89,35,206,1)'
+              },
+              "& .MuiFormLabel-root.Mui-focused": {
+                  color: 'rgba(89,35,206,1)'
+              }
+          }}
           />
+          <Typography component="h1" variant="h6">
+               {length}/280
+            </Typography>
         </DialogContent>
+        
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={postConfession}>Post</Button>
+          <Button onClick={goodbye}  sx={{ color: 'rgba(89,35,206,1)' }}>Return</Button>
+          <Button onClick={postConfession}  sx={{ color: 'rgba(89,35,206,1)' }}>Post Confession</Button>
         </DialogActions>
       </Dialog>
   );
