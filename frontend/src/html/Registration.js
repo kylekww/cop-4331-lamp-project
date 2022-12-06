@@ -19,7 +19,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 export default function Registration() {
-
+const[reg, validReg] = useState('4:78AM Moment');
+const [long, isLong] = useState(false);
+const [number, hasNumber] = useState(false)
+const[up, hasUppercase] = useState(false)
+const[low, hasLowercase] = useState(false)
+const[visible, isVisible] = useState(false);
+const[error, hasError] = useState(true);
     function passwordRequirements(password) {
         let upperCase = false;
         let lowerCase = false;
@@ -28,6 +34,7 @@ export default function Registration() {
 
         if (password.length >= 8) {
             passwordLength = true;
+            isLong(true);
         }
 
         for (let i = 0; i < password.length; i++) {
@@ -39,10 +46,14 @@ export default function Registration() {
                 lowerCase = true;
             }
         }
-
+        isLong(passwordLength)
+        hasNumber(passwordNumber)
+        hasUppercase(upperCase)
+        hasLowercase(lowerCase)
         if (passwordLength && passwordNumber && upperCase && lowerCase) {
             return true;
         } else {
+          validReg('Please check that you have met all of the password requirements!')
             return false;
         }
     }
@@ -87,9 +98,11 @@ export default function Registration() {
                     color
                 }),
             }).then(res => {
-                if (res.status !== 201) alert("Invalid registration");
+                isVisible(true)
+                if (res.status !== 201) validReg('This username/email is already taken!')
                 else {
-                    alert("Registration was successful.");
+                  hasError(false)
+                  validReg('Success! Bringing you back to login...')
                     window.location.href = '/';
                 }
             })
@@ -101,13 +114,18 @@ export default function Registration() {
             console.log(data);
         } else if ((!passwordRequirements(password)) && validEmail(email)) {
             console.log("Password must meet all requirements!");
+            
         }
         else if (passwordRequirements(password) && (!validEmail(email))) {
             console.log("You must use your knights email!");
+            isVisible(true)
+            validReg('Please use a UCF email!')
         }
         else {
             console.log("Password must meet all requirements!");
             console.log("You must use your knights email!");
+            isVisible(true)
+            validReg('Please use a UCF email!')
         }
 
     };
@@ -177,7 +195,12 @@ export default function Registration() {
                 id="password"
                 autoComplete="current-password"
               />
-              
+              <Typography component="h1" variant="h6"sx ={{
+                opacity: visible ? '100%' : '0%',
+                color: error ? 'rgba(89,35,206,1)' : 'rgba(68,122,154,1)'
+              }}>
+                {reg}
+              </Typography>
               <Button
                 type="submit"
                 fullWidth
@@ -196,13 +219,31 @@ export default function Registration() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                <span variant="body2">
-                    Password Requirements: <br />
-                    8 Characters <br />
-                    1 Number <br />
-                    1 Upper Case Character <br />
-                    1 Lower Case Character <br />
-                </span>
+                <Typography component="h1" variant="h6"sx ={{
+                color: 'rgb(227, 19, 19)'
+              }}>
+                  Password Requirements:
+                </Typography>
+                <Typography component="h1" variant="h6" sx ={{
+                color: long ? 'rgb(96,171,52)' : 'rgb(227, 19, 19)'
+              }}>
+                  8 Characters
+                </Typography>
+                <Typography component="h1" variant="h6"  sx ={{
+                color: number ? 'rgb(96,171,52)' : 'rgb(227, 19, 19)'
+              }}>
+                  1 Number
+                </Typography>
+                <Typography component="h1" variant="h6"  sx ={{
+                color: up ? 'rgb(96,171,52)' : 'rgb(227, 19, 19)'
+              }}>
+                  1 Upper Case Character
+                </Typography> 
+                <Typography component="h1" variant="h6"  sx ={{
+                color: low ? 'rgb(96,171,52)' : 'rgb(227, 19, 19)'
+              }}>
+                1 Lower Case Character
+                </Typography>     
                 </Grid>
                 <Grid item>
                   <Link href="/" variant="body2">
