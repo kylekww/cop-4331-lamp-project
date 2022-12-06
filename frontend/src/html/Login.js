@@ -41,7 +41,7 @@ const doLogin = async event =>
     .then(res => {
       isVisible(true)
       if(res.status == 404) validLogin('Invalid Username')
-      else if(res.status == 401) validLogin("Invalid password");
+      else if(res.status == 401) validLogin("Invalid Password");
       else {
         hasError(false)
         validLogin("Success! Logging in...");
@@ -77,7 +77,7 @@ const doLogin = async event =>
           sm={4}
           md={7}
           
-          ><img src={require('../images/NewIconGiant.png')} class="HushIconLogin"/>
+          ><img src={require('../images/NewIconGiant.png')} className="HushIconLogin" title="LoginIcon"/>
           <input type="button" value="sound" onClick={playSoundEffect()} class="easteregg"/>
         </Grid>
         
@@ -108,9 +108,9 @@ const doLogin = async event =>
                 id="username"
                 label="Username"
                 name="username"
+                title="username"
                 autoComplete="username"
                 autoFocus
-                data-testid = "username"
               />
               <TextField
                 margin="normal"
@@ -119,11 +119,11 @@ const doLogin = async event =>
                 name="password"
                 label="Password"
                 type="password"
+                title="password"
                 id="password"
                 autoComplete="current-password"
-                data-testid = "password"
               />
-              <Typography component="h1" variant="h6" sx ={{
+              <Typography component="h1" variant="h6" title="ErrorText" sx={{
                 opacity: visible ? '100%' : '0%',
                 color: error ? 'rgba(89,35,206,1)' : 'rgba(68,122,154,1)'
               }}>
@@ -131,7 +131,7 @@ const doLogin = async event =>
             </Typography>
               <Button
                 type="submit"
-                data-testid = "login"
+                title="LoginButton"
                 fullWidth
                 variant="contained"
                 onClick = {doLogin}
@@ -149,7 +149,7 @@ const doLogin = async event =>
               <Grid container>
                 <Grid item xs>
                   <Link href="/resetpassword" variant="body2">
-                    Forgot password? Reset it!
+                    {"Forgot password? Reset it!"}
                   </Link>
                 </Grid>
                 <Grid item>
