@@ -223,7 +223,7 @@ export default function Registration() {
           sx = {{
             backgroundImage: 'linear-gradient(rgb(222, 98, 28), rgb(227, 19, 19));'
           }}
-          ><img src={require('../images/HotIcon.jpg')} class="HushIconLogin"/></Grid>
+          ><img src={require('../images/HotIconGiant.png')} class="HushIconLogin"/></Grid>
       </Grid>
     </ThemeProvider>
   );

@@ -16,6 +16,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+export default function Login() {
+
 const theme = createTheme();
 const doLogin = async event => 
 {
@@ -53,7 +55,6 @@ const doLogin = async event =>
     }
     */
 };
-export default function Login() {
 
   function playSoundEffect() {
     var music = new Audio('../soundeffects/Shhhh.mp3');
@@ -103,6 +104,7 @@ export default function Login() {
                 name="username"
                 autoComplete="username"
                 autoFocus
+                data-testid = "username"
               />
               <TextField
                 margin="normal"
@@ -113,10 +115,12 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                data-testid = "password"
               />
               
               <Button
                 type="submit"
+                data-testid = "login"
                 fullWidth
                 variant="contained"
                 onClick = {doLogin}
