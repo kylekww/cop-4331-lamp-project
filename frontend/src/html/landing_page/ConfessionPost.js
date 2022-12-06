@@ -146,7 +146,7 @@ function ConfessionPost(Props) {
                 </div>
 
                 <div className='comments'>
-                  <Badge badgeContent= {Props.post.comments.filter(comment => comment.deleted != -1).length} max={99} sx={{
+                  <Badge badgeContent= {Props.post.comments.length} max={99} sx={{
                     "& .MuiBadge-badge": {
                       backgroundColor: Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
                       color: "white"
