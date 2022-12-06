@@ -17,7 +17,10 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function Login() {
-
+const[login, validLogin] = useState('I wrote this at 4:78AM');
+const[visible, isVisible] = useState(false);
+const[error, hasError] = useState(true)
+//const[visible, isVisible] = useState(false);
 const theme = createTheme();
 const doLogin = async event => 
 {
@@ -36,9 +39,12 @@ const doLogin = async event =>
         }),
     })
     .then(res => {
-      if(res.status == 404) alert("Invalid username");
-      else if(res.status == 401) alert("Invalid password");
+      isVisible(true)
+      if(res.status == 404) validLogin('Invalid Username')
+      else if(res.status == 401) validLogin("Invalid password");
       else {
+        hasError(false)
+        validLogin("Success! Logging in...");
         window.location.href = '/landing';
       }
     })
@@ -117,7 +123,12 @@ const doLogin = async event =>
                 autoComplete="current-password"
                 data-testid = "password"
               />
-              
+              <Typography component="h1" variant="h6" sx ={{
+                opacity: visible ? '100%' : '0%',
+                color: error ? 'rgba(89,35,206,1)' : 'rgba(68,122,154,1)'
+              }}>
+              {login}
+            </Typography>
               <Button
                 type="submit"
                 data-testid = "login"
