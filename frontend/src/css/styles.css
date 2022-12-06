@@ -302,7 +302,7 @@ input {
   padding: 20px;
   flex-direction: column;
   display: flex;
-  height: 500px;
+  height: 65vh;
   overflow-y: auto;
   width: 100%;
   position: fixed;
