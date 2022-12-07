@@ -22,7 +22,7 @@ export default function SearchConfessions(searchVal, oid){
         //console.log('searchVal: ' + searchVal)
         const displayPosts = async event =>
         {
-          const data = await fetch("/api/v1/confessions/searchConfession", {
+          const data = await fetch("https://hushucf.herokuapp.com/api/v1/confessions/searchConfession", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

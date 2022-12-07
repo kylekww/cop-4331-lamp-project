@@ -21,6 +21,7 @@ export default function Confession(Props) {
   }, [Props.isNew]);
 
   const loadUserData = () => {
+    post.length = 0;
     Props.isNew ? setSearch(1) : setSearch(2);
     setRefreshing(false);
   };
@@ -117,7 +118,7 @@ export default function Confession(Props) {
                 renderItem={({ item }) => (
                   <View style = {styles.box} >
                     <View style={styles.columnSpace}>
-                      <View style = {{flexWrap: 'wrap'}}>
+                      <View style = {{flexWrap: 'wrap', maxHeight: 250}}>
                         <Text style = {styles.text}>{item.confession}</Text>
                       </View>
                       <View style = {[styles.rowSpace,{marginTop:10}]}>
@@ -239,7 +240,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     minHeight: 50,
-    maxHeight: 150,
+    maxHeight: 300,
     width: '80%',
     backgroundColor: 'rgb(231, 232, 243)', 
   },

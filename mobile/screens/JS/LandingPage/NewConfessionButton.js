@@ -94,7 +94,7 @@ export default function NewConfessionButton(Props) {
                 <Text style={styles.text2}>Post</Text>
               </TouchableOpacity>
               <View style={styles.bottomFiller}>
-                <Text style={[styles.text3,{textAlign: 'left'}]}>{length+'/\nr'}280</Text>
+                <Text style={[styles.text3,{textAlign: 'left'}]}>{length+'/\n'}280</Text>
               </View>
             </View>
           </View>
