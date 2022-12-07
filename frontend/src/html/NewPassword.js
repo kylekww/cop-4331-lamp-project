@@ -5,42 +5,16 @@ import { useParams } from "react-router-dom";
 
 function NewPassword() {
     const token = useParams().token;
+    const[text, setText] = useState('');
 
-    function passwordRequirements(password) {
-        let upperCase = false;
-        let lowerCase = false;
-        let passwordNumber = false;
-        let passwordLength = false;
-
-        if (password.length >= 8) {
-            passwordLength = true;
-        }
-
-        for (let i = 0; i < password.length; i++) {
-            if (password[i] >= "0" && password[i] <= "9") {
-                passwordNumber = true;
-            } else if (password[i].toUpperCase() === password[i]) {
-                upperCase = true;
-            } else if (password[i].toUpperCase() !== password[i]) {
-                lowerCase = true;
-            }
-        }
-
-        if (passwordLength && passwordNumber && upperCase && lowerCase) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
     const doChangePassword = async event => {
         const password = document.getElementById("password").value;
         if(password == null) {
-            alert("Input a new password");
+            setText("Input a new password");
             return;
         }
         else if(!passwordRequirements(password)) {
-            alert("Invalid password");
+            setText("Invalid password");
             return;
         }
 
@@ -54,9 +28,9 @@ function NewPassword() {
             }),
         })
         .then(res => {
-            if(res.status == 502) alert("Password reset failed");
+            if(res.status == 502) setText("Password reset failed");
             else {
-                alert("Password has been changed!");
+                setText("Password has been changed!");
                 window.location.href = '/';
             }
         })
@@ -66,23 +40,55 @@ function NewPassword() {
     };
 
     return (
-        <div class="container">
-            <img src={require('../images/NewIcon.jpg')} class="HushIcon"/>
-            <div class="squarebg">
+        <div className="container">
+            <img src={require('../images/NewIcon.jpg')} className="HushIcon"/>
+            <div className="squarebg">
                 <h1>Create a New Password </h1>
                 <input type="password" id="password" placeholder="Password" required data-testid="password" />
-                <span class="passwordRequirements" data-testid="requirements">
+                <span className="passwordRequirements" data-testid="requirements">
                     Requirements: <br />
                     8 Characters <br />
                     1 Number <br />
                     1 Upper Case Character <br />
                     1 Lower Case Character <br />
                 </span>
-                <button type="button" class="button" data-testid="button" onClick={doChangePassword}>Change password</button>
+                <span className="passwordRequirements" style={{
+                    color: "red"
+                }}>
+                    {text}
+                </span>
+                <button type="button" className="button" data-testid="button" onClick={doChangePassword}>Change password</button>
                 <p>Nevermind? <a href="/">Login!</a></p>
             </div>
         </div>
     );
+}
+
+export function passwordRequirements(password) {
+    let upperCase = false;
+    let lowerCase = false;
+    let passwordNumber = false;
+    let passwordLength = false;
+
+    if (password.length >= 8) {
+        passwordLength = true;
+    }
+
+    for (let i = 0; i < password.length; i++) {
+        if (password[i] >= "0" && password[i] <= "9") {
+            passwordNumber = true;
+        } else if (password[i].toUpperCase() === password[i]) {
+            upperCase = true;
+        } else if (password[i].toUpperCase() !== password[i]) {
+            lowerCase = true;
+        }
+    }
+
+    if (passwordLength && passwordNumber && upperCase && lowerCase) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 export default NewPassword;

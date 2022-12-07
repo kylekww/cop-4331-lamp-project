@@ -1,15 +1,7 @@
 import '../../css/styles.css';
-import React, { useState, useEffect, MouseEvent, useRef, useCallback, createContext } from 'react';
-import { MenuItem, Menu, ListItemIcon, ListItemText, Badge, Tooltip, IconButton } from '@mui/material';
-import CommentIcon from '@mui/icons-material/Comment';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import EditIcon from '@mui/icons-material/Edit';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import DeleteIcon from '@mui/icons-material/Delete';
+import React, { useState, useEffect } from 'react';
 import searchConfessions from './searchConfessions';
 import ConfessionPost from './ConfessionPost';
-import { compose } from '@mui/system';
 function Confession(Props) {
   // Post info
   const[searchVal, setSearch] = useState(1);
@@ -55,13 +47,4 @@ function Confession(Props) {
     </div> 
   );
 }
-
-/* Needs to be added:
-    - Confession generation
-      - Call request for confession text
-      - Text resizing depending on size
-    - Menu integration for options button
-    - Badge integration for total comments
-    - Lazy loading
-*/
 export default Confession;

@@ -6,8 +6,6 @@ import Logo from './Logo';
 
 export default function Profile(Props) {
     const[user, setUser] = useState([]);
-    const name = 'Austin';//user.name;
-    const username = 'Test1';//user.username;
     
     useEffect(() => {
         const viewProfile = async () => 
@@ -40,7 +38,7 @@ export default function Profile(Props) {
             },
         })
         .then(res => {
-            Props.navigation.navigate('RealLogin');
+            Props.navigation.popToTop();
         })
         .catch(err => {
           console.log(err);
@@ -49,18 +47,8 @@ export default function Profile(Props) {
 
     const returnLanding = async () => {
         console.log('return');
-        Props.navigation.navigate('LandingPage');
+        Props.navigation.pop();
     }    
-
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     return (
         <View style = {{flex: 1}}>
@@ -75,8 +63,8 @@ export default function Profile(Props) {
             <View style ={styles.container}>
                 <View style = {styles.squarebg}>
                     <Text>Profile View</Text>
-                    <Text style = {styles.profile}>Name: {name}</Text>
-                    <Text style = {styles.profile}>Username: {username}</Text>
+                    <Text style = {styles.profile}>Name: {user.name}</Text>
+                    <Text style = {styles.profile}>Username: {user.username}</Text>
                     <TouchableOpacity style={styles.button} 
                         onPress={returnLanding}>
                         <Text style={styles.buttonText}>return</Text>

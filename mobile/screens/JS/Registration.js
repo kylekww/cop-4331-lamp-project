@@ -1,59 +1,145 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { TouchableHighlight } from 'react-native-gesture-handler';
-
-const firstName = '';
-const userName = '';
-const email = '';
-const password = '';
+import Logo from './Logo';
 
 export default function Registrationscreen(Props) {
-    const [state,setState] = useState({message:''});
-    const requirements = 'Requirements:\n8 Characters\n1 Number\n1 Upper Case Character\n1 Lower Case Character';
-    
-    handleRegister = async () =>
-    {
-        try
-        {
-            var obj = {username:userName,password:password,name:firstName,email:email,
-                color:("#" + Math.floor(Math.random() * 16777215).toString(16))
-            };
-            var js = JSON.stringify(obj);
+    const[reg, validReg] = useState('');
+    const[long, isLong] = useState(false);
+    const[number, hasNumber] = useState(false)
+    const[up, hasUppercase] = useState(false)
+    const[low, hasLowercase] = useState(false)
+    const[visible, isVisible] = useState(false);
+    const[error, hasError] = useState(true);
 
-            const response = await fetch('https://hushucf.herokuapp.com/api/v1/auth/register',
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
-            .then(res => {
-                if(res.status !== 201) alert("Invalid registration " + res.status);
+    const tempFirstName = '';
+    const tempUserName = '';
+    const tempEmail = '';
+    const tempPassword = '';
+
+    const [state,setState] = useState({message:''});
+    const requirements = '8 Characters\n1 Number\n1 Upper Case Character\n1 Lower Case Character';
+    console.log('register');
+     
+    function passwordRequirements(password) {
+        let upperCase = false;
+        let lowerCase = false;
+        let passwordNumber = false;
+        let passwordLength = false;
+
+        if (password.length >= 8) {
+            passwordLength = true;
+            isLong(true);
+        }
+
+        for (let i = 0; i < password.length; i++) {
+            if (password[i] >= "0" && password[i] <= "9") {
+                passwordNumber = true;
+            } else if (password[i].toUpperCase() === password[i]) {
+                upperCase = true;
+            } else if (password[i].toUpperCase() !== password[i]) {
+                lowerCase = true;
+            }
+        }
+        isLong(passwordLength)
+        hasNumber(passwordNumber)
+        hasUppercase(upperCase)
+        hasLowercase(lowerCase)
+        if (passwordLength && passwordNumber && upperCase && lowerCase) {
+            return true;
+        } else {
+          validReg('Please check that you have met all of the password requirements!')
+            return false;
+        }
+    }
+    function validEmail(email) {
+        let knightsEmail = ".ucf.edu";
+        const knightsEmailArray = knightsEmail.split("")
+        const emailArray = email.split("")
+        let validation = false;
+        let j = 0;
+
+        for (let i = (emailArray.length - knightsEmailArray.length); i < emailArray.length; i++) {
+            if (knightsEmailArray[j] == emailArray[i]) {
+                validation = true;
+                j++;
+            } else {
+                validation = false;
+                break;
+            }
+        }
+        return validation;
+    }
+    const doRegistration = async event => {
+        const username = tempUserName;
+        const password = tempPassword;
+        const name = tempFirstName;
+        const email = tempEmail;
+        const color = "#" + Math.floor(Math.random() * 16777215).toString(16);  // This needs to be added to each user on registration
+
+        if ((passwordRequirements(password)) && (validEmail(email))) {
+            const data = await fetch("https://hushucf.herokuapp.com/api/v1/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username,
+                    password,
+                    name,
+                    email,
+                    color
+                }),
+            }).then(res => {
+                isVisible(true)
+                if (res.status !== 201) validReg('This username/email is already taken!')
                 else {
-                    alert("Registration was successful.");
+                  hasError(false)
+                  validReg('Success! Bringing you back to login...')
                     Props.navigation.pop();
-                    console.log(res);
-                }});
+                }
+            })
+                .catch(err => {
+                    console.log(err);
+                });
+
+            // This is a bootleg solution. "Might" need attention.
+            console.log(data);
+        } else if ((!passwordRequirements(password)) && validEmail(email)) {
+            console.log("Password must meet all requirements!");
+            
         }
-        catch(e)
-        {
-        setState({message: e.message });
+        else if (passwordRequirements(password) && (!validEmail(email))) {
+            console.log("You must use your knights email!");
+            isVisible(true)
+            validReg('Please use a UCF email!')
         }
-    }  
+        else {
+            console.log("Password must meet all requirements!");
+            console.log("You must use your knights email!");
+            isVisible(true)
+            validReg('Please use a UCF email!')
+        }
+
+    };
 
     const changeFirstNameHandler = async (val) =>
     {
-        global.firstName = val;
+        tempFirstName = val;
     }  
 
     const changePasswordHandler = async (val) =>
     {
-        global.password = val;
+        tempPassword = val;
     }
     const changeUserNameHandler = async (val) =>
     {
-        global.userName = val;
+        tempUserName = val;
     }  
 
     const changeEmailHandler = async (val) =>
     {
-        global.email = val;
+        tempEmail = val;
     }
     const handleReturn = async () => {
         Props.navigation.pop();
@@ -65,9 +151,11 @@ export default function Registrationscreen(Props) {
                 // Background Linear Gradient
                 colors={['rgba(128,199,239,1)', 'rgba(89,35,206,1)']}
                 style={styles.background}
-                />
+            />
+            <View style={styles.logoConstraint}>
+                <Logo isNew={true}></Logo>
+            </View>
             <ScrollView style={styles.scrollView}>
-                <Text style={styles.text}>Logo goes here </Text>
                 <View style={{alignItems: 'flex-end'}}>
                     <View style={styles.squarebg}>
                         <Text style={styles.text}> Signup </Text>
@@ -92,18 +180,18 @@ export default function Registrationscreen(Props) {
                             placeholder="Email"
                             onChangeText={(val) => { changeEmailHandler(val) }}
                         />
-                        <Text style={styles.text2}>{requirements}</Text>
-                        <TouchableHighlight style={styles.button} onPress={handleRegister} underlayColor='rgb(60, 23, 141)'>
+                        <Text style={[styles.text,{color:'red'}]}>{reg} </Text>
+                        <TouchableOpacity style={styles.button} onPress={doRegistration} underlayColor='rgb(60, 23, 141)'>
                             <Text style={styles.buttonText}>Create Account</Text>
-                        </TouchableHighlight>
-                        <Text style={styles.text2}> Already have an account? </Text>
+                        </TouchableOpacity>
                         <TouchableOpacity 
                             style={styles.button2}
                             onPress={handleReturn}>
-                            <Text style={styles.button2}> Login!</Text>
+                            <Text style={[styles.text3,{color:'blue'}]}> Already have an account? Login!</Text>
                         </TouchableOpacity>
+                        <Text style={[styles.text2,{color:'red'}]}>Password Requirements:</Text>
+                        <Text style={[styles.text2,{color:'green'}]}>{requirements}</Text>
                     </View>
-                    <Text style={[styles.text,{color:'white'}]}>{state.message} </Text>
                 </View>    
             </ScrollView>
         </View>
@@ -118,6 +206,7 @@ styles = StyleSheet.create({
         justifyContent: 'center',
     },
     scrollView: {
+        marginTop: 25,
         centerContent:true,
         indicatorStyle: 'white',
     },
@@ -149,12 +238,11 @@ styles = StyleSheet.create({
         fontSize: 20,
     },
     text: {
-        marginTop: 25,
         backgroundColor: 'transparent',
         alignSelf: 'center',
-        fontSize: 30,
+        fontSize: 24,
         color: 'rgba(89,35,206,1)',
-        margin: 10,
+        marginBottom: 10,
     },
     text2: {
         backgroundColor: 'transparent',
@@ -162,7 +250,19 @@ styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 20,
         color: 'black',
-        margin: 10,
+    },
+    text3: {
+        backgroundColor: 'transparent',
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 20,
+        color: 'black',
+        margin: 10
+    },
+    logoConstraint: {
+        top: 20,
+        height: 200,
+        width: 200,
     },
     input: {
         padding: 10,

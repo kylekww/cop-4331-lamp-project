@@ -16,10 +16,9 @@ function EmailVerify() {
             body: JSON.stringify({})
         })
         .then(res => {
-            if(res.status !== 201) alert("Email verification failed");
-            else {
+            
               window.location.href = '/';
-            }
+            
         })
         .catch(err => {
             console.log(err);

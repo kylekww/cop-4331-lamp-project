@@ -69,11 +69,15 @@ describe("Error Message Tests", () => {
     expect(errorElement).not.toBeVisible();
   });
 
-  test('checks that the error text appears on the page when the button is clicked', () => {
+  test('checks that the error text appears on the page when the button is clicked', async () => {
     render(<Login />);
-    const errorElement = screen.getByTestId("error-text");
+    fetch.mockResponseOnce(JSON.stringify({message: "username does not exist."}), { status: 404 });
+
     const buttonElement = screen.getByTestId("login-button");
     fireEvent.click(buttonElement);
+
+    const errorElement = screen.getByTestId("error-text");
+    await waitFor(() => expect(errorElement).toBeVisible());
     expect(errorElement).toBeVisible();
   })
 
@@ -83,30 +87,36 @@ describe("Error Message Tests", () => {
 
     const buttonElement = screen.getByTestId("login-button");
     fireEvent.click(buttonElement);
-    
+
     const errorElement = screen.getByTestId("error-text");
     await waitFor(() => expect(errorElement).toBeVisible());
     expect(errorElement.textContent).toBe("Invalid Username");
   });
 
-  test('checks that the error message text is correct for invalid password', () => {
+  test('checks that the error message text is correct for invalid password', async () => {
     render(<Login />);
-    const errorElement = screen.getByTestId("error-text");
+    fetch.mockResponseOnce(JSON.stringify({message: "password incorrect"}), { status: 401 });
+
     const buttonElement = screen.getByTestId("login-button");
     fireEvent.click(buttonElement);
-    expect(errorElement.value).toBe("Invalid Password");
+
+    const errorElement = screen.getByTestId("error-text");
+    await waitFor(() => expect(errorElement).toBeVisible());
+    expect(errorElement.textContent).toBe("Invalid Password");
   });
 
-  test('checks that the error message text is correct for successful sign-in', () => {
+  test('checks that the error message text is correct for successful sign-in', async () => {
     render(<Login />);
-    const errorElement = screen.getByTestId("error-text");
+    fetch.mockResponseOnce(JSON.stringify({message: "you are successfully logged in."}));
+
     const buttonElement = screen.getByTestId("login-button");
     fireEvent.click(buttonElement);
-    expect(errorElement).toBe("Success! Logging in...");
+
+    const errorElement = screen.getByTestId("error-text");
+    await waitFor(() => expect(errorElement).toBeVisible());
+    expect(errorElement.textContent).toBe("Success! Logging in...");
   });
 })
-
-
 
 
 describe("Login Button Tests", () => {
@@ -123,7 +133,7 @@ describe("Route Tests", () => {
     render(<Login />);
     const registerElement = screen.getByText("Don't have an account? Sign Up!");
     expect(registerElement).toBeInTheDocument();
-  });
+  }); 
 
   test('checks if the forgot password link is on the page', () => {
     render(<Login />);

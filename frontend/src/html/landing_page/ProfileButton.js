@@ -29,7 +29,7 @@ function ProfileButton() {
       <div class="ProfileTool">
         <Tooltip title="View Profile">
           <IconButton>
-            <Avatar onClick={clickProfileButton} style={{border: '3px solid #BABABA'}}
+            <Avatar onClick={clickProfileButton} data-testid="avatar" style={{border: '3px solid #BABABA'}}
             sx={{ 
               bgcolor: `${color}`,
               '&:hover': {
@@ -37,15 +37,15 @@ function ProfileButton() {
               },
             }}
             >
-              <div class="Text">
+              <div class="Text" data-testid="firstChar">
                 {user.username?.charAt(0).toUpperCase()}
               </div>
             </Avatar>
           </IconButton>
         </Tooltip>
       </div>
-      <div class="TextName" id="ProfileTextName">
-          Hello {user.name}!
+      <div class="TextName" id="ProfileTextName" data-testid="name">
+          {"Hello " + user.name + "!"}
       </div>
     </div>
   );

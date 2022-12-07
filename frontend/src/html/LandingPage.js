@@ -16,7 +16,7 @@ function LandingPage() {
 
   return (
     <>
-      <div class="transitioncolor" style={{
+      <div class="transitioncolor" data-testid="red" style={{
         opacity: isNew ? '0' : '1',
         background: isNew ? 'transparent' : 'linear-gradient(180deg, rgba(238, 147, 114, 1) 0%, rgba(227, 19, 19, 0.921875) 100%) no-repeat fixed',
         backgroundSize: '100% auto',
@@ -25,7 +25,7 @@ function LandingPage() {
         margin: 0
       }}> 
       </div>
-      <div class="transitioncolor" style={{
+      <div class="transitioncolor" data-testid="blue" style={{
         opacity: isNew ? '0' : '1',
         background: isNew ? 'linear-gradient(180deg, rgba(238, 147, 114, 1) 0%, rgba(227, 19, 19, 0.921875) 100%) no-repeat fixed' : 'transparent',
         height: "100vh",

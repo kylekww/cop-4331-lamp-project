@@ -7,21 +7,18 @@ import searchConfessions from './searchConfessions';
 
 export default function Confession(Props) {
   const[refreshing,setRefreshing] = useState(true);
+  const [count, setCount] = useState(0);
    // Post info
-   const[searchVal, setSearch] = useState(1);
-   const[oid, setOid] = useState('');
-   const {post,wasLastList} = searchConfessions(searchVal, oid);
-   const[isNew, setIsNew] = useState(Props.isNew);
-   const buttonRef = useRef(null);
-   const handleClick = event => {
-    buttonRef.current.disabled = true;
-  
-    Alert.alert('button clicked');
-  }
+  const[searchVal, setSearch] = useState(1);
+  const[oid, setOid] = useState('');
+  const {post,wasLastList} = searchConfessions(searchVal, oid);
+  const[isNew, setIsNew] = useState(Props.isNew);
+   // button presses
+  const buttonRef = useRef(null);
   const handleDeletePost = (val) => {
     buttonRef.current.disabled = true;
-    id = val._id;
-    deleted = val.deleted != 0 ? true:false;
+    let id = val._id;
+    let deleted = val.deleted != 0 ? true:false;
     if(deleted) return null;
     deleteConfession(id);
     val.deleted = true;
@@ -30,12 +27,12 @@ export default function Confession(Props) {
   }; 
   const upvoteHelper = (val) => {
     buttonRef.current.disabled = true;
-    id = val._id;
-    deleted = (val.deleted != 0 ? true:false);
-    vote = (val.netVotes);
-    interacted = (val.userInteracted);
+    let id = val._id;
+    let deleted = (val.deleted != 0 ? true:false);
+    let vote = (val.netVotes);
+    let interacted = (val.userInteracted);
     if(deleted) return null
-    //upvoteConfession(id.value);
+    upvoteConfession(id);
     if(interacted == 1){
       console.log('this user was interacted before the upvote'+id)
       val.interacted = 0;
@@ -54,11 +51,11 @@ export default function Confession(Props) {
   }
   const downvoteHelper = (val) => {
     buttonRef.current.disabled = true;
-    id = val._id;
-    deleted = (val.deleted != 0 ? true:false);
-    vote = val.netVotes;
-    interacted = val.userInteracted;
-    //downvoteConfession(id.value);
+    let id = val._id;
+    let deleted = (val.deleted != 0 ? true:false);
+    let vote = val.netVotes;
+    let interacted = val.userInteracted;
+    downvoteConfession(id);
     if(deleted) return null
     if(interacted == -1){
       console.log('downvoted before, now neutral'+id)
@@ -83,15 +80,15 @@ export default function Confession(Props) {
    //changes from hot/new vice versa
   useEffect(() => {
     post.length = 0;
+    setCount(0);
     Props.isNew ? setSearch(1) : setSearch(2);
     setRefreshing(false);
   }, [Props.isNew]);
 
-  const loadUserData = () => {
-    post.length = 0;
-    Props.isNew ? setSearch(1) : setSearch(2);
-    setRefreshing(false);
-  };
+  function reloadPage() {
+    //Props.toggleIsNew();
+    console.log(post);
+  }
    // Edit menu logic
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -124,7 +121,7 @@ export default function Confession(Props) {
                 keyExtractor={(item) => item._id}
                 data={post}
                 refreshControl={
-                  <RefreshControl refreshing={refreshing} onRefresh={loadUserData}/>
+                  <RefreshControl refreshing={refreshing} onRefresh={reloadPage}/>
                 }
                 renderItem={({ item }) => (
                   <View style = {styles.box} >
@@ -153,12 +150,14 @@ export default function Confession(Props) {
                           <TouchableOpacity onPress={()=>{downvoteHelper(item)}}>
                           <Icons style = {'downvote'}
                             height = {30} width = {30}
+                            color = {Props.isNew?'blue':'red'}
                             />
                           </TouchableOpacity>
                           <Text style = {styles.text}>{item.netVotes}</Text>
                           <TouchableOpacity onPress={()=>{upvoteHelper(item)}}>
                             <Icons style = {'upvote'}
                             height = {30} width = {30}
+                            color = {Props.isNew?'blue':'red'}
                             />
                           </TouchableOpacity>
                         </View>

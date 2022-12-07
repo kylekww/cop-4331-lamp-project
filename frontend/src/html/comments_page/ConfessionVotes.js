@@ -56,13 +56,13 @@ function ConfessionVotes(Props) {
     <>
         <div className = 'votes'>
             <Tooltip placement = 'top' title="Upvote">
-                <IconButton value = {Props.post._id} onClick={ upvoteHelper } style={{
+                <IconButton data-testid="upvote" value = {Props.post._id} onClick={ upvoteHelper } style={{
                     color: Props.interacted != 1 ? "#BABABA" : ("#463bdd")
                 }}>
                     <KeyboardArrowUpIcon sx={{ fontSize: 100 }}/>
                 </IconButton>
             </Tooltip>
-            <Badge showZero badgeContent = {Props.vote} max={999} sx={{
+            <Badge data-testid="badge" showZero badgeContent = {Props.vote} max={999} sx={{
                 "& .MuiBadge-badge": {
                 backgroundColor: "#463bdd",
                 color: "white",
@@ -71,7 +71,7 @@ function ConfessionVotes(Props) {
             }}}>
             </Badge>
             <Tooltip title="Downvote">
-                <IconButton value = {Props.post._id} onClick={ downvoteHelper } style={{
+                <IconButton data-testid="downvote" value = {Props.post._id} onClick={ downvoteHelper } style={{
                     color: Props.interacted != -1 ? "#BABABA" : ("#463bdd")
                 }}>
                     <KeyboardArrowDownIcon sx={{ fontSize: 100 }}/>
