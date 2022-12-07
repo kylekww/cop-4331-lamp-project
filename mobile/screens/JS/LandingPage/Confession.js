@@ -6,7 +6,7 @@ import Icons from '../Icons';
 import searchConfessions from './searchConfessions';
 
 export default function Confession(Props) {
-  const[refreshing,setRefreshing] = useState(false);
+  const[refreshing,setRefreshing] = useState(true);
   const [count, setCount] = useState(0);
    // Post info
   const[searchVal, setSearch] = useState(1);
@@ -32,7 +32,7 @@ export default function Confession(Props) {
     let vote = (val.netVotes);
     let interacted = (val.userInteracted);
     if(deleted) return null
-    //upvoteConfession(id.value);
+    upvoteConfession(id);
     if(interacted == 1){
       console.log('this user was interacted before the upvote'+id)
       val.interacted = 0;
@@ -55,7 +55,7 @@ export default function Confession(Props) {
     let deleted = (val.deleted != 0 ? true:false);
     let vote = val.netVotes;
     let interacted = val.userInteracted;
-    //downvoteConfession(id.value);
+    downvoteConfession(id);
     if(deleted) return null
     if(interacted == -1){
       console.log('downvoted before, now neutral'+id)
@@ -83,8 +83,12 @@ export default function Confession(Props) {
     setCount(0);
     Props.isNew ? setSearch(1) : setSearch(2);
     setRefreshing(false);
-  }, [Props.isNew,refreshing]);
+  }, [Props.isNew]);
 
+  function reloadPage() {
+    //Props.toggleIsNew();
+    console.log(post);
+  }
    // Edit menu logic
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -117,7 +121,7 @@ export default function Confession(Props) {
                 keyExtractor={(item) => item._id}
                 data={post}
                 refreshControl={
-                  <RefreshControl refreshing={refreshing}/>
+                  <RefreshControl refreshing={refreshing} onRefresh={reloadPage}/>
                 }
                 renderItem={({ item }) => (
                   <View style = {styles.box} >
@@ -146,12 +150,14 @@ export default function Confession(Props) {
                           <TouchableOpacity onPress={()=>{downvoteHelper(item)}}>
                           <Icons style = {'downvote'}
                             height = {30} width = {30}
+                            color = {Props.isNew?'blue':'red'}
                             />
                           </TouchableOpacity>
                           <Text style = {styles.text}>{item.netVotes}</Text>
                           <TouchableOpacity onPress={()=>{upvoteHelper(item)}}>
                             <Icons style = {'upvote'}
                             height = {30} width = {30}
+                            color = {Props.isNew?'blue':'red'}
                             />
                           </TouchableOpacity>
                         </View>
