@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { range } from 'lodash';
 import Login from '../Login';
 import doLogin from '../Login';
 
@@ -78,11 +79,14 @@ describe("Error Message Tests", () => {
 
   test('checks that the error message text is correct for invalid username', async () => {
     render(<Login />);
-    fetch.mockResponseOnce(JSON.stringify({message: "username does not exist."}), { status: 404});
-    const res = await doLogin("","");
+    fetch.mockResponseOnce(JSON.stringify({message: "username does not exist."}), { status: 404 });
 
-    const errorElement = screen.getByText("Invalid Username");
-    expect(errorElement).toBeInTheDocument();
+    const buttonElement = screen.getByTestId("login-button");
+    fireEvent.click(buttonElement);
+    
+    const errorElement = screen.getByTestId("error-text");
+    await waitFor(() => expect(errorElement).toBeVisible());
+    expect(errorElement.textContent).toBe("Invalid Username");
   });
 
   test('checks that the error message text is correct for invalid password', () => {
@@ -101,6 +105,8 @@ describe("Error Message Tests", () => {
     expect(errorElement).toBe("Success! Logging in...");
   });
 })
+
+
 
 
 describe("Login Button Tests", () => {

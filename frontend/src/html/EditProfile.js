@@ -24,61 +24,6 @@ function EditProfile({ open, handleClose }) {
         viewProfile()
     }, [])
 
-    function passwordRequirements(password) {
-        let upperCase = false;
-        let lowerCase = false;
-        let passwordNumber = false;
-        let passwordLength = false;
-        
-        if(!password){
-            return true;
-        }
-
-        if (password.length >= 8) {
-            passwordLength = true;
-        }
-
-        for (let i = 0; i < password.length; i++) {
-            if (password[i] >= "0" && password[i] <= "9") {
-                passwordNumber = true;
-            } else if (password[i].toUpperCase() === password[i]) {
-                upperCase = true;
-            } else if (password[i].toUpperCase() !== password[i]) {
-                lowerCase = true;
-            }
-        }
-
-        if (passwordLength && passwordNumber && upperCase && lowerCase) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    function validEmail(email) {
-        let knightsEmail = "@knights.ucf.edu";
-        var temp = email.toString();
-        const knightsEmailArray = knightsEmail.split("")
-        const emailArray = temp.split("")
-        let validation = false;
-        let j = 0;
-
-        if(!email){
-            return true;
-        }
-
-        for (let i = (emailArray.length - knightsEmailArray.length); i < emailArray.length; i++) {
-            if (knightsEmailArray[j] == emailArray[i]) {
-                validation = true;
-                j++;
-            } else {
-                validation = false;
-                break;
-            }
-        }
-        return validation;
-    }
-
     const profileReturn = async event => {
         window.location.href = '/profile';
     }
@@ -151,5 +96,62 @@ function EditProfile({ open, handleClose }) {
         </div>
     );
 };
+
+export function passwordRequirements(password) {
+    let upperCase = false;
+    let lowerCase = false;
+    let passwordNumber = false;
+    let passwordLength = false;
+    
+    if(!password){
+        return true;
+    }
+
+    if (password.length >= 8) {
+        passwordLength = true;
+    }
+
+    for (let i = 0; i < password.length; i++) {
+        if (password[i] >= "0" && password[i] <= "9") {
+            passwordNumber = true;
+        } else if (password[i].toUpperCase() === password[i]) {
+            upperCase = true;
+        } else if (password[i].toUpperCase() !== password[i]) {
+            lowerCase = true;
+        }
+    }
+
+    if (passwordLength && passwordNumber && upperCase && lowerCase) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+function validEmail(email) {
+    let knightsEmail = "@knights.ucf.edu";
+    var temp = email.toString();
+    const knightsEmailArray = knightsEmail.split("")
+    const emailArray = temp.split("")
+    let validation = false;
+    let j = 0;
+
+    if(!email){
+        return true;
+    }
+
+    for (let i = (emailArray.length - knightsEmailArray.length); i < emailArray.length; i++) {
+        if (knightsEmailArray[j] == emailArray[i]) {
+            validation = true;
+            j++;
+        } else {
+            validation = false;
+            break;
+        }
+    }
+    return validation;
+}
+
 
 export default EditProfile;

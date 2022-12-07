@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import EditProfile from '../EditProfile';
+import { passwordRequirements } from '../EditProfile'
 
 describe("Full Name Tests", () => {
     test('checks if the name text box is on the page', () => {
@@ -66,7 +67,6 @@ describe("Password Tests", () => {
     });
     
     test('checks that the password text box changes input when typed into', () => {
-        render(<EditProfile />);
         const element = screen.getByTestId("password");
         fireEvent.change(element, { target: {value: "Test"} })
         expect(element.value).toBe("Test");
@@ -74,7 +74,17 @@ describe("Password Tests", () => {
 
     // displays previous text
 
-    // Is a password type
+    test('checks that the password text box is a password type', () => {
+        render(<EditProfile />);
+        const element = screen.getByTestId("password");
+        expect(element.type).toBe("password");
+    });
+
+    test('checks that the password is invalid if it has less than 8 characters', () => {
+        render(<EditProfile />);
+        const res = passwordRequirements("Bad");
+        expect(res).toBe(false);
+    })
     // is 8 characters
     // has 1 number
     // has 1 uppercase character
