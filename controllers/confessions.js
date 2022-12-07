@@ -135,7 +135,7 @@ exports.searchConfession = async (req, res) => {
     }  
 
     let result = searchResults.map(({userID, ...rest}) => ({...rest}));
-    result = searchResults.map(({voteID, ...rest}) => ({...rest}));
+    result = result.map(({voteID, ...rest}) => ({...rest}));
     
     if(searchVar == 3) res.status(201).json(result[0]);
     else res.status(201).json(result);
