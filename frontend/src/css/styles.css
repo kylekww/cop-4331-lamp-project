@@ -217,6 +217,15 @@ input {
   text-align: center;
 }
 
+.alignCaptcha {
+  display: flex;
+  direction: row;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
 /* End of Registration.js */
 
 /* LandingPage.js */
@@ -353,6 +362,7 @@ input {
 
 .confessionText{
   margin: 20px 0;
+  font-size: 18px;
   overflow-wrap: break-word;
   max-width: 70%;
   text-align: center;
@@ -893,6 +903,16 @@ transform: translateY(1vmin);
   text-align: center;
   border: 1px solid #999;
   font-size: 20px;
+}
+
+.profileBoxAlign {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 /* End of Profile.js */
