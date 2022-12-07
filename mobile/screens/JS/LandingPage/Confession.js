@@ -6,7 +6,8 @@ import Icons from '../Icons';
 import searchConfessions from './searchConfessions';
 
 export default function Confession(Props) {
-  const[refreshing,setRefreshing] = useState(true);
+  const[refreshing,setRefreshing] = useState(false);
+  const [count, setCount] = useState(0);
    // Post info
   const[searchVal, setSearch] = useState(1);
   const[oid, setOid] = useState('');
@@ -16,8 +17,8 @@ export default function Confession(Props) {
   const buttonRef = useRef(null);
   const handleDeletePost = (val) => {
     buttonRef.current.disabled = true;
-    id = val._id;
-    deleted = val.deleted != 0 ? true:false;
+    let id = val._id;
+    let deleted = val.deleted != 0 ? true:false;
     if(deleted) return null;
     deleteConfession(id);
     val.deleted = true;
@@ -26,10 +27,10 @@ export default function Confession(Props) {
   }; 
   const upvoteHelper = (val) => {
     buttonRef.current.disabled = true;
-    id = val._id;
-    deleted = (val.deleted != 0 ? true:false);
-    vote = (val.netVotes);
-    interacted = (val.userInteracted);
+    let id = val._id;
+    let deleted = (val.deleted != 0 ? true:false);
+    let vote = (val.netVotes);
+    let interacted = (val.userInteracted);
     if(deleted) return null
     //upvoteConfession(id.value);
     if(interacted == 1){
@@ -50,10 +51,10 @@ export default function Confession(Props) {
   }
   const downvoteHelper = (val) => {
     buttonRef.current.disabled = true;
-    id = val._id;
-    deleted = (val.deleted != 0 ? true:false);
-    vote = val.netVotes;
-    interacted = val.userInteracted;
+    let id = val._id;
+    let deleted = (val.deleted != 0 ? true:false);
+    let vote = val.netVotes;
+    let interacted = val.userInteracted;
     //downvoteConfession(id.value);
     if(deleted) return null
     if(interacted == -1){
@@ -79,17 +80,11 @@ export default function Confession(Props) {
    //changes from hot/new vice versa
   useEffect(() => {
     post.length = 0;
+    setCount(0);
     Props.isNew ? setSearch(1) : setSearch(2);
     setRefreshing(false);
-  }, [Props.isNew]);
+  }, [Props.isNew,refreshing]);
 
-  const loadUserData = () => {
-    Props.isNew ? setSearch(1) : setSearch(2);
-    //setOid('');
-    //{setPosts,setWasLastList}searchConfessions(searchVal, oid);
-    //post.length = 0;
-    setRefreshing(false);
-  };
    // Edit menu logic
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -122,7 +117,7 @@ export default function Confession(Props) {
                 keyExtractor={(item) => item._id}
                 data={post}
                 refreshControl={
-                  <RefreshControl refreshing={refreshing} onRefresh={loadUserData}/>
+                  <RefreshControl refreshing={refreshing}/>
                 }
                 renderItem={({ item }) => (
                   <View style = {styles.box} >
