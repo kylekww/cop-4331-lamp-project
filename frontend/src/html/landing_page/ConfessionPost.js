@@ -5,6 +5,12 @@ import CommentIcon from '@mui/icons-material/Comment';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
 function ConfessionPost(Props) {
     const[vote, setVote] = useState(Props.post.netVotes);
     const[interacted, setInteracted] = useState(Props.post.userInteracted);
@@ -12,13 +18,12 @@ function ConfessionPost(Props) {
     const[deleted, setDeleted] = useState(Props.post.deleted != 0 ? true:false)
     const[id, setId] = useState(Props.post._id);
     const open = Boolean(anchorEl);
-
+    const[opening, setOpen] = useState(null);
     if(deleted)
       return null;
 
       const handleDeletePost = (e) => {
-        if(deleted) return null
-        e.currentTarget.disabled = true;
+        
         setAnchorEl(null);
         deleteConfession(Props.post._id)
         setDeleted(true)
@@ -75,24 +80,30 @@ function ConfessionPost(Props) {
         }
 
       }
+      const handleClickOpen = () => {
+        setOpen(true);
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+      }; 
 
-    async function clickCommentButton() {
+      async function clickCommentButton() {
       await delay(400);
       window.location.href = '/comments/' + Props.post._id;
       if(deleted) return null
-    }
+      }
 
     return(
             <div className = "confessionPost">
               <div className = "confessionPostWrapper">
-
                 <div class="confessionLeftColumn">
                   <div className = "confessionPostEdit">
                     <div className = "confessionPostEditButton">
                       <Tooltip title="Delete Confession">
                         <IconButton 
                           id="edit-button" 
-                          onClick={ handleDeletePost } 
+                          onClick={ handleClickOpen } 
                           aria-controls={open ? 'edit-menu' : undefined}
                           aria-haspopup="true"
                           aria-expanded={open ? 'true' : undefined}
@@ -104,6 +115,27 @@ function ConfessionPost(Props) {
                           <DeleteIcon sx={{ fontSize: 40 }}/>
                         </IconButton>
                       </Tooltip>
+                      <Dialog
+                        open={opening}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                      <DialogTitle id="alert-dialog-title"  sx={{ color: 'rgba(89,35,206,1)' }}>
+                        {"Having second thoughts?"}
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          You may delete your post, but be careful! Once you delete it, there's no going back!
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                      <Button onClick={handleClose}  sx={{ color: 'rgba(89,35,206,1)' }}>Return</Button>
+                      <Button onClick={handleDeletePost} autoFocus  sx={{ color: 'red' }}>
+                        Delete
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                     </div>
                   </div>
 
@@ -211,6 +243,7 @@ async function upvoteConfession(id) {
   }
 
   async function deleteConfession(id){
+    
     const data = await fetch("/api/v1/confessions/deleteConfession", {
       method: "POST",
       headers: {
