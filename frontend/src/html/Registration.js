@@ -59,7 +59,7 @@ const[error, hasError] = useState(true);
     }
 
     function validEmail(email) {
-        let knightsEmail = "@knights.ucf.edu";
+        let knightsEmail = "ucf.edu";
         const knightsEmailArray = knightsEmail.split("")
         const emailArray = email.split("")
         let validation = false;
