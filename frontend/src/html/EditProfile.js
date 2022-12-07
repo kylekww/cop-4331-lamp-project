@@ -1,8 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import '../css/styles.css';
+import LoginIcon from '@mui/icons-material/Login';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+const theme = createTheme();
 function EditProfile({ open, handleClose }) {
-    const [user, setUser] = useState([]);
-
+const [user, setUser] = useState([]);
+const[reg, validReg] = useState('4:78AM Moment');
+const [long, isLong] = useState(false);
+const [number, hasNumber] = useState(false)
+const[up, hasUppercase] = useState(false)
+const[low, hasLowercase] = useState(false)
+const[visible, isVisible] = useState(false);
+const[error, hasError] = useState(true);
     useEffect(() => {
         const viewProfile = async event => {
             const data = await fetch("/api/v1/auth/profile", {
@@ -36,6 +59,7 @@ function EditProfile({ open, handleClose }) {
 
         if (password.length >= 8) {
             passwordLength = true;
+            isLong(true);
         }
 
         for (let i = 0; i < password.length; i++) {
@@ -47,10 +71,15 @@ function EditProfile({ open, handleClose }) {
                 lowerCase = true;
             }
         }
-
+        isLong(passwordLength)
+        hasNumber(passwordNumber)
+        hasUppercase(upperCase)
+        hasLowercase(lowerCase)
         if (passwordLength && passwordNumber && upperCase && lowerCase) {
             return true;
         } else {
+            isVisible(true)
+            validReg('Please check that you have met all of the password requirements!')
             return false;
         }
     }
@@ -89,10 +118,7 @@ function EditProfile({ open, handleClose }) {
         const password = document.getElementById("password").value;
         const email = document.getElementById("email").value;
 
-        console.log("Name: " + name.toString());
-        console.log("Username: " + username.toString());
-        console.log("Password: " + password.toString());
-        console.log("Email: " + email.toString());
+        
         
         if ((passwordRequirements(password)) && (validEmail(email))) {
             const data = await fetch("/api/v1/auth/editProfile", {
@@ -109,9 +135,12 @@ function EditProfile({ open, handleClose }) {
 
             })
                 .then(res => {
+                    isVisible(true)
                     res.json().then((data) => {
                         console.log(data);
                     })
+                    hasError(false)
+                    validReg('Success! Making your changes now...')
                     window.location.href = '/editprofile';
                 })
                 .catch(err => {
@@ -122,33 +151,159 @@ function EditProfile({ open, handleClose }) {
         }
         else if (passwordRequirements(password) && (!validEmail(email))) {
             console.log("You must use your knights email!");
+            isVisible(true)
+            validReg('Please use a UCF email!')
         }
         else {
             console.log("Password must meet all requirements!");
             console.log("You must use your knights email!");
+            isVisible(true)
+            validReg('Please use a UCF email!')
         }
     }
     return (
-        <div class="container">
-            <img src={require('../images/NewIcon.jpg')} class="HushIcon" />
-            <div class="squarebg">
-                <h1>Edit Profile </h1>
-                <input type="text" id="name" placeholder={user.name} required inputProps={{ "data-testid": "name" }}/>
-                <input type="text" id="username" placeholder={user.username} required inputProps={{ "data-testid": "username" }}/>
-                <input type="text" id="email" placeholder={user.email} required inputProps={{ "data-testid": "email" }}/>
-                <input type="password" id="password" placeholder="********" required inputProps={{ "data-testid": "password" }}/>
-                <span class="passwordRequirements">
-                    {"Requirements: "}<br />
-                    8 Characters <br />
-                    1 Number <br />
-                    1 Upper Case Character <br />
-                    1 Lower Case Character <br />
-                </span>
-                <p id="noerror">Error: Username already taken!</p>
-                <button type="button" class="return" data-testid="edit-button" onClick={makeEdits}>Make Edits</button>
-                <button type="button" class="return" data-testid="cancel-button" onClick={profileReturn}>Return to Profile</button>
-            </div>
-        </div>
+        <ThemeProvider theme={theme}>
+      <Grid container component="main" sx={{ height: '100vh' }}>
+        <CssBaseline />
+        
+        
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          > 
+          <Typography component="h1" variant="h5" color = 'rgb(227, 19, 19)'>
+              Hush UCF
+            </Typography>
+            <Avatar sx={{ m: 1, bgcolor: 'rgb(227, 19, 19)' }}>
+            <AppRegistrationIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5" color = 'rgb(227, 19, 19)'>
+              Edit your profile here!
+            </Typography>
+            <Box sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="name"
+                label={user.name}
+                name="Full Name"
+                inputProps={{ "data-testid": "name" }}
+                autoComplete="fullname"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label={user.username}
+                name="username"
+                inputProps={{ "data-testid": "username" }}
+                autoComplete="username"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label={user.email}
+                name="Email"
+                inputProps={{ "data-testid": "email" }}
+                autoComplete="Email"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                inputProps={{ "data-testid": "password" }}
+                autoComplete="current-password"
+              />
+              <Typography component="h1" variant="h6"sx ={{
+                opacity: visible ? '100%' : '0%',
+                color: error ? 'rgb(227, 19, 19)' : 'rgba(68,122,154,1)'
+              }}>
+                {reg}
+              </Typography>
+              <Button
+                type="submit"
+                fullWidth
+                data-testid="register-button"
+                variant="contained"
+                onClick = {makeEdits}
+                sx={{ mt: 3, 
+                    mb: 2, 
+                    backgroundColor: 'rgb(227, 19, 19)',
+                    '&:hover': {
+                    backgroundColor: 'rgb(222, 98, 28)',
+                    color: '#ffffff',
+                }, }}
+                
+              >
+                Confirm Changes
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                <Typography component="h1" variant="h6"sx ={{
+                color: 'rgb(227, 19, 19)'
+              }}>
+                  {"Password Requirements:"}
+                </Typography>
+                <Typography component="h1" variant="h6" sx ={{
+                color: long ? 'rgb(96,171,52)' : 'rgb(227, 19, 19)'
+              }}>
+                  8 Characters
+                </Typography>
+                <Typography component="h1" variant="h6"  sx ={{
+                color: number ? 'rgb(96,171,52)' : 'rgb(227, 19, 19)'
+              }}>
+                  1 Number
+                </Typography>
+                <Typography component="h1" variant="h6"  sx ={{
+                color: up ? 'rgb(96,171,52)' : 'rgb(227, 19, 19)'
+              }}>
+                  1 Upper Case Character
+                </Typography> 
+                <Typography component="h1" variant="h6"  sx ={{
+                color: low ? 'rgb(96,171,52)' : 'rgb(227, 19, 19)'
+              }}>
+                1 Lower Case Character
+                </Typography>     
+                </Grid>
+                <Grid item>
+                  <Link href="/profile" variant="body2" data-testid="login-link">
+                    {"Return to View Profile"}
+                  </Link>
+                </Grid>
+              </Grid>
+              
+            </Box>
+          </Box>
+        </Grid>
+
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx = {{
+            backgroundImage: 'linear-gradient(rgb(222, 98, 28), rgb(227, 19, 19));'
+          }}
+          ><img src={require('../images/HotIconGiant.png')} class="HushIconLogin" data-testid="register-icon"/></Grid>
+      </Grid>
+    </ThemeProvider>
     );
 };
 

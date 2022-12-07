@@ -201,7 +201,7 @@ const[error, hasError] = useState(true);
               />
               <Typography component="h1" variant="h6"sx ={{
                 opacity: visible ? '100%' : '0%',
-                color: error ? 'rgba(89,35,206,1)' : 'rgba(68,122,154,1)'
+                color: error ? 'rgb(227, 19, 19)' : 'rgba(68,122,154,1)'
               }}>
                 {reg}
               </Typography>
