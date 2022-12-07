@@ -217,6 +217,15 @@ input {
   text-align: center;
 }
 
+.alignCaptcha {
+  display: flex;
+  direction: row;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
 /* End of Registration.js */
 
 /* LandingPage.js */

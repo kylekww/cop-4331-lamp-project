@@ -260,18 +260,19 @@ export default function Registration() {
                     1 Lower Case Character
                   </Typography>
                 </Grid>
-                <ReCAPTCHA
-                sitekey="6Ldvbl8jAAAAAFu0dgE__qzPsDCBO_gbFpKJ_80t"
-                onChange={onChange}
-                data-testid="recaptcha"
-              />
                 <Grid item>
                   <Link href="/" variant="body2">
                     {"Already have an account? Login!"}
                   </Link>
                 </Grid>
               </Grid>
-
+              <div className="alignCaptcha">
+                <ReCAPTCHA
+                  sitekey="6Ldvbl8jAAAAAFu0dgE__qzPsDCBO_gbFpKJ_80t"
+                  onChange={onChange}
+                  data-testid="recaptcha"
+                />
+              </div>
             </Box>
           </Box>
         </Grid>
