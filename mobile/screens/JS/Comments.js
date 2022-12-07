@@ -4,7 +4,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import Confession from './Comments/Confession';
 import NewCommentButton from './Comments/NewCommentButton';
-import searchComments from './Comments/searchComments';
 import GoBackButton from './Comments/GoBackButton';
 import Replies from './Comments/Replies';
 
@@ -13,12 +12,12 @@ export default function Comments(Props)
     //Comment indo
     const[searchVal, setSearch] = useState(1);
     const[oid, setOid] = useState('');
-    //const {post, wasLastList} = searchComments(searchVal, oid);
-    //changes from hot/new vice versa
+    const isNew = Props.navigation.state.params.isNew;
+    const _id = Props.navigation.state.params.id;
 
     //Edit menu logic
-    const [anchorE1, setAnchorE1] = React.useState(null);
-    const open = Boolean(anchorE1);
+    // const [anchorE1, setAnchorE1] = React.useState(null);
+    // const open = Boolean(anchorE1);
 
     // const handleScroll = (e) => {
     //     const bottom = Math.rounf(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
@@ -35,7 +34,7 @@ export default function Comments(Props)
     return (
         <View style={styles.container}>
             <LinearGradient
-                colors={['#80c6ef', '#5923ce']}
+                colors={isNew?['rgba(128,199,239,1)', 'rgba(89,35,206,1)']:['#de621c', 'rgba(227,19,19,0.921875)']}
                 style={styles.background}
             />
 
@@ -43,8 +42,9 @@ export default function Comments(Props)
                 <GoBackButton navigation={Props.navigation}></GoBackButton>
             </View>
 
-            <Confession></Confession>
-            <Replies></Replies>
+            <Confession _id={_id}></Confession>
+            <Replies _id={_id}></Replies>
+            <NewCommentButton isNew={isNew} _id={_id}></NewCommentButton>
         </View>
     );
 }
