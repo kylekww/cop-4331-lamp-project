@@ -14,7 +14,8 @@ export default function Confession(Props) {
   const[searchVal, setSearch] = useState(1);
   const[oid, setOid] = useState('');
   const {post,wasLastList} = searchConfessions(searchVal, oid);
-  const[isNew, setIsNew] = useState(Props.isNew);
+  //so stupid that this was the problem: const[isNew, setIsNew] = useState(Props.isNew);
+  const isNew = Props.isNew;
   //buttonpresses
   const buttonRef = useRef(null);
   const handleDeletePost = (val) => {
