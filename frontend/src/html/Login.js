@@ -51,15 +51,6 @@ export default function Login() {
       .catch(err => {
         console.log(err);
       });
-
-    /* This is a bootleg solution. Ignore for now
-    if(data.message.localeCompare("you are successfully logged in.") == 0){
-        alert("Successul Login");
-    }
-    else{
-        alert("failed");
-    }
-    */
   };
 
   return (

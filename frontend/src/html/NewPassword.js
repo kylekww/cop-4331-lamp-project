@@ -5,15 +5,16 @@ import { useParams } from "react-router-dom";
 
 function NewPassword() {
     const token = useParams().token;
-    
+    const[text, setText] = useState('');
+
     const doChangePassword = async event => {
         const password = document.getElementById("password").value;
         if(password == null) {
-            alert("Input a new password");
+            setText("Input a new password");
             return;
         }
         else if(!passwordRequirements(password)) {
-            alert("Invalid password");
+            setText("Invalid password");
             return;
         }
 
@@ -27,9 +28,9 @@ function NewPassword() {
             }),
         })
         .then(res => {
-            if(res.status == 502) alert("Password reset failed");
+            if(res.status == 502) setText("Password reset failed");
             else {
-                alert("Password has been changed!");
+                setText("Password has been changed!");
                 window.location.href = '/';
             }
         })
@@ -50,6 +51,11 @@ function NewPassword() {
                     1 Number <br />
                     1 Upper Case Character <br />
                     1 Lower Case Character <br />
+                </span>
+                <span className="passwordRequirements" style={{
+                    color: "red"
+                }}>
+                    {text}
                 </span>
                 <button type="button" className="button" data-testid="button" onClick={doChangePassword}>Change password</button>
                 <p>Nevermind? <a href="/">Login!</a></p>

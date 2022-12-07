@@ -3,6 +3,7 @@ import '../css/styles.css';
 
 function ResetPassword() {
     const [user, setUser] = useState([]);
+    const [text, setText] = useState('A request will be sent to your knights email.');
 
     const doPasswordSend = async event => {
         const email = document.getElementById("email").value;
@@ -16,10 +17,9 @@ function ResetPassword() {
                 email
             }),
         }).then(res => {
-            if (res.status == 500) alert("This user does not exist.");
+            if (res.status == 500) setText("This user does not exist.");
             else {
-                alert("An email has been sent.");
-                window.location.href = '/';
+                setText("An email was sent successfully. Check your knights mail to reset your password!");
             }
         })
         .catch(err => {
@@ -32,11 +32,11 @@ function ResetPassword() {
             <img src={require('../images/NewIcon.jpg')} class="HushIcon"/>
             <div class="squarebg">
                 <h1>Reset Password </h1>
-                <input type="email" id="email" placeholder="Email" required />
-                <span class="passwordRequirements">
-                    A request will be sent to your knights email <br />
+                <input type="email" id="email" placeholder="Email" required data-testid="email"/>
+                <span class="passwordRequirements" data-testid="text">
+                    {text} <br />
                 </span>
-                <button type="button" class="button" onClick={doPasswordSend}>Send email</button>
+                <button type="button" class="button" data-testid="button" onClick={doPasswordSend}>Send email</button>
                 <p>Nevermind? <a href="/">Login!</a></p>
             </div>
         </div>
