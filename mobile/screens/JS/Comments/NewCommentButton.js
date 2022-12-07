@@ -105,7 +105,7 @@ export default function NewConfessionButton(Props) {
             </KeyboardAvoidingView>
           </Modal>
           <TouchableOpacity onPress={handleClickOpen} style={[styles.button, {backgroundColor:newButtonColor[(Props.isNew?1:0)]}]}>
-              <Text style={styles.text2}>What's your response to this?</Text>
+              <Text style={styles.text2}>What's your response?</Text>
           </TouchableOpacity>
         </View>
       );
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
       },
       text2: {
         alignSelf: 'center',
-        fontSize: 24,
+        fontSize: 22,
         color: 'white',
       },
       text3: {

@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useCallback, MouseEvent } from 'rea
 import { StyleSheet, View, Text, FlatList } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import searchComments from './searchComments';
+import Icons from '../Icons';
 
 export default function Replies(Props)
 {
@@ -13,65 +14,68 @@ export default function Replies(Props)
 
     const {post, wasLastList} = searchComments(searchVal, commentoid, confessionOID);
 
-    const[vote, setVote] = useState(Props.post.netVotes);
-    const[interacted, setInteracted] = useState(Props.post.userInteracted);
-    const[anchorE1, setAnchorE1] = React.useState(null);
-    const[deleted, setDeleted] = useState(Props.post.deleted != 0 ? true:false);
-    const open = Boolean(anchorE1);
+    const buttonRef = useRef(null);
+    const [count, setCount] = useState(0);
 
-    const handleOptionsClick = (event) => {
-        setAnchorE1(event.curretnTarget);
-    };
-    const handleOptionsClose = () => {
-        setAnchorE1(null);
-    };
-    const handleEditPost = () => {
-        setAnchorE1(null);
-        console.log("Edit post");
-    };
-    const handleDeletePost = () => {
-        setAnchorE1(null);
-        console.log("delete post");
-    };
-
-    const upvoteHelper = (e) => {
-        upvoteConfession(e.currentTarget.value);
-        if(interacted == 1){
-            console.log('this user was interacted before the upvote')
-            
-            setInteracted(0)
-            setVote(vote - 1)
-        } 
-        if(interacted == 0){
-            console.log('this user was not interacted before the upvote')
-            setInteracted(1)
-            setVote(vote + 1)
-        }
-        if(interacted == -1){
-            console.log('downvoted before vote, now upvoted')
-            setInteracted(1)
-            setVote(vote + 2)
-        }
-      }
-    
-    const downvoteHelper = (e) => {
-        downvoteConfession(e.currentTarget.value);
-        if(interacted == -1){
-            console.log('downvoted before, now neutral')
-            setInteracted(0)
-            setVote(vote + 1)
-        }
-        if(interacted == 0){
-            console.log('neutral to downvoted')
-            setInteracted(-1)
-            setVote(vote - 1)
-        }
-        if(interacted == 1){
-            console.log('upvote to downvote')
-            setInteracted(-1)
-            setVote(vote - 2)
-        }
+  const upvoteHelper = (val) => {
+    //buttonRef.current.disabled = true;
+    let id = val._id;
+    let deleted = (val.deleted != 0 ? true:false);
+    let vote = (val.netVotes);
+    let interacted = (val.userInteracted);
+    if(deleted) return null
+    upvoteConfession(id);
+    if(interacted == 1){
+      console.log('this user was interacted before the upvote'+id)
+      val.interacted = 0;
+      val.netVotes -= 1;
+    } 
+    if(interacted == 0){
+      console.log('this user was not interacted before the upvote'+id)
+      val.interacted = 1;
+      val.netVotes += 1;
     }
+    if(interacted == -1){
+      console.log('downvoted before vote, now upvoted'+id)
+      val.interacted = 1;
+      val.netVotes += 2;
+    }
+  }
+  const downvoteHelper = (val) => {
+    //buttonRef.current.disabled = true;
+    let id = val._id;
+    let deleted = (val.deleted != 0 ? true:false);
+    let vote = val.netVotes;
+    let interacted = val.userInteracted;
+    downvoteConfession(id);
+    if(deleted) return null
+    if(interacted == -1){
+      console.log('downvoted before, now neutral'+id)
+      val.interacted = 0;
+      val.netVotes += 1;
+    }
+    if(interacted == 0){
+      console.log('neutral to downvoted'+id)
+      val.interacted = -1;
+      val.netVotes -= 1;
+    }
+    if(interacted == 1){
+      console.log('upvote to downvote'+id)
+      val.interacted = -1;
+      val.netVotes -= 2;
+    }
+  }
+   const handleReset = event => {
+    buttonRef.current.disabled = false;
+   }
+
+   //changes from hot/new vice versa
+  useEffect(() => {
+    post.length = 0;
+    setCount(0);
+    Props.isNew ? setSearch(1) : setSearch(2);
+    //setRefreshing(false);
+  }, [Props.isNew]);
 
     const [tempData, setData] = useState([
         {name: 'Jacob', username: 'test1', id: 1},
@@ -99,6 +103,38 @@ export default function Replies(Props)
                                     <Text style={styles.text}>
                                         {item.comment}
                                     </Text>
+                                    <View style = {[styles.rowSpace,{marginTop:10}]}>
+                                        
+                                        <View style = {{top: 0, alignSelf: 'center'}}>
+                                            <TouchableOpacity onPress={()=>{upvoteHelper(item)}}>
+                                                <Icons style = {'upvote'}
+                                                    height = {30} width = {30}
+                                                    color = {Props.isNew?'blue':'red'}
+                                                />
+                                            </TouchableOpacity>
+                                            <Text style = {styles.text}>{item.netVotes}</Text>
+                                            <TouchableOpacity onPress={()=>{downvoteHelper(item)}}>
+                                                <Icons style = {'downvote'}
+                                                    height = {30} width = {30}
+                                                    color = {Props.isNew?'blue':'red'}
+                                                />
+                                            </TouchableOpacity>
+                                        </View>
+                                        {/* <View>
+                                            <View style={{height:30,width:30, flex:1}}>
+                                                <TouchableOpacity ref={buttonRef} onPress={()=>{handleDeletePost(item)}}>
+                                                {item.userCreated && (
+                                                    <Icons style = {'delete'}
+                                                    height = {30} width = {30}
+                                                />
+                                                )}
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View> */}
+                                        {/* <View style={{top: 1, alignSelf: 'center'}}>
+                                            <Text>Test</Text>
+                                        </View> */}
+                                    </View>
                                 </TouchableOpacity>
                             </View>
                         )}
@@ -108,6 +144,77 @@ export default function Replies(Props)
         </View>
     )
 }
+
+async function upvoteConfession(id) {
+    const vote = 1;
+    const type = 2;
+    const data = await fetch("https://hushucf.herokuapp.com/api/v1/votes/changeVote", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        vote,
+        type,
+        id
+      }),
+    })
+    .then(res => {  
+      res.json().then((data) => {       
+        //console.log(data);
+      }) 
+    })
+    .catch(err => {
+      console.log(err);
+    });
+    
+  }
+  
+  async function downvoteConfession(id) {
+    const vote = -1;
+    const type = 2;
+    const data = await fetch("https://hushucf.herokuapp.com/api/v1/votes/changeVote", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        vote,
+        type,
+        id
+      }),
+    })
+    .then(res => {
+  
+      res.json().then((data) => {       
+        //console.log(data);
+      }) 
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
+//   async function deleteConfession(id){
+//   const data = await fetch("https://hushucf.herokuapp.com/api/v1/confessions/deleteConfession", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       id
+//     }),
+//   })
+//   .then(res => {
+//     res.json().then((data) => {
+        
+//       console.log(data);
+//     }) 
+//   })
+//   .catch(err => {
+//     console.log(err);
+//   });
+// }
 
 const styles = StyleSheet.create({
     comment: {
@@ -133,7 +240,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         borderWidth: 5,
         minHeight: 50,
-        maxHeight: 150,
+        maxHeight: 500,
         width: '80%',
         backgroundColor: '#e7e8fe'
     },
@@ -141,7 +248,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         alignSelf: 'center',
         fontSize: 20,
-        color: '#000000'
+        color: '#000000',
+        justifyContent: 'center'
         //color: 'rgba(89, 35, 206, 1)'
-    }
+    },
+    rowSpace: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginLeft:10,
+    },
 });

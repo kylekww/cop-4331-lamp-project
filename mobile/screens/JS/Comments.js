@@ -12,8 +12,11 @@ export default function Comments(Props)
     //Comment indo
     const[searchVal, setSearch] = useState(1);
     const[oid, setOid] = useState('');
-    const isNew = Props.navigation.state.params.isNew;
+
+    const [isNew] = Props.navigation.state.params.isNew;
     const _id = Props.navigation.state.params.id;
+    console.log("Comments.js isNew:\n");
+    console.log(isNew);
 
     //Edit menu logic
     // const [anchorE1, setAnchorE1] = React.useState(null);

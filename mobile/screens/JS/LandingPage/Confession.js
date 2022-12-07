@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, Script } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { View , FlatList, StyleSheet, Text, RefreshControl, Alert } from 'react-native';
 import Icons from '../Icons';
@@ -6,25 +6,29 @@ import Icons from '../Icons';
 import searchConfessions from './searchConfessions';
 
 export default function Confession(Props) {
+  //YOU ARE IN FINALLPASS
+
   const[refreshing,setRefreshing] = useState(true);
   const [count, setCount] = useState(0);
-   // Post info
+  // Post info
   const[searchVal, setSearch] = useState(1);
   const[oid, setOid] = useState('');
   const {post,wasLastList} = searchConfessions(searchVal, oid);
   const[isNew, setIsNew] = useState(Props.isNew);
-   // button presses
+  //buttonpresses
   const buttonRef = useRef(null);
   const handleDeletePost = (val) => {
     buttonRef.current.disabled = true;
     let id = val._id;
     let deleted = val.deleted != 0 ? true:false;
+
     if(deleted) return null;
     deleteConfession(id);
     val.deleted = true;
     Alert.alert('Deleted Post');
     console.log("Delete post");
   }; 
+
   const upvoteHelper = (val) => {
     buttonRef.current.disabled = true;
     let id = val._id;
@@ -89,15 +93,7 @@ export default function Confession(Props) {
     //Props.toggleIsNew();
     console.log(post);
   }
-   // Edit menu logic
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
 
-  //const[vote, setVote] = useState(post.voteID.netVotes);
-  //const[interacted, setInteracted] = useState(post.userInteracted)
-  
-  //console.log(isNew._currentValue)
-  
   function clickCommentButton(val) {
     console.log(val._id);
     //window.location.href = '/comments/' + Props.post._id;
@@ -110,19 +106,19 @@ export default function Confession(Props) {
 
   const GoToComments = async () => 
   {
-    Props.navigation.push('CommentsPage');
+    Props.navigation.navigate('CommentsPage', isNew, item._id);
   }
 
   return (
     <View style = {styles.confession}>
         <View style = {styles.confessionFeed}>
           <View style = {styles.confessionFeedWrapper}>
-            <FlatList  
+            <FlatList
                 keyExtractor={(item) => item._id}
                 data={post}
-                refreshControl={
-                  <RefreshControl refreshing={refreshing} onRefresh={reloadPage}/>
-                }
+                // refreshControl={
+                //   <RefreshControl refreshing={refreshing} onRefresh={reloadPage}/>
+                // }
                 renderItem={({ item }) => (
                   <View style = {styles.box} >
                     <View style={styles.columnSpace}>
@@ -140,7 +136,7 @@ export default function Confession(Props) {
                           </TouchableOpacity>
                         </View>
                         <View style = {{left:10}}>
-                          <TouchableOpacity onPress={GoToComments}>
+                          <TouchableOpacity onPress={() => Props.navigation.navigate('CommentsPage', {isNew: isNew, id: item._id})}>
                             <Icons style = {'comment'}
                                 height = {30} width = {30}
                                 />
@@ -170,15 +166,15 @@ export default function Confession(Props) {
         </View> 
     </View> 
   );
-}
+} 
 
 /* Needs to be added:
-- Confession generation
-- Call request for confession text
-- Text resizing depending on size
-- Menu integration for options button
-- Badge integration for total comments
-- Lazy loading
+    - Confession generation
+      - Call request for confession text
+      - Text resizing depending on size
+    - Menu integration for options button
+    - Badge integration for total comments
+    - Lazy loading
 */
 
 async function upvoteConfession(id) {
