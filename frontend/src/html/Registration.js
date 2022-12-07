@@ -20,6 +20,11 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 const theme = createTheme();
 export default function Registration() {
+
+  function onChange(value) {
+    console.log('Captcha value:', value);
+  }
+
   const [reg, validReg] = useState('4:78AM Moment');
   const [long, isLong] = useState(false);
   const [number, hasNumber] = useState(false)
@@ -79,10 +84,6 @@ export default function Registration() {
   }
 
   const doRegistration = async event => {
-
-    function onChange(value) {
-      console.log('Captcha value:', value);
-    }
 
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
