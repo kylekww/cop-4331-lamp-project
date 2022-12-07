@@ -162,7 +162,7 @@ const[error, hasError] = useState(true);
         }
     }
     return (
-        <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         
@@ -240,7 +240,7 @@ const[error, hasError] = useState(true);
               <Button
                 type="submit"
                 fullWidth
-                data-testid="register-button"
+                data-testid="edit-button"
                 variant="contained"
                 onClick = {makeEdits}
                 sx={{ mt: 3, 

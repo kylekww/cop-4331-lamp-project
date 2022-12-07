@@ -62,11 +62,6 @@ export default function Login() {
     */
   };
 
-  function playSoundEffect() {
-    var music = new Audio('../soundeffects/Shhhh.mp3');
-    music.play();
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
@@ -77,8 +72,7 @@ export default function Login() {
           sm={4}
           md={7}
 
-        ><img src={require('../images/NewIconGiant.png')} className="HushIconLogin" title="LoginIcon" />
-          <input type="button" value="sound" onClick={playSoundEffect()} class="easteregg" />
+        ><img src={require('../images/NewIconGiant.png')} className="HushIconLogin" data-testid="login-icon" />
         </Grid>
 
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -107,6 +101,7 @@ export default function Login() {
                 fullWidth
                 id="username"
                 label="Username"
+                inputProps={{ "data-testid": "username" }}
                 name="username"
                 title="username"
                 autoComplete="username"
@@ -118,13 +113,14 @@ export default function Login() {
                 fullWidth
                 name="password"
                 label="Password"
+                inputProps={{ "data-testid": "password" }}
                 type="password"
                 title="password"
                 id="password"
                 autoComplete="current-password"
               />
-              <Typography component="h1" variant="h6" title="ErrorText" sx={{
-                opacity: visible ? '100%' : '0%',
+              <Typography component="h1" variant="h6" data-testid="error-text" id="error-text" sx={{
+                visibility: visible ? 'visible' : 'hidden',
                 color: error ? 'rgba(89,35,206,1)' : 'rgba(68,122,154,1)'
               }}>
                 {login}
@@ -132,6 +128,7 @@ export default function Login() {
               
               <Button
                 type="submit"
+                data-testid="login-button"
                 title="LoginButton"
                 fullWidth
                 variant="contained"
