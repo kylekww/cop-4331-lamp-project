@@ -15,9 +15,14 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import reCAPTCHA from "react-google-recaptcha";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Login() {
+
+  function onChange(value) {
+    console.log('Captcha value:', value);
+  }
+
   const [login, validLogin] = useState('I wrote this at 4:78AM');
   const [visible, isVisible] = useState(false);
   const [error, hasError] = useState(true)
@@ -128,8 +133,11 @@ export default function Login() {
                 color: error ? 'rgba(89,35,206,1)' : 'rgba(68,122,154,1)'
               }}>
                 {login}
-                <reCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY}/>
               </Typography>
+              <ReCAPTCHA
+                sitekey="6Ldvbl8jAAAAAFu0dgE__qzPsDCBO_gbFpKJ_80t"
+                onChange={onChange}
+              />
               <Button
                 type="submit"
                 title="LoginButton"
