@@ -9,13 +9,11 @@ export default function SearchConfessions(searchVal, oid){
     setWasLastList(false)
   }, [searchVal]);
   if(post.length == 0 && wasLastList){
-    console.log('nothing here!!!!')
+    
     setWasLastList(false)
   }
     useEffect(() => {
-      console.log('wasLastList' + wasLastList)
-      
-      console.log('wasLastList after if statement 1' + wasLastList)  
+     
         //console.log('oid: ' + oid)
         //console.log('searchVal: ' + searchVal)
         const displayPosts = async event =>
@@ -33,11 +31,11 @@ export default function SearchConfessions(searchVal, oid){
           .then(res => {
             res.json().then((data) => {
                 
-              console.log(data);
+              
               if(data.length < 15){
                 setWasLastList(true);
                 setPosts([...post, ...data]);
-                console.log('this should be the last set')
+                
                 return;
               }
               setPosts([...post, ...data]);

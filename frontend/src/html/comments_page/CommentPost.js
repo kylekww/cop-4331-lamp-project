@@ -5,13 +5,19 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 function ConfessionPost(Props) {
     const[vote, setVote] = useState(Props.post.netVotes);
     const[interacted, setInteracted] = useState(Props.post.userInteracted)
     const [anchorEl, setAnchorEl] = React.useState(null);
     const[deleted, setDeleted] = useState(Props.post.deleted != 0 ? true:false)
     const open = Boolean(anchorEl);
-
+    const[opening, setOpen] = useState(null);
     if(deleted)
       return null;
 
@@ -77,7 +83,13 @@ function ConfessionPost(Props) {
         }
 
       }
-
+      const handleClickOpen = () => {
+        setOpen(true);
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+      };
     return(
         <div className = "commentPost">
           <div className = "commentPostWrapper">
@@ -87,7 +99,7 @@ function ConfessionPost(Props) {
                   <Tooltip title="Delete Comment">
                     <IconButton 
                       id="edit-button" 
-                      onClick={ handleDeletePost } 
+                      onClick={ handleClickOpen } 
                       style={{
                           color: "#BABABA",
                           display: Props.post.userCreated ? 'block' : 'none',
@@ -95,6 +107,27 @@ function ConfessionPost(Props) {
                       <DeleteIcon sx={{ fontSize: 40 }}/>
                     </IconButton>
                   </Tooltip>
+                  <Dialog
+                        open={opening}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                      <DialogTitle id="alert-dialog-title"  sx={{ color: 'rgba(89,35,206,1)' }}>
+                        {"Having second thoughts?"}
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          You may delete your comment, but be careful! Once you delete it, there's no going back!
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                      <Button onClick={handleClose}  sx={{ color: 'rgba(89,35,206,1)' }}>Return</Button>
+                      <Button onClick={handleDeletePost} autoFocus  sx={{ color: 'red' }}>
+                        Delete
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </div>
               </div>
 

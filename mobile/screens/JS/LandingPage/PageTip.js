@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         width: '80%',
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: '#BABABA',
+        borderColor: 'white',
         zIndex: -1,
     },
     text: {
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         justifyContent: 'center',
         textAlign: 'center',
-        color: '#BABABA',
+        color: 'white',
         //text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     },
 });
