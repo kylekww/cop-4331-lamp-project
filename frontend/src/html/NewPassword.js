@@ -70,15 +70,15 @@ function NewPassword() {
             <img src={require('../images/NewIcon.jpg')} class="HushIcon"/>
             <div class="squarebg">
                 <h1>Create a New Password </h1>
-                <input type="password" id="password" placeholder="Password" required />
-                <span class="passwordRequirements">
+                <input type="password" id="password" placeholder="Password" required data-testid="password" />
+                <span class="passwordRequirements" data-testid="requirements">
                     Requirements: <br />
                     8 Characters <br />
                     1 Number <br />
                     1 Upper Case Character <br />
                     1 Lower Case Character <br />
                 </span>
-                <button type="button" class="button" onClick={doChangePassword}>Change password</button>
+                <button type="button" class="button" data-testid="button" onClick={doChangePassword}>Change password</button>
                 <p>Nevermind? <a href="/">Login!</a></p>
             </div>
         </div>
