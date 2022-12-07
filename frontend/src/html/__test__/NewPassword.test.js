@@ -28,6 +28,7 @@ describe("Password Tests", () => {
         const res = passwordRequirements("Bad");
         expect(res).toBe(false);
     });
+
     // has 1 number
     // has 1 uppercase character
 })

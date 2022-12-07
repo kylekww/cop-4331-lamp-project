@@ -12,7 +12,7 @@ exports.addComment = async (req, res) =>{
     let user = await User.findById(req.session.userId);
     let confession = await Confession.findById(req.body.confessionID);
 
-    if(!validationResult)
+    if(validationResult!==true)
         return res.status(400).json({message: validationResult});
 
     const initVotes = new Votes();

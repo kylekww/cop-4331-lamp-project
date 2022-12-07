@@ -6,8 +6,6 @@ export default function ProfileButton(Props) {
     const color = user.color; // This will be replaced with user.color
     
     const clickProfileButton = async () => {
-      console.log('click');
-      Props.goToProfile;
       Props.navigation.navigate('Profile');
     }
     

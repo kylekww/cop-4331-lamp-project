@@ -8,7 +8,6 @@ export default function Tools(Props) {
   // Toggle hot/new page
   const isNew = Props.isNew;
   const toggleIsNew = Props.toggleIsNew;
-  const goToProfile = Props.goToProfile;
   // Button colors
   const newButtonColor = ['white','rgba(89,35,206,.5)','rgba(89,35,206,1)'];
   const hotButtonColor = ['white','rgba(167, 15, 15, 0.4)','rgba(167, 15, 15, 0.9)'];
@@ -29,7 +28,7 @@ export default function Tools(Props) {
 
   return (
     <View style = {styles.tools}>
-      <ProfileButton goToProfile={goToProfile}></ProfileButton>
+      <ProfileButton navigation={Props.navigation}></ProfileButton>
       <View style ={styles.toolsCenter}>
         <TouchableOpacity style={[styles.newButton,{backgroundColor:newButtonColor[(isNew)?1:0]}]} 
             onPress={clickNewButton}>

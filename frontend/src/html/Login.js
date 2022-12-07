@@ -15,43 +15,43 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import reCAPTCHA from "react-google-recaptcha";
 
 export default function Login() {
-const[login, validLogin] = useState('I wrote this at 4:78AM');
-const[visible, isVisible] = useState(false);
-const[error, hasError] = useState(true)
-//const[visible, isVisible] = useState(false);
-const theme = createTheme();
-const doLogin = async event => 
-{
+  const [login, validLogin] = useState('I wrote this at 4:78AM');
+  const [visible, isVisible] = useState(false);
+  const [error, hasError] = useState(true)
+  //const[visible, isVisible] = useState(false);
+  const theme = createTheme();
+  const doLogin = async event => {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     console.log(username)
     console.log(password)
     const data = await fetch("/api/v1/auth/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            username,
-            password,
-        }),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
     })
-    .then(res => {
-      isVisible(true)
-      if(res.status == 404) validLogin('Invalid Username')
-      else if(res.status == 401) validLogin("Invalid Password");
-      else {
-        hasError(false)
-        validLogin("Success! Logging in...");
-        window.location.href = '/landing';
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
-    
+      .then(res => {
+        isVisible(true)
+        if (res.status == 404) validLogin('Invalid Username')
+        else if (res.status == 401) validLogin("Invalid Password");
+        else {
+          hasError(false)
+          validLogin("Success! Logging in...");
+          window.location.href = '/landing';
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
     /* This is a bootleg solution. Ignore for now
     if(data.message.localeCompare("you are successfully logged in.") == 0){
         alert("Successul Login");
@@ -60,7 +60,7 @@ const doLogin = async event =>
         alert("failed");
     }
     */
-};
+  };
 
   function playSoundEffect() {
     var music = new Audio('../soundeffects/Shhhh.mp3');
@@ -76,11 +76,11 @@ const doLogin = async event =>
           xs={false}
           sm={4}
           md={7}
-          
-          ><img src={require('../images/NewIconGiant.png')} className="HushIconLogin" data-testid="login-icon"/>
-          <input type="button" value="sound" onClick={playSoundEffect()} class="easteregg"/>
+
+        ><img src={require('../images/NewIconGiant.png')} className="HushIconLogin" title="LoginIcon" />
+          <input type="button" value="sound" onClick={playSoundEffect()} class="easteregg" />
         </Grid>
-        
+
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
@@ -90,12 +90,12 @@ const doLogin = async event =>
               flexDirection: 'column',
               alignItems: 'center',
             }}
-          > 
-          <Typography component="h1" variant="h5">
+          >
+            <Typography component="h1" variant="h5">
               Hush UCF
             </Typography>
             <Avatar sx={{ m: 1, bgcolor: 'rgba(89,35,206,1)' }}>
-            <LoginIcon />
+              <LoginIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Something on your mind? Sign in!
@@ -109,7 +109,6 @@ const doLogin = async event =>
                 label="Username"
                 name="username"
                 title="username"
-                inputProps={{ "data-testid": "username" }}
                 autoComplete="username"
                 autoFocus
               />
@@ -121,30 +120,32 @@ const doLogin = async event =>
                 label="Password"
                 type="password"
                 title="password"
-                inputProps={{ "data-testid": "password" }}
                 id="password"
                 autoComplete="current-password"
               />
-              <Typography component="h1" variant="h6" data-testid="error-text" sx={{
-                visibility: visible ? 'visible' : 'hidden',
+              <Typography component="h1" variant="h6" title="ErrorText" sx={{
+                opacity: visible ? '100%' : '0%',
                 color: error ? 'rgba(89,35,206,1)' : 'rgba(68,122,154,1)'
               }}>
-              {login}
-            </Typography>
+                {login}
+                <reCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY}/>
+              </Typography>
               <Button
                 type="submit"
-                data-testid="login-button"
+                title="LoginButton"
                 fullWidth
                 variant="contained"
-                onClick = {doLogin}
-                sx={{ mt: 3, 
-                    mb: 2, 
-                    backgroundColor: 'rgba(89,35,206,1)',
-                    '&:hover': {
+                onClick={doLogin}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: 'rgba(89,35,206,1)',
+                  '&:hover': {
                     backgroundColor: 'rgba(128,199,239,1)',
                     color: '#3c52b2',
-                }, }}
-                
+                  },
+                }}
+
               >
                 Sign In
               </Button>
@@ -160,7 +161,6 @@ const doLogin = async event =>
                   </Link>
                 </Grid>
               </Grid>
-              
             </Box>
           </Box>
         </Grid>

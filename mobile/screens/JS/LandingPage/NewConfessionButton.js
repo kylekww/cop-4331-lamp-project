@@ -9,8 +9,8 @@ import { View, StyleSheet, Text, TextInput, TouchableOpacity, Modal, KeyboardAvo
 
 export default function NewConfessionButton(Props) {
   const [open, setOpen] = React.useState(false);
-  const newButtonColor = ['#DE621C','rgba(128,199,239,1)'];
-  const altColor = ['rgba(227, 19, 19, 0.921875)','rgba(89,35,206,1)'];
+  const newButtonColor = ['#DE621C','rgba(128,199,239,.5)'];
+  const altColor = ['rgba(227, 19, 19, 1)','rgba(89,35,206,1)'];
 
   const [textInput, setTextInput] = useState('');
   const [length, setLength] = useState(0);
@@ -31,7 +31,7 @@ export default function NewConfessionButton(Props) {
 
   const handlePost = () => {
     setOpen(false);
-    postConfession();
+    if (length>0) postConfession();
   };
 
   const changePost = async(val) => {
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   text2: {
     alignSelf: 'center',
     fontSize: 24,
-    color: 'black',
+    color: 'white',
   },
   text3: {
     fontSize: 16,
@@ -144,10 +144,11 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       borderWidth: 5,
       borderRadius: 30,
+      borderColor: 'white',
       width: '70%',
       height: 60,
       bottom: 20,
-      opacity: 0.5,
+      opacity: 1,
   },
   button2: {
     padding: 10,
@@ -156,9 +157,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderWidth: 5,
     borderRadius: 30,
+    borderColor: 'white',
     width: '80%',
     height: 60,
-    opacity: 0.5,
+    opacity: 1,
 },
   bottom: {
     flexDirection: 'row',
