@@ -128,8 +128,6 @@ describe("Email Tests", () => {
         await waitFor(() => screen.getByText("test@knights.ucf.edu"));
         expect(screen.getByText("test@knights.ucf.edu")).toBeInTheDocument();
     });
-
-    // email must end in .ucf.edu
 })
 
 
@@ -158,17 +156,6 @@ describe("Password Tests", () => {
         await waitFor(() => screen.getByText("fetchcalled"));
         expect(element.type).toBe("password");
     });
-
-    test('checks that the password is invalid if it has less than 8 characters', async () => {
-        const user = fetch.mockResponse(JSON.stringify({"user": {"name": "fetchcalled"}}));
-        render(<EditProfile />);
-        const res = passwordRequirements("Bad");
-        await waitFor(() => screen.getByText("fetchcalled"));
-        expect(res).toBe(false);
-    })
-    // is 8 characters
-    // has 1 number
-    // has 1 uppercase character
 })
 
 
@@ -191,4 +178,110 @@ describe("Edit Button Tests", () => {
         await waitFor(() => screen.getByText("fetchcalled"));
         expect(element).toBeInTheDocument();
     });
+})
+
+
+describe("Error Label Tests", () => {
+    test('checks that the error label exists', async () => {
+        const user = fetch.mockResponse(JSON.stringify({"user": {"name": "fetchcalled"}}));
+        render(<EditProfile />);
+        await waitFor(() => screen.getByText("fetchcalled"));
+
+        const errorElement = screen.getByTestId("error-text");
+        expect(errorElement).toBeInTheDocument();
+    });
+
+    test('checks that the error label is originally invisible', async () => {
+        const user = fetch.mockResponse(JSON.stringify({"user": {"name": "fetchcalled"}}));
+        render(<EditProfile />);
+        await waitFor(() => screen.getByText("fetchcalled"));
+
+        const errorElement = screen.getByTestId("error-text");
+        expect(errorElement).not.toBeVisible();
+    });
+
+    test('checks that the email is invalid if it does not end in ucf.edu', async () => {
+        const user = fetch.mockResponse(JSON.stringify({"user": {"name": "fetchcalled"}}));
+        render(<EditProfile />);
+        await waitFor(() => screen.getByText("fetchcalled"));
+        
+        const buttonResult = fetch.mockResponse(JSON.stringify({message: "account info updated successfully. Please check your email to reverify."}), { status: 200 });
+
+        const element = screen.getByTestId("email");
+        fireEvent.change(element, { target: {value: "Test@gmail.com"} });
+        const button = screen.getByTestId("edit-button");
+        fireEvent.click(button);
+
+        const errorElement = screen.getByTestId("error-text");
+        await waitFor(() => expect(errorElement).toBeVisible());
+        expect(errorElement.textContent).toBe("Please use a UCF email!");
+    })
+
+    test('checks that the password is invalid if it is less than 8 characters', async () => {
+        const user = fetch.mockResponse(JSON.stringify({"user": {"name": "fetchcalled"}}));
+        render(<EditProfile />);
+        await waitFor(() => screen.getByText("fetchcalled"));
+        
+        const buttonResult = fetch.mockResponse(JSON.stringify({message: "account info updated successfully. Please check your email to reverify."}), { status: 200 });
+
+        const element = screen.getByTestId("password");
+        fireEvent.change(element, { target: {value: "Bad"} });
+        const button = screen.getByTestId("edit-button");
+        fireEvent.click(button);
+
+        const errorElement = screen.getByTestId("error-text");
+        await waitFor(() => expect(errorElement).toBeVisible());
+        expect(errorElement.textContent).toBe("Please check that you have met all of the password requirements!");
+    })
+
+    test('checks that the password is invalid if it does not contain a number', async () => {
+        const user = fetch.mockResponse(JSON.stringify({"user": {"name": "fetchcalled"}}));
+        render(<EditProfile />);
+        await waitFor(() => screen.getByText("fetchcalled"));
+        
+        const buttonResult = fetch.mockResponse(JSON.stringify({message: "account info updated successfully. Please check your email to reverify."}), { status: 200 });
+
+        const element = screen.getByTestId("password");
+        fireEvent.change(element, { target: {value: "Aaaaaaaaaaaaaaaa"} });
+        const button = screen.getByTestId("edit-button");
+        fireEvent.click(button);
+
+        const errorElement = screen.getByTestId("error-text");
+        await waitFor(() => expect(errorElement).toBeVisible());
+        expect(errorElement.textContent).toBe("Please check that you have met all of the password requirements!");
+    })
+    
+    test('checks that the password is invalid if it does not contain an uppercase character', async () => {
+        const user = fetch.mockResponse(JSON.stringify({"user": {"name": "fetchcalled"}}));
+        render(<EditProfile />);
+        await waitFor(() => screen.getByText("fetchcalled"));
+        
+        const buttonResult = fetch.mockResponse(JSON.stringify({message: "account info updated successfully. Please check your email to reverify."}), { status: 200 });
+
+        const element = screen.getByTestId("password");
+        fireEvent.change(element, { target: {value: "aaaaaaaaaaaaaaaa1111"} });
+        const button = screen.getByTestId("edit-button");
+        fireEvent.click(button);
+
+        const errorElement = screen.getByTestId("error-text");
+        await waitFor(() => expect(errorElement).toBeVisible());
+        expect(errorElement.textContent).toBe("Please check that you have met all of the password requirements!");
+    })
+
+    test('checks that the password is invalid if it does not contain a lowercase letter', async () => {
+        const user = fetch.mockResponse(JSON.stringify({"user": {"name": "fetchcalled"}}));
+        render(<EditProfile />);
+        await waitFor(() => screen.getByText("fetchcalled"));
+        
+        const buttonResult = fetch.mockResponse(JSON.stringify({message: "account info updated successfully. Please check your email to reverify."}), { status: 200 });
+
+        const element = screen.getByTestId("password");
+        fireEvent.change(element, { target: {value: "AAAAAAAAAAAAAAAA1111"} });
+        const button = screen.getByTestId("edit-button");
+        fireEvent.click(button);
+
+        const errorElement = screen.getByTestId("error-text");
+        await waitFor(() => expect(errorElement).toBeVisible());
+        expect(errorElement.textContent).toBe("Please check that you have met all of the password requirements!");
+    })
 })

@@ -231,8 +231,8 @@ const[error, hasError] = useState(true);
                 inputProps={{ "data-testid": "password" }}
                 autoComplete="current-password"
               />
-              <Typography component="h1" variant="h6"sx ={{
-                opacity: visible ? '100%' : '0%',
+              <Typography component="h1" variant="h6" data-testid="error-text" sx ={{
+                visibility: visible ? 'visible' : 'hidden',
                 color: error ? 'rgb(227, 19, 19)' : 'rgba(68,122,154,1)'
               }}>
                 {reg}

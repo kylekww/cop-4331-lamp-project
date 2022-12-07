@@ -103,7 +103,7 @@ function Profile() {
                       </Tooltip>
                     </Grid>
                     <Grid item xs>
-                    <Tooltip title="Edit Changes">
+                    <Tooltip title="Edit Profile">
                         <IconButton  onClick = {editProfile}>
                             <EditIcon />
                         </IconButton>
