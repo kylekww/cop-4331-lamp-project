@@ -113,14 +113,15 @@ export default function Registration() {
           window.location.href = '/';
         }
       })
-        .catch(err => {
-          console.log(err);
-        });
+      .catch(err => {
+        console.log(err);
+      });
 
       // This is a bootleg solution. "Might" need attention.
       console.log(data);
     } else if ((!passwordRequirements(password)) && validEmail(email)) {
       console.log("Password must meet all requirements!");
+      isVisible(true);
 
     }
     else if (passwordRequirements(password) && (!validEmail(email))) {
@@ -167,6 +168,7 @@ export default function Registration() {
                 required
                 fullWidth
                 id="name"
+                inputProps={{ "data-testid": "name" }}
                 label="Full Name"
                 name="Full Name"
                 autoComplete="fullname"
@@ -177,6 +179,7 @@ export default function Registration() {
                 required
                 fullWidth
                 id="username"
+                inputProps={{ "data-testid": "username" }}
                 label="Username"
                 name="username"
                 autoComplete="username"
@@ -187,6 +190,7 @@ export default function Registration() {
                 required
                 fullWidth
                 id="email"
+                inputProps={{ "data-testid": "email" }}
                 label="Knights Email Account"
                 name="Email"
                 autoComplete="Email"
@@ -197,13 +201,14 @@ export default function Registration() {
                 required
                 fullWidth
                 name="password"
+                inputProps={{ "data-testid": "password" }}
                 label="Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
               />
-              <Typography component="h1" variant="h6" sx={{
-                opacity: visible ? '100%' : '0%',
+              <Typography component="h1" variant="h6" data-testid="error-text" sx={{
+                visibility: visible ? 'visible' : 'hidden',
                 color: error ? 'rgba(89,35,206,1)' : 'rgba(68,122,154,1)'
               }}>
                 {reg}
@@ -211,6 +216,7 @@ export default function Registration() {
               <Button
                 type="submit"
                 fullWidth
+                data-testid="register-button"
                 variant="contained"
                 onClick={doRegistration}
                 sx={{
@@ -228,7 +234,7 @@ export default function Registration() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Typography component="h1" variant="h6" sx={{
+                  <Typography component="h1" variant="h6" data-testid="requirements" sx={{
                     color: 'rgb(227, 19, 19)'
                   }}>
                     Password Requirements:
@@ -257,6 +263,7 @@ export default function Registration() {
                 <ReCAPTCHA
                 sitekey="6Ldvbl8jAAAAAFu0dgE__qzPsDCBO_gbFpKJ_80t"
                 onChange={onChange}
+                data-testid="recaptcha"
               />
                 <Grid item>
                   <Link href="/" variant="body2">
@@ -277,7 +284,7 @@ export default function Registration() {
           sx={{
             backgroundImage: 'linear-gradient(rgb(222, 98, 28), rgb(227, 19, 19));'
           }}
-        ><img src={require('../images/HotIconGiant.png')} class="HushIconLogin" /></Grid>
+        ><img src={require('../images/HotIconGiant.png')} class="HushIconLogin" data-testid="register-icon"/></Grid>
       </Grid>
     </ThemeProvider>
   );

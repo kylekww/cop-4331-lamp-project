@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import NewPassword from '../NewPassword';
-import passwordRequirements from '../NewPassword';
+import NewPassword, { passwordRequirements } from '../NewPassword';
 
 
 describe("Password Tests", () => {
@@ -24,13 +23,25 @@ describe("Password Tests", () => {
         expect(element.type).toBe("password");
     });
 
-    test('checks that the password fails if not at least 8 characters', () => {
-        const res = passwordRequirements("Bad");
-        expect(res).toBe(false);
+    test('checks that the password fails if it is less than 8 characters', () => {
+        expect(passwordRequirements("Bad")).toBe(false);
     });
 
-    // has 1 number
-    // has 1 uppercase character
+    test('checks that the password fails if it is does not have a number', () => {
+        expect(passwordRequirements("aaaaaaAAaA")).toBe(false);
+    });
+
+    test('checks that the password fails if it is does not have a capital letter', () => {
+        expect(passwordRequirements("aaaaaaaaaaa")).toBe(false);
+    });
+
+    test('checks that the password fails if it is does not have a lowercase letter', () => {
+        expect(passwordRequirements("AAAAAAAAAA")).toBe(false);
+    });
+
+    test('checks that the password succeeds if it has the proper requirements', () => {
+        expect(passwordRequirements("Password123")).toBe(true);
+    });
 })
 
 
@@ -59,7 +70,7 @@ describe("Route Tests", () => {
       expect(element).toBeInTheDocument();
     });
   
-    test('checks if the register link contains the correct routing link', () => {
+    test('checks if the login link contains the correct routing link', () => {
       render(<NewPassword />);
       const element = screen.getByText("Login!");
       expect(element).toHaveAttribute('href', '/');

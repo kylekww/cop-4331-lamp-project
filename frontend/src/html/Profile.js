@@ -90,45 +90,42 @@ function Profile() {
                   alignItems: 'center',
                 }}
               >
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h5" style={{fontSize: 75}}>
                   Hush UCF
                 </Typography>
                 
                 <Grid container spacing={3}>
                     <Grid item xs>
                     <Tooltip title="Return to Landing">
-                        <IconButton onClick = {returnLanding}>
-                        <KeyboardReturnIcon />
+                        <IconButton onClick = {returnLanding} data-testid="return">
+                        <KeyboardReturnIcon sx={{ fontSize: 50}}/>
                         </IconButton>
                       </Tooltip>
                     </Grid>
                     <Grid item xs>
                     <Tooltip title="Edit Profile">
-                        <IconButton  onClick = {editProfile}>
-                            <EditIcon />
+                        <IconButton  onClick = {editProfile} data-testid="edit">
+                            <EditIcon sx={{ fontSize: 50}}/>
                         </IconButton>
                         </Tooltip>
                     </Grid>
                     <Grid item xs = {2}>
                     <Tooltip title="Logout">
-                        <IconButton onClick = {logOut}>
-                            <LogoutIcon />
+                        <IconButton onClick = {logOut} data-testid="logout">
+                            <LogoutIcon sx={{ fontSize: 50}}/>
                         </IconButton>
                         </Tooltip>
                     </Grid>
-                </Grid>
-                
-                <Box sx={{ mt: 1 }}>
+                </Grid>  
+              </Box>
+              <Box sx={{ mt: 1 }} className="profileBoxAlign" data-testid="username">
                 <Typography component="h1" variant="h6">
                   Username: {user.username}
-                  
                 </Typography> 
-                <Typography component="h1" variant="h6">
+                <Typography component="h1" variant="h6" data-testid="full-name">
                   Fullname: {user.name}
                   
-                </Typography>  
-                  
-                </Box>
+                </Typography>
               </Box>
             </Grid>
           </Grid>
