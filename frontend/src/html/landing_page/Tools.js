@@ -25,25 +25,25 @@ function Tools(Props) {
   }
 
   return (
-    <div class="Tools">
+    <div className="Tools">
       <ProfileButton/>
       <div className='toolsCenter'>
-        <button class={ isNew ? "NewConfessionsTool NewConfessionsTool-isHotState" : "NewConfessionsTool NewConfessionsTool-isNotHotState"} onClick={clickNewButton}>
-          <div class="Text">
+        <button data-testid="new-button" className={ isNew ? "NewConfessionsTool NewConfessionsTool-isHotState" : "NewConfessionsTool NewConfessionsTool-isNotHotState"} onClick={clickNewButton}>
+          <div className="Text">
             New
           </div>
         </button>
       
-        <button class={ isNew ? "HotConfessionsTool HotConfessionsTool-isHotState" : "HotConfessionsTool HotConfessionsTool-isNotHotState"} onClick={clickHotButton}>
-          <div class="Text">
+        <button data-testid="hot-button" className={ isNew ? "HotConfessionsTool HotConfessionsTool-isHotState" : "HotConfessionsTool HotConfessionsTool-isNotHotState"} onClick={clickHotButton}>
+          <div className="Text">
             Hot
           </div>
         </button>
       </div>
-      <img src={require('../../images/NewIcon.jpg')} class="HushIconLanding" style={{
+      <img data-testid="new-icon" src={require('../../images/NewIcon.jpg')} className="HushIconLanding" style={{
         opacity: isNew ? "1" : "0"
       }}/>
-      <img src={require('../../images/HotIcon.jpg')} class="HushIconLanding" style={{
+      <img data-testid="hot-icon" src={require('../../images/HotIcon.jpg')} className="HushIconLanding" style={{
         opacity: isNew ? "0" : "1"
       }}/>
     </div>

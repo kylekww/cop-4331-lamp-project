@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ProfileButton from '../ProfileButton';
+import ProfileButton from '../landing_page/ProfileButton';
 
 beforeEach(() => {
     fetch.resetMocks();
