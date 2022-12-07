@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, Modal, KeyboardAvoidingView } from 'react-native';
 //import DialogNewConfession from './DialogNewConfession';
 
@@ -11,6 +11,9 @@ export default function NewConfessionButton(Props) {
   const [open, setOpen] = React.useState(false);
   const newButtonColor = ['#DE621C','rgba(128,199,239,1)'];
   const altColor = ['rgba(227, 19, 19, 0.921875)','rgba(89,35,206,1)'];
+
+  const [textInput, setTextInput] = useState('');
+  const [length, setLength] = useState(0)
 
   const input = useRef(null);
 
@@ -27,7 +30,38 @@ export default function NewConfessionButton(Props) {
 
   const handlePost = () => {
     setOpen(false);
+    const confession = textInput;
+    console.log(confession);
   };
+
+  const changePost = async(val) => {
+    setTextInput(val.target.value);
+    setLength(val.target.value.length)
+  };
+
+  const postConfession = async event => {
+    const confession = textInput;
+    const data = await fetch("/api/v1/confessions/addConfession", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        confession
+    }),
+      
+  })
+  .then(res => {
+    res.json().then((data) => {
+      console.log(data);
+    }) 
+  })
+  .catch(err => {
+    console.log(err);
+  });
+  window.location.reload(false);
+  handleClose();
+  }
 
   return (
     //<DialogNewConfession open={open} handleClose={handleClose}></DialogNewConfession>
@@ -47,6 +81,7 @@ export default function NewConfessionButton(Props) {
               <TextInput style={styles.text}
                 ref = {input}
                 maxLength = {280}
+                onChangeText={(val)=>{changePost(val)}}
                 multiline = {true}
                 autoFocus = {true}
                 placeholderTextColor='white'
@@ -113,7 +148,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     width: '80%',
     height: 60,
-    bottom: 40,
+    bottom: 80,
     opacity: 0.5,
 },
 });
