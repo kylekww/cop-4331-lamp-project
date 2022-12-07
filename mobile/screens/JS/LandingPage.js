@@ -8,8 +8,6 @@ import NewConfessionButton from './LandingPage/NewConfessionButton';
 import PageTip from './LandingPage/PageTip';
 import Confession from './LandingPage/Confession';
 
-// @refresh reset
-
 export default function LandingPage(Props) {
     const [isNew, setIsNew] = useState([true]);
     const toggleIsNew = () => {
@@ -28,7 +26,7 @@ export default function LandingPage(Props) {
             <Tools isNew={isNew} toggleIsNew={toggleIsNew} navigation={Props.navigation}></Tools>           
             <Header isNew={isNew}></Header>
             <PageTip></PageTip>
-            <Confession isNew={isNew} toggleIsNew={toggleIsNew} navigation={Props.navigation}></Confession>
+            <Confession isNew={isNew} navigation={Props.navigation}></Confession>
             <NewConfessionButton isNew={isNew}></NewConfessionButton>
       </View>
     )

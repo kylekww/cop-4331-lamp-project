@@ -16,11 +16,13 @@ export default function Tools(Props) {
   const clickNewButton = async () => {
     if(!isNew) {
       toggleIsNew();
+      UseNewButton();
     }
   }
   const clickHotButton = async () => {
     if(isNew) {
       toggleIsNew();
+      UseHotButton();
     } 
   }
 
