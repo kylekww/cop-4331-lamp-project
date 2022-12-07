@@ -8,16 +8,12 @@ import searchConfessions from './searchConfessions';
 export default function Confession(Props) {
   const[refreshing,setRefreshing] = useState(true);
    // Post info
-   const[searchVal, setSearch] = useState(1);
-   const[oid, setOid] = useState('');
-   const {post,wasLastList} = searchConfessions(searchVal, oid);
-   const[isNew, setIsNew] = useState(Props.isNew);
-   const buttonRef = useRef(null);
-   const handleClick = event => {
-    buttonRef.current.disabled = true;
-  
-    Alert.alert('button clicked');
-  }
+  const[searchVal, setSearch] = useState(1);
+  const[oid, setOid] = useState('');
+  const {post,wasLastList} = searchConfessions(searchVal, oid);
+  const[isNew, setIsNew] = useState(Props.isNew);
+   // button presses
+  const buttonRef = useRef(null);
   const handleDeletePost = (val) => {
     buttonRef.current.disabled = true;
     id = val._id;
@@ -88,8 +84,10 @@ export default function Confession(Props) {
   }, [Props.isNew]);
 
   const loadUserData = () => {
-    post.length = 0;
     Props.isNew ? setSearch(1) : setSearch(2);
+    //setOid('');
+    //{setPosts,setWasLastList}searchConfessions(searchVal, oid);
+    //post.length = 0;
     setRefreshing(false);
   };
    // Edit menu logic
