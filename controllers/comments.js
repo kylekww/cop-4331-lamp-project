@@ -73,6 +73,11 @@ exports.searchComments = async (req, res) => {
     let resultsPerPage = 15;
     let searchVar = req.body.searchVal;
     let oid = req.body.oid;
+    
+    
+    if(req.body.confessionOID==""){
+        return res.status(201).json({message: "Could not find confession"});
+    }
     let confessionOID = mongoose.Types.ObjectId(req.body.confessionOID);
     
     // Input: cookie, Comment._id "oid" and search criteria
