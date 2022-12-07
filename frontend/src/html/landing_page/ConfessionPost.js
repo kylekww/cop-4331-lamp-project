@@ -103,6 +103,7 @@ function ConfessionPost(Props) {
                       <Tooltip title="Delete Confession">
                         <IconButton 
                           id="edit-button" 
+                          inputProps={{ "data-testid": "delete" }}
                           onClick={ handleClickOpen } 
                           aria-controls={open ? 'edit-menu' : undefined}
                           aria-haspopup="true"
@@ -142,13 +143,13 @@ function ConfessionPost(Props) {
                   <div className= 'confessionVotesComments'>
                     <div className = 'votes'>
                       <Tooltip title="Upvote">
-                        <IconButton value = {Props.post._id} placement = 'top' onClick={ upvoteHelper } style={{
+                        <IconButton value = {Props.post._id} placement = 'top' onClick={ upvoteHelper } inputProps={{ "data-testid": "upvote" }} style={{
                             color: interacted != 1 ? "#BABABA" : (Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)")
                           }}>
                             <KeyboardArrowUpIcon sx={{ fontSize: 50 }}/>
                         </IconButton>
                       </Tooltip>
-                      <Badge badgeContent = {vote} max={999} sx={{
+                      <Badge badgeContent = {vote} max={999} inputProps={{ "data-testid": "badge" }} sx={{
                         "& .MuiBadge-badge": {
                           backgroundColor: Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)",
                           color: "white",
@@ -157,7 +158,7 @@ function ConfessionPost(Props) {
                       }}} showZero>
                       </Badge>
                       <Tooltip title="Downvote">
-                        <IconButton value = {Props.post._id} onClick={ downvoteHelper } style={{
+                        <IconButton value = {Props.post._id} onClick={ downvoteHelper } inputProps={{ "data-testid": "downvote" }} style={{
                             color: interacted != -1 ? "#BABABA" : (Props.isNew ? "#463bdd" : "rgba(207, 15, 15, 0.9)")
                           }}>
                             <KeyboardArrowDownIcon sx={{ fontSize: 50 }}/>
@@ -167,7 +168,7 @@ function ConfessionPost(Props) {
                   </div>
                 </div>
 
-                <div className='confessionText'>
+                <div className='confessionText' data-testid="confessionText">
                   {Props.post.confession}
                 </div>
 
@@ -178,7 +179,7 @@ function ConfessionPost(Props) {
                       color: "white"
                   }}} showZero>
                     <Tooltip title="Add Comment">
-                      <IconButton onClick={ clickCommentButton } style={{
+                      <IconButton onClick={ clickCommentButton } inputProps={{ "data-testid": "comments" }} style={{
                         color: "#BABABA"
                       }}>
                         <CommentIcon sx={{ fontSize: 30 }}/>

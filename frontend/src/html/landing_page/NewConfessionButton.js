@@ -2,11 +2,6 @@ import * as React from 'react';
 import '../../css/styles.css';
 import DialogNewConfession from './DialogNewConfession';
 
-/* Need to be added:
-    - Reformatting of dialog box.
-    - Character limit to dialog box.
-*/
-
 function NewConfessionButton(Props) {
   const [open, setOpen] = React.useState(false);
 
